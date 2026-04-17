@@ -1,0 +1,201 @@
+---
+# ====== Page: Favorite Property =============================
+id: 64
+identification: 
+  name: Favorite Property
+  alias: FAVORITE-PROPERTY
+  title: Favorite Property
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+  - ui-dialog--stretch
+
+dialog: 
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Favorite Property ===========================
+  id: 14678754363553845
+  identification: 
+    name: Favorite Property
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      
+      
+      SELECT pm.PROPERTY_ID,
+             pm.AREA,
+             pm.PROJECT_NAME,
+             pc.PROPERTY_CATEGORY_NAME,
+             pt.PROPERTY_TYPE,
+             pu.PROPERTY_UNITS_NAME,
+             pm.PRICE,
+             pm.HANDOVER_DATE,
+             pm.ADDRESS,
+             pm.CITY,
+             pm.LAT_LONG,
+             pm.LANDMARK,
+          --    pm.IMAGE_URL,
+           REGEXP_SUBSTR(PM.IMAGE_URL, '[^,]+', 1, 1) AS FIRST_IMAGE_URL,
+             pp.PROPERTY_PURPOSE,
+             ps.PROPERTY_AVAILABILITY_STATUS,
+             pf.PROPERTY_FURNISHING_STATUS,
+             pfd.PROPERTY_FACING_DIRECTION,
+             pm.PROPERTY_AGE,
+             pm.AMENITIES_TYPE
+          --    pm.LISTINGBY,
+          --    pm.LISTING_FOR,
+          --    pm.CREATED_AT,
+          --    pm.CREATED_BY,
+          --    pm.UPDATED_AT,
+          --    pm.UPDATED_BY
+      FROM PMS_PROPERTY_MASTER pm
+      -- JOIN pms_users u ON u.user_id = pm.listingby
+      -- JOIN PMS_USER_ROLE_ACCESS_MASTER ur ON ur.user_id = u.user_id
+      JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+      JOIN PMS_PROPERTY_TYPE pt ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+      JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      JOIN PMS_PROPERTY_STATUS ps ON ps.PROPERTY_AVAILABILITY_STATUS_ID = pm.PROPERTY_AVAILABILITY_STATUS
+      JOIN PMS_PROPERTY_FURNISHING pf ON pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+      JOIN PMS_PROPERTY_FACING_DIRECTION pfd ON pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+      
+      WHERE ',' || USER_FAVOURITE || ',' LIKE '%,' || :USER_ID || ',%'
+      ORDER BY pm.PROPERTY_ID ASC;
+      
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 14678911069553846
+    appearance: 
+      layout: Grid
+      grid-columns: 3 Columns
+
+    title: 
+      advanced-formatting: true
+      html-expression: |
+        <!-- <img src="&IMAGES_VIDEOS_UPLOAD." style="width:100%; height:200px"> -->
+        <!-- <img src="&IMAGES_VIDEOS_UPLOAD." style="width:100%; height:100% object-fit:cover;"> -->
+        <!-- <img src="&IMAGES_VIDEOS_UPLOAD." style="width:100%; max-height:200px; object-fit:cover;"> -->
+        <img src="&FIRST_IMAGE_URL." style="width:100%; max-height:200px; object-fit:cover;">
+        
+
+    subtitle: 
+      advanced-formatting: false
+
+    body: 
+      advanced-formatting: true
+      html-expression: |
+        
+        
+        <h3><strong> &PROPERTY_NAME. </strong></h3>
+        <strong> &PROPERTY_UNITS_NAME. , &PROPERTY_CATEGORY_NAME. for &PURPOSE. in &ADDRESS. </strong>
+        <p> 📍 &ADDRESS.</p>
+        <strong> INR &PRICE.</strong>
+        <p> 🏚️ &PROPERTY_AVAILABILITY_STATUS.</p>
+        <p> &AREA. (sq.ft)</p>
+        
+        
+        
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: No Icon
+
+    media: 
+      advanced-formatting: false
+      source: No Media
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Page
+      show-total-count: false
+      cards-per-page: 6
+
+    messages: 
+      when-no-data-found: No properties added to favorites.
+      no-data-found-icon: fa-lg fa-building-o
+
+    actions: 
+    - # ====== Action: Full Card ===================================
+      id: 14678944374553847
+      identification: 
+        type: Full Card
+
+      layout: 
+        sequence: 10
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:56:&SESSION.::&DEBUG.:56:P56_PROPERTY_ID:&PROPERTY_ID.'
+          page: 56 # REDIRECT TO DETAILS - HOME
+          clear-cache: 56
+          values: 
+            p56_property_id: '&PROPERTY_ID.'
+

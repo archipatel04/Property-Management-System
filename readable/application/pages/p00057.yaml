@@ -1,0 +1,1298 @@
+---
+# ====== Page: PMS Appointment ===============================
+id: 57
+identification: 
+  name: PMS Appointment
+  alias: PMS-APPOINTMENT
+  title: PMS Appointment
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: PMS Appointment =============================
+  id: 15123181716136373
+  identification: 
+    name: PMS Appointment
+    type: Form
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_APPOINTMENT
+    include-rowid-column: false
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      - Update Row
+      - Delete Row
+      lost-update-type: Row Values
+
+page-items: 
+- # ====== Page Item: P57_FROM_EMAIL ===========================
+  id: 14761528465819845
+  identification: 
+    name: P57_FROM_EMAIL
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 150
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_SLOT_FULL_DATE =======================
+  id: 14762091434819850
+  identification: 
+    name: P57_SLOT_FULL_DATE
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 160
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  appearance: 
+    format-mask: MM-DD-YYYY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_APPROVER_REASON ======================
+  id: 14762355535819853
+  identification: 
+    name: P57_APPROVER_REASON
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 170
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_CURRENT_DATE =========================
+  id: 14762425081819854
+  identification: 
+    name: P57_CURRENT_DATE
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 180
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: TRUNC(SYSDATE)
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_UPDATE_BY ============================
+  id: 15117410098136352
+  identification: 
+    name: P57_UPDATE_BY
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 140
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: PMS Appointment # 15123181716136373
+    column: UPDATE_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':app_user'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_UPDATE ===============================
+  id: 15117782044136353
+  identification: 
+    name: P57_UPDATE
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 130
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: PMS Appointment # 15123181716136373
+    column: UPDATE
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: trunc(sysdate)
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_CREATED_BY ===========================
+  id: 15118234106136355
+  identification: 
+    name: P57_CREATED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 120
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: PMS Appointment # 15123181716136373
+    column: CREATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':app_user'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_CREATED ==============================
+  id: 15118603402136356
+  identification: 
+    name: P57_CREATED
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 110
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: PMS Appointment # 15123181716136373
+    column: CREATED
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: trunc(sysdate)
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_PROPERTY_ID ==========================
+  id: 15119272502136359
+  identification: 
+    name: P57_PROPERTY_ID
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 100
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: PMS Appointment # 15123181716136373
+    column: PROPERTY_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_STATUS ===============================
+  id: 15119751597136360
+  identification: 
+    name: P57_STATUS
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 90
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: PMS Appointment # 15123181716136373
+    column: STATUS
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Static
+    static-value: Pending
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_LOCATION =============================
+  id: 15120137809136361
+  identification: 
+    name: P57_LOCATION
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 80
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: PMS Appointment # 15123181716136373
+    column: LOCATION
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: SQL Query (return single value)
+    sql-query-(return-single-value): 'select ADDRESS from PMS_PROPERTY_MASTER where property_id = :p57_property_id;'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_APPOINTMENT_TIME =====================
+  id: 15120492351136363
+  identification: 
+    name: P57_APPOINTMENT_TIME
+    type: Select List
+
+  label: 
+    label: Appointment Time
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 70
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          TO_CHAR(TO_DATE(TIME_SLOT, 'HH24:MI'), 'HH:MI AM') AS DISPLAY_TIME,
+          TIME_SLOT AS RETURN_TIME
+      FROM (
+          SELECT 
+              TO_CHAR(TRUNC(SYSDATE) + (9/24) + (LEVEL - 1) * (1/24), 'HH24:MI') AS TIME_SLOT
+          FROM 
+              DUAL
+          CONNECT BY 
+              LEVEL <= 9  -- 9 AM to 6 PM
+      ) slots
+      WHERE TIME_SLOT NOT IN (
+          SELECT APPOINTMENT_TIME
+          FROM PMS_APPOINTMENT
+          WHERE PROPERTY_ID = :P46_PROPERTY_ID
+            AND TRUNC(APPOINTMENT_DATE) = TO_DATE(:P46_APPOINTMENT_DATE, 'MM-DD-YYYY')
+            AND STATUS = 'Pending'
+      )
+      ORDER BY TIME_SLOT
+      
+    display-extra-values: true
+    display-null-value: true
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P57_APPOINTMENT_DATE
+    items-to-submit: 
+    - P57_APPOINTMENT_DATE
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: PMS Appointment # 15123181716136373
+    column: APPOINTMENT_TIME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_APPOINTMENT_DATE =====================
+  id: 15120955043136364
+  identification: 
+    name: P57_APPOINTMENT_DATE
+    type: Date Picker
+
+  label: 
+    label: Appointment Date
+    alignment: Right
+
+  settings: 
+    show-time: false
+    display-as: Popup
+    minimum-date: None
+    maximum-date: None
+    multiple-months: No
+    use-defaults: true
+
+  layout: 
+    sequence: 60
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: PMS Appointment # 15123181716136373
+    column: APPOINTMENT_DATE
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_TO_USER_ID ===========================
+  id: 15121282310136365
+  identification: 
+    name: P57_TO_USER_ID
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 50
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: PMS Appointment # 15123181716136373
+    column: TO_USER_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: SQL Query (return single value)
+    sql-query-(return-single-value): |
+      SELECT 
+          U.USER_ID
+      FROM 
+          PMS_PROPERTY_MASTER PM
+      JOIN 
+          PMS_USERS U ON PM.UPDATED_BY = UPPER(U.EMAIL)
+      WHERE 
+          PM.LISTING_FOR = :user_id;
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_TO_TYPE ==============================
+  id: 15121731625136366
+  identification: 
+    name: P57_TO_TYPE
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 40
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: PMS Appointment # 15123181716136373
+    column: TO_TYPE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_FROM_USER_ID =========================
+  id: 15122163449136367
+  identification: 
+    name: P57_FROM_USER_ID
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 30
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: PMS Appointment # 15123181716136373
+    column: FROM_USER_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: SQL Query (return single value)
+    sql-query-(return-single-value): |
+      SELECT USER_ID 
+      FROM PMS_USERS
+      WHERE UPPER(EMAIL) = UPPER(:APP_USER);
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_FROM_TYPE ============================
+  id: 15122473608136368
+  identification: 
+    name: P57_FROM_TYPE
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 20
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: PMS Appointment # 15123181716136373
+    column: FROM_TYPE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P57_APPOINTMENT_ID =======================
+  id: 15122933961136371
+  identification: 
+    name: P57_APPOINTMENT_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: PMS Appointment # 15123181716136373
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: PMS Appointment # 15123181716136373
+    column: APPOINTMENT_ID
+    data-type: NUMBER
+    query-only: true
+    primary-key: true
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CREATE ======================================
+  id: 15111502143136337
+  identification: 
+    button-name: CREATE
+    label: Create
+
+  layout: 
+    sequence: 40
+    region: PMS Appointment # 15123181716136373
+    slot: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P57_APPOINTMENT_ID
+
+- # ====== Button: SAVE ========================================
+  id: 15111894436136338
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 30
+    region: PMS Appointment # 15123181716136373
+    slot: CHANGE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P57_APPOINTMENT_ID
+
+- # ====== Button: DELETE ======================================
+  id: 15112294290136339
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 20
+    region: PMS Appointment # 15123181716136373
+    slot: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  confirmation: 
+    message: '&APP_TEXT$DELETE_MSG!RAW.'
+    style: Danger
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P57_APPOINTMENT_ID
+
+- # ====== Button: CANCEL ======================================
+  id: 15112944018136340
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: PMS Appointment # 15123181716136373
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:1:&APP_SESSION.::&DEBUG.:::'
+      page: 1 # Home
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Set Value ===========================
+  id: 14761234562819842
+  identification: 
+    name: Set Value
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P57_FROM_USER_ID
+
+  actions: 
+  - # ====== Action: Set Value ===================================
+    id: 14761363208819843
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: SQL Statement
+      sql-statement: |
+        SELECT 
+            R.ROLE_NAME 
+        FROM 
+            PMS_ROLES R
+        JOIN 
+            PMS_USER_ROLE_ACCESS_MASTER UR ON R.ROLE_ID = UR.ROLE_ID
+        WHERE 
+            UR.USER_ID = :P57_FROM_USER_ID;
+      items-to-submit: 
+      - P57_FROM_USER_ID
+      escape-special-characters: true
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P57_FROM_TYPE
+
+    execution: 
+      sequence: 10
+      event: Set Value # 14761234562819842
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Set Value ===================================
+    id: 14761469813819844
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: SQL Statement
+      sql-statement: 'SELECT EMAIL FROM PMS_USERS WHERE USER_ID = :P57_FROM_USER_ID'
+      items-to-submit: 
+      - P57_FROM_USER_ID
+      escape-special-characters: true
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P57_FROM_EMAIL
+
+    execution: 
+      sequence: 20
+      event: Set Value # 14761234562819842
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+- # ====== Dynamic Action: set to type value ===================
+  id: 14761640229819846
+  identification: 
+    name: set to type value
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P57_TO_USER_ID
+
+  actions: 
+  - # ====== Action: Set Value ===================================
+    id: 14761805265819847
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: SQL Statement
+      sql-statement: |
+        SELECT 
+            R.ROLE_NAME 
+        FROM 
+            PMS_ROLES R
+        JOIN 
+            PMS_USER_ROLE_ACCESS_MASTER UR ON R.ROLE_ID = UR.ROLE_ID
+        WHERE 
+            UR.USER_ID = :P57_TO_USER_ID;
+      items-to-submit: 
+      - P57_TO_USER_ID
+      escape-special-characters: true
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P57_TO_TYPE
+
+    execution: 
+      sequence: 10
+      event: set to type value # 14761640229819846
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+- # ====== Dynamic Action: Not a valid date for appointment ====
+  id: 14761833321819848
+  identification: 
+    name: Not a valid date for appointment
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P57_APPOINTMENT_DATE
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 14761968581819849
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        var selectedDate = $v("P57_APPOINTMENT_DATE");
+        var blockedDatesStr = $v("P57_SLOT_FULL_DATE");
+        
+        // Run validation only if selectedDate is not empty
+        if (selectedDate) {
+            var blockedDates = blockedDatesStr.split(",").map(function(date) {
+                return date.trim();
+            });
+        
+            if (blockedDates.includes(selectedDate)) {
+                apex.message.alert("⚠ The appointment slots for this date are fully booked. Please select a different date.", function () {
+                    $s("P57_APPOINTMENT_DATE", "");         // Clear selected date
+                    apex.message.clearErrors();             // Clear any errors
+                    $("#P57_APPOINTMENT_DATE").focus();     // Refocus on date picker
+                });
+            } else {
+                apex.message.clearErrors(); // No match, clear any existing error
+            }
+        }
+
+    execution: 
+      sequence: 10
+      event: Not a valid date for appointment # 14761833321819848
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: ref appointment date ================
+  id: 14762184256819851
+  identification: 
+    name: ref appointment date
+
+  execution: 
+    sequence: 40
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P57_APPOINTMENT_DATE
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 14762287995819852
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P57_APPOINTMENT_TIME
+
+    execution: 
+      sequence: 10
+      event: ref appointment date # 14762184256819851
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: Insert Appointment =========================
+  id: 14762526477819855
+  identification: 
+    name: Insert Appointment
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      BEGIN
+        INSERT INTO PMS_APPOINTMENT (
+          FROM_TYPE,
+          FROM_USER_ID,
+          TO_TYPE,
+          TO_USER_ID,
+          APPOINTMENT_DATE,
+          APPOINTMENT_TIME,
+          LOCATION,
+          STATUS,
+          CREATED,
+          CREATED_BY,
+          UPDATED_AT,
+          UPDATE_BY,
+          APPROVER_REASON,
+          EMAIL,
+          PROPERTY_ID
+        ) VALUES (
+          :P57_FROM_TYPE,
+          :P57_FROM_USER_ID,
+          :P57_TO_TYPE,
+          :P57_TO_USER_ID,
+          :P57_APPOINTMENT_DATE,
+          :P57_APPOINTMENT_TIME,
+          :P57_LOCATION,
+          :P57_STATUS,
+          :P57_CREATED,
+          :P57_CREATED_BY,  
+          :P57_UPDATE,
+          :P57_UPDATE_BY,              
+          :P57_APPROVER_REASON,
+          :P57_FROM_EMAIL,
+          :P57_PROPERTY_ID
+        );
+      END;
+      
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 15111502143136337
+
+- # ====== Process: Close Dialg ================================
+  id: 14762635699819856
+  identification: 
+    name: Close Dialg
+    type: Close Dialog
+    execution-chain: None
+
+  settings: 
+    show-success-messages: true
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE,DELETE
+
+- # ====== Process: Process form PMS Appointment ===============
+  id: 15110300035136334
+  identification: 
+    name: Process form PMS Appointment
+    type: Form - Automatic Row Processing (DML)
+    execution-chain: None
+    form-region: PMS Appointment # 15123181716136373
+
+  settings: 
+    target-type: Region Source
+    prevent-lost-updates: true
+    lock-row: Yes
+    return-primary-key(s)-after-insert: true
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+- # ====== Process: Initialize form PMS Appointment ============
+  id: 15110714135136335
+  identification: 
+    name: Initialize form PMS Appointment
+    type: Form - Initialization
+    execution-chain: None
+    form-region: PMS Appointment # 15123181716136373
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+branches: 
+- # ====== Branch: Go To Page 1 ================================
+  id: 15111194817136336
+  identification: 
+    name: Go To Page 1
+
+  execution: 
+    sequence: 1
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:1:&APP_SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 1 # Home
+

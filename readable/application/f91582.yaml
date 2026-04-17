@@ -1,0 +1,292 @@
+---
+# ====== Application: Property Management System =============
+id: 71558
+identification: 
+  name: Property Management System
+  alias: PROPERTY-MANAGEMENT-SYSTEM
+  version: Release 1.0
+
+row-search: 
+  tokenize: true
+  text-query-function: None
+
+availability: 
+  status: Available with Developer Toolbar
+  build-status: Run and Build Application
+
+error-handling: 
+  default-display-location: Inline with Field and in Notification
+
+report-printing: 
+  type: Use Instance Settings
+
+advanced: 
+  friendly-urls: true
+  allow-feedback: true
+  logging: true
+  debugging: false
+  compatibility-mode: 24.2
+  accessible-read-only-items: true
+  pass-ecid: Y
+
+authentication: 
+  public-user: APEX_PUBLIC_USER
+  authentication-scheme: property_login # 32973602319425168764
+
+authorization: 
+  authorization-scheme: Reader Rights # 32898975487649025083
+  run-on-public-pages: false
+  run-on-background-job: true
+  source-for-role-or-group-schemes: Access Control User Role Assignments
+
+session-management: 
+  rejoin-sessions: Disabled
+
+session-state-protection: 
+  enabled: true
+
+security: 
+  deep-linking: Disabled
+  browser-cache: Disabled
+  embed-in-frames: Deny
+  referrer-policy: strict-origin
+  html-escaping-mode: Extended
+
+database-session: 
+  parsing-schema: WKSP_ARCHI04
+
+globalization: 
+  primary-language: English (en)
+  document-direction: Language Default
+  language-derived-from: Application Primary Language
+  automatic-time-zone: false
+  automatic-csv-encoding: true
+
+application-format-masks: 
+  date: DS
+  timestamp: DS
+  timestamp-time-zone: DS
+
+character-value-comparison: 
+  behavior: Database session NLS setting (default)
+
+logo: 
+  type: Text
+  text: Sample Global Property Management Hub
+
+progressive-web-app: 
+  enable: true
+  installable: false
+  display: Standalone
+  screen-orientation: Any
+  ios-status-bar-style: Default
+  enable-push-notifications: true
+  pwa-push-notifications-credentials: App 71558 Push Notifications Credentials # 34293639952080447177
+
+navigation: 
+  home-url: 
+    url: 'f?p=&APP_ID.:1:&APP_SESSION.::&DEBUG.:::'
+    page: 1 # Home
+
+  login-url: 
+    url: 'f?p=&APP_ID.:LOGIN:&APP_SESSION.::&DEBUG.:::'
+    page: LOGIN
+
+navigation-menu: 
+  list-template: Top Navigation Mega Menu
+  template-options: 
+  - '#DEFAULT#'
+  list-position: Top
+  list: RBAC_NAV # 33339902415156167195
+
+navigation-bar: 
+  implementation: List
+  list: Navigation Bar # 30584986099480713305
+  list-template: Navigation Bar
+  template-options: 
+  - '#DEFAULT#'
+
+javascript: 
+  include-jquery-migrate: false
+
+attributes: 
+  theme: Universal Theme # 42
+  global-page: 0
+  enable-end-users-to-choose-theme-style: false
+  add-"built-with-apex"-to-footer: false
+  auto-dismiss-success-messages: false
+
+subscription: 
+  version-number: 15642784343361
+
+substitutions: 
+- # ====== Substitution: APP_NAME ==============================
+  id: 54790789082330477389
+  identification: 
+    name: APP_NAME
+
+  value: 
+    static-value: Property Management System
+
+component-settings: 
+- # ====== Component Setting: NATIVE_OPEN_AI_ASSISTANT =========
+  id: 30584979517006713298
+  identification: 
+    name: NATIVE_OPEN_AI_ASSISTANT
+    type: Dynamic Action
+
+  subscription: 
+    version-number: 15618547907791
+
+- # ====== Component Setting: NATIVE_COLOR_PICKER ==============
+  id: 30584979856974713299
+  identification: 
+    name: NATIVE_COLOR_PICKER
+    type: Item
+
+  subscription: 
+    version-number: 15618547907797
+
+- # ====== Component Setting: NATIVE_DATE_PICKER_APEX ==========
+  id: 30584980182776713299
+  identification: 
+    name: NATIVE_DATE_PICKER_APEX
+    type: Item
+
+  subscription: 
+    version-number: 15618547907797
+
+- # ====== Component Setting: NATIVE_GEOCODED_ADDRESS ==========
+  id: 30584980482217713299
+  identification: 
+    name: NATIVE_GEOCODED_ADDRESS
+    type: Item
+
+  subscription: 
+    version-number: 15618547907797
+
+- # ====== Component Setting: NATIVE_SELECT_MANY ===============
+  id: 30584980733974713300
+  identification: 
+    name: NATIVE_SELECT_MANY
+    type: Item
+
+  subscription: 
+    version-number: 15618547907797
+
+- # ====== Component Setting: NATIVE_SINGLE_CHECKBOX ===========
+  id: 30584981042870713300
+  identification: 
+    name: NATIVE_SINGLE_CHECKBOX
+    type: Item
+
+  subscription: 
+    version-number: 15618547907797
+
+- # ====== Component Setting: NATIVE_STAR_RATING ===============
+  id: 30584981385012713300
+  identification: 
+    name: NATIVE_STAR_RATING
+    type: Item
+
+  subscription: 
+    version-number: 15618547907797
+
+- # ====== Component Setting: NATIVE_YES_NO ====================
+  id: 30584981607860713300
+  identification: 
+    name: NATIVE_YES_NO
+    type: Item
+
+  subscription: 
+    version-number: 15618547907797
+
+- # ====== Component Setting: NATIVE_GEOCODING =================
+  id: 30584981999941713300
+  identification: 
+    name: NATIVE_GEOCODING
+    type: Process
+
+  settings: 
+    attribute-1: RELAX_HOUSE_NUMBER
+
+  subscription: 
+    version-number: 15618547907798
+
+- # ====== Component Setting: NATIVE_DISPLAY_SELECTOR ==========
+  id: 30584982201291713301
+  identification: 
+    name: NATIVE_DISPLAY_SELECTOR
+    type: Region
+
+  subscription: 
+    version-number: 15618547907799
+
+- # ====== Component Setting: NATIVE_IR ========================
+  id: 30584982598989713301
+  identification: 
+    name: NATIVE_IR
+    type: Region
+
+  subscription: 
+    version-number: 15618547907802
+
+- # ====== Component Setting: NATIVE_MAP_REGION ================
+  id: 30584982829810713301
+  identification: 
+    name: NATIVE_MAP_REGION
+    type: Region
+
+  subscription: 
+    version-number: 15618547907805
+
+- # ====== Component Setting: NATIVE_ADFBC =====================
+  id: 30584983126797713301
+  identification: 
+    name: NATIVE_ADFBC
+    type: REST Data Source
+
+  subscription: 
+    version-number: 15618547907805
+
+- # ====== Component Setting: NATIVE_BOSS ======================
+  id: 30584983493183713301
+  identification: 
+    name: NATIVE_BOSS
+    type: REST Data Source
+
+  subscription: 
+    version-number: 15618547907805
+
+- # ====== Component Setting: PLUGIN_DE.DANIELH.DROPZONE2 ======
+  id: 42352914425391880942
+  identification: 
+    name: PLUGIN_DE.DANIELH.DROPZONE2
+    type: Region
+
+  subscription: 
+    version-number: 15624126446967
+
+application-settings: 
+- # ====== Application Setting: ACCESS_CONTROL_SCOPE ===========
+  id: 32898974340481025081
+  identification: 
+    name: ACCESS_CONTROL_SCOPE
+
+  value: 
+    value: ACL_ONLY
+    required: false
+
+  advanced: 
+    valid-values: ACL_ONLY, ALL_USERS
+    on-upgrade-keep-value: true
+
+  subscription: 
+    version-number: 15619561016183
+
+  configuration: 
+    build-option: 'Feature: Access Control' # 32898974025314025079
+
+  comments: 
+    comments: The default access level given to authenticated users who are not in the access control list
+

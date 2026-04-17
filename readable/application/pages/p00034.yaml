@@ -1,0 +1,564 @@
+---
+# ====== Page: Map Location ==================================
+id: 34
+identification: 
+  name: Map Location
+  alias: MAP-LOCATION
+  title: Map Location
+
+appearance: 
+  page-mode: Normal
+  page-template: Left Side Column
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Map =========================================
+  id: 36069583333093192467
+  identification: 
+    name: Map
+    type: Map
+
+  source: 
+    location: None
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes (No Grid)
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 36069585528547192470
+    map: 
+      background: Built-In
+      standard: Oracle World Map
+      dark-mode: Oracle World Map
+      height: 640
+
+    controls: 
+      navigation-bar: Zoom and Compass
+      navigation-bar-position: End
+      options: 
+      - Mousewheel Zoom
+      - Rectangle Zoom
+      - Scale Bar
+      - Infinite Map
+      - Get Browser Location
+
+    initial-position-and-zoom: 
+      get-position-from-browser: false
+      type: Based on Spatial Results
+
+    legend: 
+      show: true
+      position: End
+
+    attributes: 
+      messages-position: Below
+      unit-system: Metric
+
+    performance: 
+      lazy-loading: true
+
+    layers: 
+    - # ====== Layer: Map Location =================================
+      id: 36069586054623192471
+      identification: 
+        name: Map Location
+        layer-type: Points
+
+      layout: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          -- select PROPERTY_ID,
+          --        PROPERTY_TYPES_ID,
+          --        STATUS_ID,
+          --        ADDRESS,
+          --        PURCHASE_DATE,
+          --        AREA,
+          --        PROPERTY_AGE,
+          --        FLOOR_NUMBER,
+          --        TOTAL_FLOORS,
+          --        FURNISHING_STATUS,
+          --        FACING_DIRECTION,
+          --        IMAGES_VIDEOS_UPLOAD,
+          --        MAP_LOCATION,
+          --        NEAR_BY_LOCATIONS,
+          --        LAT_LONG,
+          --        LANDMARK,
+          --        LISTING_BY,
+          --        PRICE,
+          --        PROJECT_NAME,
+          --        PROPERTY_NAME,
+          --        PURPOSE,
+          --        CREATED,
+          --        CREATED_BY,
+          --        UPDATED,
+          --        UPDATED_BY,
+          --        USER_ID
+          --   from PMS002_PROPERTY
+          
+          
+          -- SELECT 
+          --   PROPERTY_ID AS ID,
+          --   TO_NUMBER(TRIM(SUBSTR(LAT_LONG, 1, INSTR(LAT_LONG, ',') - 1))) AS LATITUDE,
+          --   TO_NUMBER(TRIM(SUBSTR(LAT_LONG, INSTR(LAT_LONG, ',') + 1))) AS LONGITUDE,
+          --   'Property ID: ' || PROPERTY_ID AS PROPERTY_NAME
+          -- --   IMG_URL -- Make sure to replace this with your image URL column
+          -- FROM 
+          --   PMS002_PROPERTY
+          -- WHERE 
+          --   LAT_LONG IS NOT NULL
+          
+          
+            SELECT
+              PT.PROPERTY_TYPE,
+              P.AREA,
+              P.PRICE,
+              P.ADDRESS,
+              P.PROPERTY_ID AS ID,
+              TO_NUMBER(:P34_LATITUDE) AS latitude,
+              TO_NUMBER(:P34_LONGITUDE) AS longitude,
+              'Property ID: ' || P.PROPERTY_ID AS PROPERTY_NAME
+          FROM PMS002_PROPERTY P, PMS002_PROPERTY_TYPES PT
+          WHERE :P34_LATITUDE IS NOT NULL AND :P34_LONGITUDE IS NOT NULL AND P.PROPERTY_ID = :P34_PROPERTY_ID AND PT.PROPERTY_TYPE = :P34_PROPERTY_TYPE
+          
+          
+          
+        page-items-to-submit: 
+        - P34_LATITUDE
+        - P34_LONGITUDE
+        - P34_PROPERTY_ID
+        - P34_PROPERTY_TYPE
+        use-spatial-index: false
+
+      column-mapping: 
+        geometry-column-data-type: Longitude/Latitude
+        longitude-column: LONGITUDE
+        latitude-column: LATITUDE
+
+      point-objects: 
+        style: SVG
+        shape: Pentagon
+
+      appearance: 
+        fill-color: '#c61515'
+        stroke-color: '#2bff00'
+
+      point-clustering: 
+        enable: false
+
+      tooltip: 
+        advanced-formatting: true
+        html-expression: |
+          <div style="padding: 15px; max-width: 300px; font-family: Arial, sans-serif;">
+          <div style="text-align: center;">
+          
+          </div>
+          <div style="font-size: 16px; font-weight: bold; color: #2c3e50; text-align: center; margin-bottom: 8px;">
+          &CATEGORY_DESCRIPTION.
+          </div>
+           
+            <div style="font-size: 14px; color: #555; line-height: 1.6;text-align:centre;">
+          <b>Property Type:</b> &PROPERTY_TYPE.<br/>
+          <b>Area:</b> &AREA. Sqft<br/>
+          <b>Price:</b> ₹&PRICE.<br/>
+          <b>Location:</b> &ADDRESS.
+          </div>
+          <!-- <div style="margin-top: 10px; text-align: center;">
+          <a href="&PROPERTY_DETAIL_LINK." target="_blank" style="display: inline-block; padding: 8px 12px; background-color: #4CAF50; color: white; border-radius: 4px; text-decoration: none; font-size: 14px;">
+          
+                View Details
+          </a>
+          </div> -->
+           
+          </div>
+          
+           
+
+      info-window: 
+        advanced-formatting: true
+        html-expression: |
+          <div style="padding: 15px; max-width: 300px; font-family: Arial, sans-serif;">
+          <div style="text-align: center;">
+          
+          </div>
+          <div style="font-size: 16px; font-weight: bold; color: #2c3e50; text-align: center; margin-bottom: 8px;">
+          &CATEGORY_DESCRIPTION.
+          </div>
+           
+            <div style="font-size: 14px; color: #555; line-height: 1.6;text-align:centre;">
+          <b>Property Type:</b> &PROPERTY_TYPE.<br/>
+          <b>Area:</b> &AREA. Sqft<br/>
+          <b>Price:</b> ₹&PRICE.<br/>
+          <b>Location:</b> &ADDRESS.
+          </div>
+          <!-- <div style="margin-top: 10px; text-align: center;">
+          <a href="&PROPERTY_DETAIL_LINK." target="_blank" style="display: inline-block; padding: 8px 12px; background-color: #4CAF50; color: white; border-radius: 4px; text-decoration: none; font-size: 14px;">
+          
+                View Details
+          </a>
+          </div> -->
+           
+          </div>
+          
+           
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+- # ====== Region: Search ======================================
+  id: 36069583424827192467
+  identification: 
+    name: Search
+    type: Faceted Search
+
+  source: 
+    filtered-region: Map # 36069583333093192467
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_02
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+    landmark-label: Filters
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+  attributes: 
+    settings: 
+      batch-facet-changes: false
+      compact-numbers-threshold: 10000
+      show-current-facets: Selector
+      current-facets-selector: '#active_facets'
+      show-total-row-count: Yes
+      show-charts: Dialog
+      display-chart-for-top-n-values: 10
+
+  facets: 
+  - # ====== Facet: P34_SEARCH ===================================
+    id: 36069583828019192468
+    identification: 
+      name: P34_SEARCH
+      type: Search
+
+    label: 
+      label: Search
+
+    settings: 
+      search-type: Row Search
+      input-field: Top of Faceted Search Region
+
+    layout: 
+      sequence: 10
+
+    source: 
+      database-column(s): PROPERTY_TYPES_ID,STATUS_ID,ADDRESS,FURNISHING_STATUS,FACING_DIRECTION,IMAGES_VIDEOS_UPLOAD,MAP_LOCATION,NEAR_BY_LOCATIONS,LAT_LONG,LANDMARK,LISTING_BY,PROJECT_NAME,PEOPERTY_NAME,PURPOSE,CREATED_BY,UPDATED_BY
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+    configuration: 
+      build-option: Commented Out # 30584983782671713301
+
+  filters: 
+  - # ====== Filter: P34_SEARCH ==================================
+    id: 36069583828019192468
+    identification: 
+      name: P34_SEARCH
+      type: Search
+
+    label: 
+      label: Search
+
+    settings: 
+      search-type: Row Search
+      collapsed-search-field: false
+
+    layout: 
+      sequence: 10
+
+    source: 
+      database-column(s): PROPERTY_TYPES_ID,STATUS_ID,ADDRESS,FURNISHING_STATUS,FACING_DIRECTION,IMAGES_VIDEOS_UPLOAD,MAP_LOCATION,NEAR_BY_LOCATIONS,LAT_LONG,LANDMARK,LISTING_BY,PROJECT_NAME,PEOPERTY_NAME,PURPOSE,CREATED_BY,UPDATED_BY
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+    configuration: 
+      build-option: Commented Out # 30584983782671713301
+
+- # ====== Region: Button Bar ==================================
+  id: 36069584232568192469
+  identification: 
+    name: Button Bar
+    type: Static Content
+
+  source: 
+    html-code: <div id="active_facets"></div>
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-ButtonRegion--noPadding
+    - t-ButtonRegion--noUI
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P34_LATITUDE =============================
+  id: 35148803278682005548
+  identification: 
+    name: P34_LATITUDE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P34_LONGITUDE ============================
+  id: 35148803483382005550
+  identification: 
+    name: P34_LONGITUDE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P34_PROPERTY_ID ==========================
+  id: 36142579212313390107
+  identification: 
+    name: P34_PROPERTY_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 50
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P34_PROPERTY_TYPE ========================
+  id: 36142579322153390108
+  identification: 
+    name: P34_PROPERTY_TYPE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 60
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: RESET =======================================
+  id: 36069584800026192469
+  identification: 
+    button-name: RESET
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Button Bar # 36069584232568192469
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--noUI
+    - t-Button--iconLeft
+    icon: fa-undo
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:34:&APP_SESSION.::&DEBUG.:RR,34::'
+      page: 34 # Map Location
+      clear-cache: RR,34
+
+    warn-on-unsaved-changes: Do Not Check
+

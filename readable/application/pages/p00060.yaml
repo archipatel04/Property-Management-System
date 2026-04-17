@@ -1,0 +1,223 @@
+---
+# ====== Page: Appointment Calendar  =========================
+id: 60
+identification: 
+  name: 'Appointment Calendar '
+  alias: APPOINTMENT-CALENDAR1
+  title: 'Appointment Calendar '
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+javascript: 
+  execute-when-page-loads: |
+    
+    
+    
+    
+    
+
+css: 
+  inline: |
+    /*////////////////////////////////// Calender Cell /////////////////////////////////////////////*/
+    /* 
+    .fc-event-main {
+            background-color: transparent !important;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 18px;
+    } */
+    
+    .fc-event.fc-apex-events-default {
+        background-color: transparent !important;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 18px;
+    
+    }
+    
+    a.fc-event {
+        background-color: transparent;
+        border: none;
+    }
+    
+    .fc-event-main {
+        display: flex  !important;
+        justify-content: center  !important;
+        align-items: center  !important;
+        margin-bottom: 5px;
+        margin: 0 auto;
+    }
+    
+    /*//////////////////////// Background Color Of Cell /////////////////////////////////////////*/
+    /* 👇 Light Green */
+    .fc-daygrid-event.low-load {
+      background-color: #d4edda !important;
+      color: #155724 !important;
+      border: none;
+    }
+    
+    /* 👇 Yellow */
+    .fc-daygrid-event.medium-load {
+      background-color: #fff3cd !important;
+      color: #856404 !important;
+      border: none;
+    }
+    
+    /* 👇 Light Red */
+    .fc-daygrid-event.high-load {
+      background-color: #f8d7da !important;
+      color: #721c24 !important;
+      border: none;
+    }
+    
+    
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Appointment Calendar For Owner ==============
+  id: 4717754709747102189
+  identification: 
+    name: Appointment Calendar For Owner
+    type: Calendar
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          AP.APPOINTMENT_DATE,
+      
+          -- ✅ Stylized Total Appointment with approved & pending counts
+          '<div style="text-align:center; font-size:14px; color:#000080;">
+              <span aria-hidden="true" class="fa fa-file-text-o"></span> Total Appointments: <b>' || COUNT(*) || '</b>
+              <div style="
+                  background-color: #f9f9f9;
+                  border: 1px solid #ddd;
+                  border-radius: 8px;
+                  padding: 4px;
+                  text-align: center;
+                  font-size: 13px;
+                  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                  margin-top: 3px;">
+      
+                  <div style="color: green;">
+                      ✅ Approved: <strong>' || COUNT(CASE WHEN AP.STATUS = 'Approve' THEN 1 END) || '</strong>
+                  </div>
+      
+                  <div style="color: orange;">
+                      🕒 Pending: <strong>' || COUNT(CASE WHEN AP.STATUS = 'Pending' THEN 1 END) || '</strong>
+                  </div>
+      
+              </div>
+           </div>' AS TOTAL_COUNT,
+            -- 🟦 Color Logic
+           CASE 
+              WHEN COUNT(*) <= 2 THEN 'low-load'
+              WHEN COUNT(*) BETWEEN 3 AND 5 THEN 'medium-load'
+              ELSE 'high-load'
+          END AS CSS_CLASS
+      
+      FROM PMS_APPOINTMENT AP
+      WHERE AP.TO_USER_ID = 61
+      GROUP BY AP.APPOINTMENT_DATE
+      ORDER BY AP.APPOINTMENT_DATE;
+      
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: myCalendar
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      display-column: TOTAL_COUNT
+      start-date-column: APPOINTMENT_DATE
+      event-sorting: Automatic
+      show-time: false
+      supplemental-information: |
+        
+        
+      multiple-line-events: false
+      show-tooltip: false
+      additional-calendar-views: 'list:navigation'
+      view-/-edit-link: 
+        url: 'f?p=&APP_ID.:61:&SESSION.::&DEBUG.::P61_SELECTED_DATE:&APPOINTMENT_DATE.'
+        page: 61 # APPOINTMNET Calendar  REPORT
+        values: 
+          p61_selected_date: '&APPOINTMENT_DATE.'
+
+      maximum-events-/-day: 10
+      show-weekend: true
+      css-class: CSS_CLASS
+
+    performance: 
+      lazy-loading: false
+
+    advanced: 
+      initialization-javascript-function: |
+        function(options) {
+          // disable past dates using validRange option
+          options.validRange = {
+            start: new Date()  // means today se pehle ke dates disable ho jayenge
+          };
+          
+          return options;
+        }
+        
+

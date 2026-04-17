@@ -1,0 +1,2980 @@
+---
+# ====== Page: Property Details Form =========================
+id: 43
+identification: 
+  name: Property Details Form
+  alias: PROPERTY-DETAILS-FORM
+  title: Property Details Form
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Property Details ============================
+  id: 42922024043990396833
+  identification: 
+    name: Property Details
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: Property Details Form # 43349255582790123299
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Location ====================================
+  id: 42922024522526396838
+  identification: 
+    name: Location
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: Property Details Form # 43349255582790123299
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: About Property ==============================
+  id: 42922024651301396839
+  identification: 
+    name: About Property
+    type: Static Content
+
+  layout: 
+    sequence: 60
+    parent-region: Property Details Form # 43349255582790123299
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Property Features ===========================
+  id: 42922024738112396840
+  identification: 
+    name: Property Features
+    type: Static Content
+
+  layout: 
+    sequence: 70
+    parent-region: Property Details Form # 43349255582790123299
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    - t-Form--large
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Image =======================================
+  id: 42922024856880396841
+  identification: 
+    name: Image
+    type: Static Content
+
+  layout: 
+    sequence: 80
+    parent-region: Property Details Form # 43349255582790123299
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    - t-Form--large
+    - t-Form--stretchInputs
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Property Details Form =======================
+  id: 43349255582790123299
+  identification: 
+    name: Property Details Form
+    type: Form
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_PROPERTY_MASTER
+    include-rowid-column: false
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      - Update Row
+      - Delete Row
+      lost-update-type: Row Values
+
+page-items: 
+- # ====== Page Item: P43_PROPERTY_TYPE ========================
+  id: 14762884871819858
+  identification: 
+    name: P43_PROPERTY_TYPE
+    type: Radio Group
+
+  label: 
+    label: Property Type
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 20
+    region: Property Details # 42922024043990396833
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: select property_type as d, property_type_id as r from pms_property_type;
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: PROPERTY_TYPE
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_PROPERTY_DESCRIPTION =================
+  id: 14762948033819859
+  identification: 
+    name: P43_PROPERTY_DESCRIPTION
+    type: Textarea
+
+  label: 
+    label: Property Description
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 120
+    region: About Property # 42922024651301396839
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    height: 5
+
+  validation: 
+    value-required: false
+    maximum-length: 500
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: PROPERTY_DESCRIPTION
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_PROJECT_DESCRIPTION ==================
+  id: 14763052715819860
+  identification: 
+    name: P43_PROJECT_DESCRIPTION
+    type: Textarea
+
+  label: 
+    label: Project Description
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 80
+    region: About Property # 42922024651301396839
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    height: 5
+
+  validation: 
+    value-required: false
+    maximum-length: 500
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: PROJECT_DESCRIPTION
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_LAUNCH_DATE ==========================
+  id: 14763127910819861
+  identification: 
+    name: P43_LAUNCH_DATE
+    type: Date Picker
+
+  label: 
+    label: Launch Date
+    alignment: Left
+
+  settings: 
+    show-time: false
+    display-as: Popup
+    minimum-date: None
+    maximum-date: None
+    multiple-months: No
+    use-defaults: true
+
+  layout: 
+    sequence: 90
+    region: About Property # 42922024651301396839
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: LAUNCH_DATE
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_HANDOVER_DATE ========================
+  id: 14763287080819862
+  identification: 
+    name: P43_HANDOVER_DATE
+    type: Date Picker
+
+  label: 
+    label: Handover Date
+    alignment: Left
+
+  settings: 
+    show-time: false
+    display-as: Popup
+    minimum-date: None
+    maximum-date: None
+    multiple-months: No
+    use-defaults: true
+
+  layout: 
+    sequence: 100
+    region: About Property # 42922024651301396839
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: HANDOVER_DATE
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_CITY =================================
+  id: 14763373701819863
+  identification: 
+    name: P43_CITY
+    type: Text Field
+
+  label: 
+    label: City
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 50
+    region: Location # 42922024522526396838
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: CITY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_PROPERTY_PURPOSE =====================
+  id: 14763491653819864
+  identification: 
+    name: P43_PROPERTY_PURPOSE
+    type: Radio Group
+
+  label: 
+    label: Purpose
+    alignment: Left
+
+  settings: 
+    number-of-columns: 2
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 10
+    region: Property Details # 42922024043990396833
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: select property_purpose as d, property_purpose_id as r from pms_property_purpose;
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: PROPERTY_PURPOSE
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_PROPERTY_AVAILABILITY_STATUS =========
+  id: 14763584757819865
+  identification: 
+    name: P43_PROPERTY_AVAILABILITY_STATUS
+    type: Radio Group
+
+  label: 
+    label: Property Availability Status
+    alignment: Left
+
+  settings: 
+    number-of-columns: 2
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 60
+    region: About Property # 42922024651301396839
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT PROPERTY_AVAILABILITY_STATUS , PROPERTY_AVAILABILITY_STATUS_ID FROM PMS_PROPERTY_STATUS
+      
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: PROPERTY_AVAILABILITY_STATUS
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_PROPERTY_FURNISHING ==================
+  id: 14763666787819866
+  identification: 
+    name: P43_PROPERTY_FURNISHING
+    type: Radio Group
+
+  label: 
+    label: Property Furnishing
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 50
+    region: About Property # 42922024651301396839
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT PROPERTY_FURNISHING_STATUS,  PROPERTY_FURNISHING_ID FROM  PMS_PROPERTY_FURNISHING
+      
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: PROPERTY_FURNISHING
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_PROPERTY_FACING_DIRECTION ============
+  id: 14763748469819867
+  identification: 
+    name: P43_PROPERTY_FACING_DIRECTION
+    type: Number Field
+
+  label: 
+    label: Property Facing Direction
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 10
+    region: Property Features # 42922024738112396840
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: PROPERTY_FACING_DIRECTION
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_IMAGE_URL ============================
+  id: 14763881684819868
+  identification: 
+    name: P43_IMAGE_URL
+    type: Textarea
+
+  label: 
+    label: Image Url
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 30
+    region: Property Features # 42922024738112396840
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    height: 5
+
+  validation: 
+    value-required: false
+    maximum-length: 10000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: IMAGE_URL
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_AMENITIES_TYPE =======================
+  id: 14763961374819869
+  identification: 
+    name: P43_AMENITIES_TYPE
+    type: Select Many
+
+  label: 
+    label: Amenities Type
+    alignment: Left
+
+  settings: 
+    fetch-on-search: false
+    use-defaults: true
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: Delimited List
+    separator: ','
+
+  layout: 
+    sequence: 20
+    region: Property Features # 42922024738112396840
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 1000
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select AMENITIES_NAME , AMENITIES_ID from PMS_AMENITIES
+      
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: AMENITIES_TYPE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_CREATED_AT ===========================
+  id: 14764057917819870
+  identification: 
+    name: P43_CREATED_AT
+    type: Date Picker
+
+  label: 
+    label: Created At
+    alignment: Left
+
+  settings: 
+    show-time: false
+    display-as: Popup
+    minimum-date: None
+    maximum-date: None
+    multiple-months: No
+    use-defaults: true
+
+  layout: 
+    sequence: 260
+    region: Property Details Form # 43349255582790123299
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: CREATED_AT
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: trunc(sysdate)
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_UPDATED_AT ===========================
+  id: 14764143902819871
+  identification: 
+    name: P43_UPDATED_AT
+    type: Date Picker
+
+  label: 
+    label: Updated At
+    alignment: Left
+
+  settings: 
+    show-time: false
+    display-as: Popup
+    minimum-date: None
+    maximum-date: None
+    multiple-months: No
+    use-defaults: true
+
+  layout: 
+    sequence: 270
+    region: Property Details Form # 43349255582790123299
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: UPDATED_AT
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: trunc(sysdate)
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_LISTING_FOR ==========================
+  id: 14764231194819872
+  identification: 
+    name: P43_LISTING_FOR
+    type: Number Field
+
+  label: 
+    label: Listing For
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 280
+    region: Property Details Form # 43349255582790123299
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: LISTING_FOR
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_GENERAL_AMENITIES ====================
+  id: 42922023594863396828
+  identification: 
+    name: P43_GENERAL_AMENITIES
+    type: Checkbox Group
+
+  label: 
+    label: General Amenities
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+
+  multiple-values: 
+    type: Delimited List
+    separator: ':'
+
+  layout: 
+    sequence: 40
+    region: Property Features # 42922024738112396840
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select AMENITIES_SUB_TYPE_NAME , AMENITIES_SUB_TYPE_ID from PMS002_AMENITIES_SUB_TYPE
+      where AMENITIES_TYPE_ID = 1
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+- # ====== Page Item: P43_LIFESTYLE_AMENITIES ==================
+  id: 42922023621569396829
+  identification: 
+    name: P43_LIFESTYLE_AMENITIES
+    type: Checkbox Group
+
+  label: 
+    label: Lifestyle Amenities
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+
+  multiple-values: 
+    type: Delimited List
+    separator: ':'
+
+  layout: 
+    sequence: 50
+    region: Property Features # 42922024738112396840
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select AMENITIES_SUB_TYPE_NAME , AMENITIES_SUB_TYPE_ID from PMS002_AMENITIES_SUB_TYPE
+      where AMENITIES_TYPE_ID = 21
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+- # ====== Page Item: P43_ECO_FRIENDLY_AMENITIES ===============
+  id: 42922023759442396830
+  identification: 
+    name: P43_ECO_FRIENDLY_AMENITIES
+    type: Checkbox Group
+
+  label: 
+    label: Eco Friendly Amenities
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+
+  multiple-values: 
+    type: Delimited List
+    separator: ':'
+
+  layout: 
+    sequence: 60
+    region: Property Features # 42922024738112396840
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select AMENITIES_SUB_TYPE_NAME , AMENITIES_SUB_TYPE_ID from PMS002_AMENITIES_SUB_TYPE
+      where AMENITIES_TYPE_ID = 22
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+- # ====== Page Item: P43_PREMIUM_AMENITIES ====================
+  id: 42922023877081396831
+  identification: 
+    name: P43_PREMIUM_AMENITIES
+    type: Checkbox Group
+
+  label: 
+    label: Premium Amenities
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+
+  multiple-values: 
+    type: Delimited List
+    separator: ':'
+
+  layout: 
+    sequence: 70
+    region: Property Features # 42922024738112396840
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select AMENITIES_SUB_TYPE_NAME , AMENITIES_SUB_TYPE_ID from PMS002_AMENITIES_SUB_TYPE
+      where AMENITIES_TYPE_ID = 24
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+- # ====== Page Item: P43_CONVENIENCE ==========================
+  id: 42922023963054396832
+  identification: 
+    name: P43_CONVENIENCE
+    type: Checkbox Group
+
+  label: 
+    label: Convenience
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+
+  multiple-values: 
+    type: Delimited List
+    separator: ':'
+
+  layout: 
+    sequence: 80
+    region: Property Features # 42922024738112396840
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select AMENITIES_SUB_TYPE_NAME , AMENITIES_SUB_TYPE_ID from PMS002_AMENITIES_SUB_TYPE
+      where AMENITIES_TYPE_ID = 23
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+- # ====== Page Item: P43_PROPERTY_ID ==========================
+  id: 43349255870271123300
+  identification: 
+    name: P43_PROPERTY_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Property Details Form # 43349255582790123299
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: PROPERTY_ID
+    data-type: NUMBER
+    query-only: true
+    primary-key: true
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_ADDRESS ==============================
+  id: 43349257154220123303
+  identification: 
+    name: P43_ADDRESS
+    type: Textarea
+
+  label: 
+    label: Address
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 10
+    region: Location # 42922024522526396838
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    - t-Form-fieldContainer--large
+    width: 60
+    height: 4
+
+  validation: 
+    value-required: false
+    maximum-length: 1000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: ADDRESS
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_AREA =================================
+  id: 43349258095116123304
+  identification: 
+    name: P43_AREA
+    type: Number Field
+
+  label: 
+    label: Area
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 10
+    region: About Property # 42922024651301396839
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    post-text-: sq.ft
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: AREA
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_PROPERTY_AGE =========================
+  id: 43349258509926123304
+  identification: 
+    name: P43_PROPERTY_AGE
+    type: Number Field
+
+  label: 
+    label: Property Age
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 140
+    region: About Property # 42922024651301396839
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: PROPERTY_AGE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_FLOOR_NUMBER =========================
+  id: 43349258988306123305
+  identification: 
+    name: P43_FLOOR_NUMBER
+    type: Number Field
+
+  label: 
+    label: Floor Number
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 40
+    region: About Property # 42922024651301396839
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: FLOOR_NUMBER
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_TOTAL_FLOORS =========================
+  id: 43349259304116123305
+  identification: 
+    name: P43_TOTAL_FLOORS
+    type: Number Field
+
+  label: 
+    label: Total Floors
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 30
+    region: About Property # 42922024651301396839
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: TOTAL_FLOORS
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_LAT_LONG =============================
+  id: 43349261601050123308
+  identification: 
+    name: P43_LAT_LONG
+    type: Text Field
+
+  label: 
+    label: Lat Long
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 70
+    region: Location # 42922024522526396838
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    width: 60
+
+  validation: 
+    value-required: false
+    maximum-length: 1000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: LAT_LONG
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_LANDMARK =============================
+  id: 43349262029542123308
+  identification: 
+    name: P43_LANDMARK
+    type: Text Field
+
+  label: 
+    label: Landmark
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 60
+    region: Location # 42922024522526396838
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: LANDMARK
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_LISTING_BY ===========================
+  id: 43349262415973123309
+  identification: 
+    name: P43_LISTING_BY
+    type: Display Only
+
+  label: 
+    label: Listing By
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 150
+    region: About Property # 42922024651301396839
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: LISTING_BY
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':user_id'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_PRICE ================================
+  id: 43349262891360123309
+  identification: 
+    name: P43_PRICE
+    type: Number Field
+
+  label: 
+    label: Price
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 20
+    region: About Property # 42922024651301396839
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    post-text-: INR
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: PRICE
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_PROJECT_NAME =========================
+  id: 43349263228132123310
+  identification: 
+    name: P43_PROJECT_NAME
+    type: Text Field
+
+  label: 
+    label: Project Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 70
+    region: About Property # 42922024651301396839
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+
+  validation: 
+    value-required: false
+    maximum-length: 1000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: PROJECT_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_PROPERTY_NAME ========================
+  id: 43349263614345123310
+  identification: 
+    name: P43_PROPERTY_NAME
+    type: Text Field
+
+  label: 
+    label: Property Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 110
+    region: About Property # 42922024651301396839
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+
+  validation: 
+    value-required: false
+    maximum-length: 1000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: PROPERTY_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_CREATED_BY ===========================
+  id: 43349264803168123311
+  identification: 
+    name: P43_CREATED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 110
+    region: Property Details Form # 43349255582790123299
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: CREATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':user_name'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_UPDATED_BY ===========================
+  id: 43349265670175123312
+  identification: 
+    name: P43_UPDATED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 130
+    region: Property Details Form # 43349255582790123299
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: UPDATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':user_name'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_PROPERTY_CATEGORY ====================
+  id: 43349266456782123313
+  identification: 
+    name: P43_PROPERTY_CATEGORY
+    type: Radio Group
+
+  label: 
+    label: Property Category
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 30
+    region: Property Details # 42922024043990396833
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: 'select PROPERTY_CATEGORY_NAME as d, PROPERTY_CATEGORY_ID as r from PMS_PROPERTY_CATEGORY where PROPERTY_TYPE_ID = :P43_PROPERTY_TYPE;'
+    display-extra-values: false
+    display-null-value: false
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P43_PROPERTY_TYPE
+    items-to-submit: 
+    - P43_PROPERTY_CATEGORY
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: PROPERTY_CATEGORY
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_PROPERTY_UNITS =======================
+  id: 43349266826572123313
+  identification: 
+    name: P43_PROPERTY_UNITS
+    type: Radio Group
+
+  label: 
+    label: Property Units
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 40
+    region: Property Details # 42922024043990396833
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT PROPERTY_UNITS_NAME AS DISPLAY_VALUE,
+             PROPERTY_UNITS_ID AS RETURN_VALUE
+      FROM PMS_PROPERTY_UNITS
+      WHERE PROPERTY_UNITS_ID IN (
+          SELECT TO_NUMBER(REGEXP_SUBSTR(PROPERTY_UNIT_ID, '[^,]+', 1, LEVEL))
+          FROM PMS_PROPERTY_CATEGORY
+          WHERE PROPERTY_CATEGORY_ID = :P43_PROPERTY_CATEGORY
+          CONNECT BY REGEXP_SUBSTR(PROPERTY_UNIT_ID, '[^,]+', 1, LEVEL) IS NOT NULL
+      )
+      ORDER BY PROPERTY_UNITS_NAME;
+    display-extra-values: false
+    display-null-value: false
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P43_PROPERTY_CATEGORY
+    items-to-submit: 
+    - P43_PROPERTY_UNITS
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Details Form # 43349255582790123299
+    column: PROPERTY_UNITS
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 43349276777799123321
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Property Details Form # 43349255582790123299
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:39:&APP_SESSION.::&DEBUG.:::'
+      page: 39 # Property Details
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: DELETE ======================================
+  id: 43349277322958123322
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 20
+    region: Property Details Form # 43349255582790123299
+    slot: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  confirmation: 
+    message: '&APP_TEXT$DELETE_MSG!RAW.'
+    style: Danger
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P43_PROPERTY_ID
+
+- # ====== Button: SAVE ========================================
+  id: 43349277743161123322
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 30
+    region: Property Details Form # 43349255582790123299
+    slot: CHANGE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P43_PROPERTY_ID
+
+- # ====== Button: CREATE ======================================
+  id: 43349278117831123322
+  identification: 
+    button-name: CREATE
+    label: Create
+
+  layout: 
+    sequence: 40
+    region: Property Details Form # 43349255582790123299
+    slot: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P43_PROPERTY_ID
+
+dynamic-actions: 
+- # ====== Dynamic Action: New =================================
+  id: 42922024189697396834
+  identification: 
+    name: New
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P43_PROPERTY_TYPES_ID
+
+  actions: 
+  - # ====== Action: Show ========================================
+    id: 42922024242708396835
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P43_PROPERTY_CATEGORY
+
+    execution: 
+      sequence: 10
+      event: New # 42922024189697396834
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: New_1 ===============================
+  id: 42922024350830396836
+  identification: 
+    name: New_1
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P43_PROPERTY_CATEGORY
+
+  actions: 
+  - # ====== Action: Show ========================================
+    id: 42922024473434396837
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P43_PROPERTY_UNITS
+
+    execution: 
+      sequence: 10
+      event: New_1 # 42922024350830396836
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: Hide show property and project ======
+  id: 42922024940520396842
+  identification: 
+    name: Hide show property and project
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P43_STATUS_ID
+
+  client-side-condition: 
+    type: Item = Value
+    item: P43_STATUS_ID
+    value: 4
+
+  actions: 
+  - # ====== Action: Show ========================================
+    id: 42922025085994396843
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P43_PROPERTY_NAME
+      - P43_PROPERTY_AGE
+      - P43_PURCHASE_DATE
+
+    execution: 
+      sequence: 10
+      event: Hide show property and project # 42922024940520396842
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: Hide ========================================
+    id: 42922025147474396844
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P43_PROJECT_NAME
+
+    execution: 
+      sequence: 20
+      event: Hide show property and project # 42922024940520396842
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: Show ========================================
+    id: 42922025294163396845
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P43_PROJECT_NAME
+
+    execution: 
+      sequence: 10
+      event: Hide show property and project # 42922024940520396842
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+
+  - # ====== Action: Hide ========================================
+    id: 42922025316593396846
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P43_PROPERTY_NAME
+      - P43_PROPERTY_AGE
+      - P43_PURCHASE_DATE
+
+    execution: 
+      sequence: 20
+      event: Hide show property and project # 42922024940520396842
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: Hide Property & Project =============
+  id: 42922025408111396847
+  identification: 
+    name: Hide Property & Project
+
+  execution: 
+    sequence: 40
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P43_STATUS_ID
+
+  client-side-condition: 
+    type: Item is null
+    item: P43_STATUS_ID
+
+  actions: 
+  - # ====== Action: Hide ========================================
+    id: 42922025545189396848
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P43_PROJECT_NAME
+      - P43_PURCHASE_DATE
+      - P43_PROPERTY_NAME
+      - P43_PROPERTY_AGE
+
+    execution: 
+      sequence: 10
+      event: Hide Property & Project # 42922025408111396847
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: New_2 ===============================
+  id: 42922025621520396849
+  identification: 
+    name: New_2
+
+  execution: 
+    sequence: 50
+    event-scope: Static
+
+  when: 
+    event: Page Load
+
+  actions: 
+  - # ====== Action: Clear =======================================
+    id: 42922025704134396850
+    identification: 
+      action: Clear
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P43_PROPERTY_ID
+      - P43_ADDRESS
+      - P43_AREA
+      - P43_GENERAL_AMENITIES
+      - P43_PRICE
+      - P43_LIFESTYLE_AMENITIES
+      - P43_TOTAL_FLOORS
+      - P43_PROPERTY_CATEGORY
+      - P43_ECO_FRIENDLY_AMENITIES
+      - P43_FLOOR_NUMBER
+      - P43_LAT_LONG
+      - P43_PROPERTY_UNITS
+      - P43_PREMIUM_AMENITIES
+      - P43_LANDMARK
+      - P43_CONVENIENCE
+      - P43_PROJECT_NAME
+      - P43_PROPERTY_NAME
+      - P43_PROPERTY_AGE
+      - P43_LISTING_BY
+
+    execution: 
+      sequence: 10
+      event: New_2 # 42922025621520396849
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Hide ========================================
+    id: 43367076817465414801
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P43_PROJECT_NAME
+      - P43_PROPERTY_NAME
+      - P43_PROPERTY_AGE
+      - P43_PROPERTY_CATEGORY
+      - P43_PROPERTY_UNITS
+
+    execution: 
+      sequence: 20
+      event: New_2 # 42922025621520396849
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+processes: 
+- # ====== Process: Initialize form Property Details Form ======
+  id: 43349278901822123323
+  identification: 
+    name: Initialize form Property Details Form
+    type: Form - Initialization
+    execution-chain: None
+    form-region: Property Details Form # 43349255582790123299
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Process form Property Details Form =========
+  id: 43349279301715123324
+  identification: 
+    name: Process form Property Details Form
+    type: Form - Automatic Row Processing (DML)
+    execution-chain: None
+    form-region: Property Details Form # 43349255582790123299
+
+  settings: 
+    target-type: Region Source
+    prevent-lost-updates: true
+    lock-row: Yes
+    return-primary-key(s)-after-insert: true
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+- # ====== Process: New ========================================
+  id: 43367076977775414802
+  identification: 
+    name: New
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      INSERT INTO PMS_PROPERTY_MASTER (
+          PROPERTY_TYPE,
+          PROPERTY_AVAILABILITY_STATUS,
+          ADDRESS,
+          PURCHASE_DATE,
+          AREA,
+          PROPERTY_AGE,
+          FLOOR_NUMBER,
+          TOTAL_FLOORS,
+          FURNISHING_STATUS,
+          FACING_DIRECTION,
+          IMAGES_VIDEOS_UPLOAD,
+          MAP_LOCATION,
+          NEAR_BY_LOCATIONS,
+          LAT_LONG,
+          LANDMARK,
+          LISTING_BY,
+          PRICE,
+          PROJECT_NAME,
+          PROPERTY_NAME,
+          PURPOSE,
+          USER_ID,
+          PROPERTY_CATEGORY,
+          PROPERTY_UNITS,
+          AMENITIES
+      )
+      VALUES (
+          :P43_PROPERTY_TYPES_ID,
+          :P43_STATUS_ID,
+          :P43_ADDRESS,
+          :P43_PURCHASE_DATE,
+          :P43_AREA,
+          :P43_PROPERTY_AGE,
+          :P43_FLOOR_NUMBER,
+          :P43_TOTAL_FLOORS,
+          :P43_FURNISHING_STATUS,
+          :P43_FACING_DIRECTION,
+          :P43_IMAGES_VIDEOS_UPLOAD,
+          :P43_MAP_LOCATION,
+          :P43_NEAR_BY_LOCATIONS,
+          :P43_LAT_LONG,
+          :P43_LANDMARK,
+          :P43_LISTING_BY,
+          :P43_PRICE,
+          :P43_PROJECT_NAME,
+          :P43_PROPERTY_NAME,
+          :P43_PURPOSE,
+          :USER_ID,
+          :P43_PROPERTY_CATEGORY,
+          :P43_PROPERTY_UNITS,
+          :P43_GENERAL_AMENITIES || ',' ||
+          :P43_LIFESTYLE_AMENITIES || ',' ||
+          :P43_ECO_FRIENDLY_AMENITIES || ',' ||
+          :P43_PREMIUM_AMENITIES || ',' ||
+          :P43_CONVENIENCE
+      );
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Property Added.
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 43349278117831123322
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+branches: 
+- # ====== Branch: Go To Page 39 ===============================
+  id: 43349278440564123322
+  identification: 
+    name: Go To Page 39
+
+  execution: 
+    sequence: 1
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:39:&APP_SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 39 # Property Details
+

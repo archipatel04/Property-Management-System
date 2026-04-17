@@ -1,0 +1,286 @@
+---
+# ====== Page: User Property Details =========================
+id: 44
+identification: 
+  name: User Property Details
+  alias: USER-PROPERTY-DETAILS
+  title: User Property Details
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: User Property Details =======================
+  id: 43502735959319401436
+  identification: 
+    name: User Property Details
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      -- select "PROPERTY_ID",
+      --        "PROPERTY_TYPES_ID",
+      --        ( select l1."PROPERTY_TYPE" from "PMS002_PROPERTY_TYPES" l1 where l1."PROPERTY_TYPES_ID" = m."PROPERTY_TYPES_ID") "PROPERTY_TYPES_ID_L$1",
+      --        "STATUS_ID",
+      --        ( select l2."ROW_KEY" from "PMS002_PROPERTYSTATUSES" l2 where l2."STATUS_ID" = m."STATUS_ID") "STATUS_ID_L$2",
+      --        "ADDRESS",
+      --        "PURCHASE_DATE",
+      --        "AREA",
+      --        "PROPERTY_AGE",
+      --        "FLOOR_NUMBER",
+      --        "TOTAL_FLOORS",
+      --        "FURNISHING_STATUS",
+      --        "FACING_DIRECTION",
+      --        "IMAGES_VIDEOS_UPLOAD",
+      --        "MAP_LOCATION",
+      --        "NEAR_BY_LOCATIONS",
+      --        "LAT_LONG",
+      --        "LANDMARK",
+      --        "LISTING_BY",
+      --        "PRICE",
+      --        "PROJECT_NAME",
+      --        "PROPERTY_NAME",
+      --        "PURPOSE",
+      --        "CREATED",
+      --        "CREATED_BY",
+      --        "UPDATED",
+      --        "UPDATED_BY",
+      --        "USER_ID",
+      --        "PROPERTY_CATEGORY",
+      --        ( select l3."PROPERTY_SUB_CATEGORY_NAME" from "PMS002_PROPERTY_CATEGORY" l3 where l3."PROPERTY_SUB_CATEGORY_ID" = m."PROPERTY_CATEGORY") "PROPERTY_CATEGORY_L$3",
+      --        "PROPERTY_UNITS",
+      --        ( select l4."PROPERTY_UNITS_NAME" from "PMS002_PROPERTY_UNITS" l4 where l4."PROPERTY_UNITS_ID" = m."PROPERTY_UNITS") "PROPERTY_UNITS_L$4",
+      --        "AMENITIES"
+      -- from "PMS002_PROPERTY" m
+      
+      SELECT 
+          P.PROPERTY_ID,
+          P.PROPERTY_TYPE,
+          P.PROPERTY_AVAILABILITY_STATUS,
+          P.ADDRESS,
+          P.LAUNCH_DATE,
+          P.HANDOVER_DATE,
+          P.AREA,
+          P.PROPERTY_AGE,
+          P.FLOOR_NUMBER,
+          P.TOTAL_FLOORS,
+          P.PROPERTY_FURNISHING,
+          P.PROPERTY_FACING_DIRECTION,
+          P.IMAGE_URL,
+          REGEXP_SUBSTR(P.IMAGE_URL, '[^,]+', 1, 1) AS FIRST_IMAGE_URL,
+          P.CITY,
+          P.LAT_LONG,
+          P.LANDMARK,
+          P.LISTING_BY,
+          P.PRICE,
+          P.PROJECT_NAME,
+          P.PROJECT_DESCRIPTION,
+          P.PROPERTY_NAME,
+          P.PROPERTY_DESCRIPTION,
+          P.PROPERTY_PURPOSE,
+          P.CREATED_AT,
+          P.CREATED_BY,
+          P.UPDATED_AT,
+          P.UPDATED_BY,
+          P.LISTING_FOR,
+          P.PROPERTY_CATEGORY,
+          P.PROPERTY_UNITS,
+          PS.PROPERTY_AVAILABILITY_STATUS AS STATUS,
+          PC.PROPERTY_CATEGORY_NAME,
+          PU.PROPERTY_UNITS_NAME,
+          PF.PROPERTY_FURNISHING_STATUS,
+          FD.PROPERTY_FACING_DIRECTION AS DIRECTION
+      
+      FROM PMS_PROPERTY_MASTER P 
+      INNER JOIN PMS_PROPERTY_STATUS PS ON P.PROPERTY_AVAILABILITY_STATUS = PS.PROPERTY_AVAILABILITY_STATUS_ID
+      INNER JOIN PMS_PROPERTY_CATEGORY PC ON P.PROPERTY_CATEGORY = PC.PROPERTY_CATEGORY_ID
+      INNER JOIN PMS_PROPERTY_UNITS PU ON P.PROPERTY_UNITS = PU.PROPERTY_UNITS_ID
+      INNER JOIN PMS_PROPERTY_FURNISHING PF ON P.PROPERTY_FURNISHING = PF.PROPERTY_FURNISHING_ID
+      INNER JOIN PMS_PROPERTY_FACING_DIRECTION FD ON P.PROPERTY_FACING_DIRECTION = FD.PROPERTY_FACING_DIRECTION_ID
+      
+      WHERE (:P1_PROPERTY_TYPE IS NULL OR :P1_PROPERTY_TYPE = P.PROPERTY_TYPE)
+        AND (:P1_FURNISHING_STATUS IS NULL OR :P1_FURNISHING_STATUS = P.PROPERTY_FURNISHING)
+        AND (:P1_FACING_DIRECTION IS NULL OR :P1_FACING_DIRECTION = P.PROPERTY_FACING_DIRECTION)
+        AND (:P1_PURPOSE IS NULL OR :P1_PURPOSE = P.PROPERTY_PURPOSE)
+        AND (:P1_PROPERTY_AGE IS NULL OR :P1_PROPERTY_AGE = P.PROPERTY_AGE)
+        AND (:P1_PRICE IS NULL OR :P1_PRICE = P.PRICE)
+        AND (:P1_PROPERTY_STATUS IS NULL OR :P1_PROPERTY_STATUS = P.PROPERTY_AVAILABILITY_STATUS)
+        AND (:P1_FLOORS IS NULL OR :P1_FLOORS = P.TOTAL_FLOORS)
+        AND (:P1_POSTED_BY IS NULL OR :P1_POSTED_BY = P.LISTING_BY) 
+        AND LOWER(ADDRESS || ' ' || PROPERTY_NAME || ' ' || LANDMARK || ' ' || CITY) 
+            LIKE '%' || LOWER(COALESCE(:P1_SEARCH, '')) || '%'
+        AND LISTING_FOR = :USER_ID
+        
+      -- select * from pms002_property where user_id = :user_id;
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 43502737004341401440
+    appearance: 
+      layout: Grid
+      grid-columns: 2 Columns
+
+    title: 
+      advanced-formatting: true
+      html-expression: |
+        <!-- <img src="&IMAGES_VIDEOS_UPLOAD." style="width:100%; max-height:400px; object-fit:cover;"> -->
+        <img src="&FIRST_IMAGE_URL." style="width:100%; max-height:370px; object-fit:cover;">
+        
+
+    subtitle: 
+      advanced-formatting: false
+
+    body: 
+      advanced-formatting: true
+      html-expression: |
+        <!-- <h4><strong> INR &PRICE. </strong></h4> -->
+        <!-- <p> &AREA. (sq.ft) &PROPERTY_TYPE. &PROPERTY_SUB_CATEGORY_NAME. For &PURPOSE. in &ADDRESS.</p>
+        <div style="display:flex; gap:10px;">
+            <p> 🗄 &FURNISHING_STATUS. </p> 
+            <p> | </p>
+            <p> 🏢 &FLOOR_NUMBER.(Out of &TOTAL_FLOORS. floors)</p>
+            <p> | </p>
+            <p> 🧭 &FACING_DIRECTION. </p>
+        </div>
+        <h5><strong> INR &PRICE. </strong></h5> -->
+        
+        <h4><strong> &PROPERTY_NAME. </strong></h4>
+        <P> &PROPERTY_UNITS_NAME. - &PROPERTY_CATEGORY_NAME. </P>
+        <div style="display:flex; gap:10px;">
+            <p> 🗄 &PROPERTY_FURNISHING_STATUS. </p> 
+            <p> | </p>
+            <p> 🏢 &FLOOR_NUMBER.(Out of &TOTAL_FLOORS. floors)</p>
+            <p> | </p>
+            <p> 🧭 &DIRECTION. </p>
+        </div>
+        <h5><STRONG> &#x20B9 &PRICE. </STRONG></h5>
+        
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: No Icon
+
+    media: 
+      advanced-formatting: false
+      source: No Media
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+    actions: 
+    - # ====== Action: Full Card ===================================
+      id: 43367077112477414804
+      identification: 
+        type: Full Card
+
+      layout: 
+        sequence: 10
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:40:&SESSION.::&DEBUG.:40:P40_PROPERTY_ID:&PROPERTY_ID.'
+          page: 40 # REDIRECT TO DETAILS
+          clear-cache: 40
+          values: 
+            p40_property_id: '&PROPERTY_ID.'
+
+page-items: 
+- # ====== Page Item: P44_PROPERTY_ID ==========================
+  id: 43367077281873414805
+  identification: 
+    name: P44_PROPERTY_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: User Property Details # 43502735959319401436
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+

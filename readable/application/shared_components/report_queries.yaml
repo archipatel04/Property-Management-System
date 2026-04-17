@@ -1,0 +1,47 @@
+---
+- # ====== Report Query: PROPERTY  =============================
+  id: 4093168462154139775
+  identification: 
+    name: 'PROPERTY '
+
+  advanced: 
+    static-id: PROPERTY_
+
+  output: 
+    file-name: 'PROPERTY '
+    format: PDF
+    layout: PROPERTY # 4093350010835174004
+    view-file-as: Inline
+
+  session-state: 
+
+  source-queries: 
+  - # ====== Source Query: PROPERTY ==============================
+    id: 4093168787617139777
+    source: 
+      location: Local Database
+      type: SQL Query
+      sql-query: |
+        select 
+               PM.AREA,
+               PT.PROPERTY_TYPE,
+               PC.PROPERTY_CATEGORY_NAME,
+               PU.PROPERTY_UNITS_NAME,
+               TO_CHAR(pm.PRICE, '999,99,99,999') AS PRICE,
+               PM.PROPERTY_NAME,
+               PM.ADDRESS,
+               PM.CITY,
+               PP.PROPERTY_PURPOSE
+        FROM PMS_PROPERTY_MASTER PM
+        JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+        JOIN PMS_PROPERTY_TYPE pt ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+        JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+        JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+        
+
+    identification: 
+      name: PROPERTY
+
+    layout: 
+      sequence: 1
+

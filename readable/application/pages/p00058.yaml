@@ -1,0 +1,152 @@
+---
+# ====== Page: Appointment Calendar ==========================
+id: 58
+identification: 
+  name: Appointment Calendar
+  alias: APPOINTMENT-CALENDAR
+  title: Appointment Calendar
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Calendar ====================================
+  id: 14762743722819857
+  identification: 
+    name: Calendar
+    type: Calendar
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      -- select APPOINTMENT_ID,
+      --        FROM_TYPE,
+      --        FROM_USER_ID,
+      --        TO_TYPE,
+      --        TO_USER_ID,
+      --        APPOINTMENT_DATE,
+      --        APPOINTMENT_TIME,
+      --        LOCATION,
+      --        STATUS,
+      --        PROPERTY_ID,
+      --        CREATED,
+      --        CREATED_BY,
+      --        UPDATE,
+      --        UPDATE_BY,
+      --        APPROVER_REASON,
+      --        EMAIL
+      --   from PMS_APPOINTMENT
+      
+      
+      SELECT 
+          AP.APPOINTMENT_DATE,
+      
+          '<div style="text-align:center; font-size:14px; color:#000080;">
+              <span aria-hidden="true" class="fa fa-file-text-o"></span> Total Appointments: <b>' || COUNT(*) || '</b>
+              <div style="
+                  background-color: #f9f9f9;
+                  border: 1px solid #ddd;
+                  border-radius: 8px;
+                  padding: 4px;
+                  text-align: center;
+                  font-size: 13px;
+                  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                  margin-top: 3px;">
+      
+                  <div style="color: green;">
+                      ✅ Approved: <strong>' || COUNT(CASE WHEN AP.STATUS = 'Approve' THEN 1 END) || '</strong>
+                  </div>
+      
+                  <div style="color: orange;">
+                      🕒 Pending: <strong>' || COUNT(CASE WHEN AP.STATUS = 'Pending' THEN 1 END) || '</strong>
+                  </div>
+      
+              </div>
+           </div>' AS TOTAL_COUNT,
+            -- 🟦 Color Logic
+           CASE 
+              WHEN COUNT(*) <= 2 THEN 'low-load'
+              WHEN COUNT(*) BETWEEN 3 AND 5 THEN 'medium-load'
+              ELSE 'high-load'
+          END AS CSS_CLASS
+      
+      FROM PMS_APPOINTMENT AP
+      WHERE AP.TO_USER_ID = 2
+      GROUP BY AP.APPOINTMENT_DATE
+      ORDER BY AP.APPOINTMENT_DATE;
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: myCalendar
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      display-column: TOTAL_COUNT
+      start-date-column: APPOINTMENT_DATE
+      event-sorting: Automatic
+      show-time: false
+      multiple-line-events: false
+      show-tooltip: false
+      additional-calendar-views: 'list:navigation'
+      maximum-events-/-day: 10
+      show-weekend: true
+
+    performance: 
+      lazy-loading: false
+

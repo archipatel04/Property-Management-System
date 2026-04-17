@@ -1,0 +1,1938 @@
+---
+# ====== Page: REDIRECT TO DETAILS - HOME ====================
+id: 56
+identification: 
+  name: REDIRECT TO DETAILS - HOME
+  alias: REDIRECT-TO-DETAILS-HOME
+  title: Property Details
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+javascript: 
+  function-and-global-variable-declaration: |
+    document.addEventListener("DOMContentLoaded", function () {
+    
+      var imageString = $v("P56_IMAGE_URL"); // OR: $v("P1_IMAGE_URLS")
+    
+      var imageList = imageString.split(",");
+    
+      var currentIndex = 0;
+    
+      var imgTag = document.getElementById("slider-image");
+     
+      function showImage(index) {
+    
+        imgTag.style.opacity = 0;
+    
+        setTimeout(function () {
+    
+          imgTag.src = imageList[index].trim();
+    
+          imgTag.style.opacity = 1;
+    
+        }, 200);
+    
+      }
+     
+      showImage(currentIndex);
+     
+      document.querySelector(".next-btn").addEventListener("click", function (e) {
+    
+        e.preventDefault();
+    
+        currentIndex = (currentIndex + 1) % imageList.length;
+    
+        showImage(currentIndex);
+    
+      });
+     
+      document.querySelector(".prev-btn").addEventListener("click", function (e) {
+    
+        e.preventDefault();
+    
+        currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+    
+        showImage(currentIndex);
+    
+      });
+     
+      setInterval(function () {
+    
+        currentIndex = (currentIndex + 1) % imageList.length;
+    
+        showImage(currentIndex);
+    
+      }, 3000);
+    
+    });
+    
+     
+  execute-when-page-loads: |
+    // var favs = $v('P56_USER_FAV');
+    // var user = '&USER_ID.';
+    // var icon = document.getElementById('favIcon');
+    
+    // if (favs && (',' + favs + ',').includes(',' + user + ',')) {
+    //   // User has already favourited
+    //   icon.className = 'fa fa-heart';         // Filled heart
+    //   icon.style.color = 'red';               // Red color
+    //   icon.dataset.fav = 'Y';
+    // } else {
+    //   // Not yet favourited
+    //   icon.className = 'fa fa-heart-o';       // Outlined heart
+    //   icon.style.color = 'gray';              // Gray color
+    //   icon.dataset.fav = 'N';
+    // }
+    
+    
+    
+    // function favouriteToggle (pData, pSuccess, pFailure) {
+    //   var icon = document.getElementById(pData.iconId);
+    //   apex.server.plugin(pData.ajaxIdentifier, {
+    //     x01: pData.propertyId
+    //   }, {
+    //     success: function(response) {
+    //       var user = pData.user;
+    //       var updatedFavs = response.updated_list;
+    
+    //       // Check whether user is now in the fav list
+    //       if ((',' + updatedFavs + ',').includes(',' + user + ',')) {
+    //         icon.className = 'fa fa-heart';
+    //         icon.style.color = 'red';
+    //         icon.dataset.fav = 'Y';
+    //       } else {
+    //         icon.className = 'fa fa-heart-o';
+    //         icon.style.color = 'gray';
+    //         icon.dataset.fav = 'N';
+    //       }
+    //       if (typeof pSuccess === "function") pSuccess();
+    //     },
+    //     error: function() {
+    //       if (typeof pFailure === "function") pFailure();
+    //     }
+    //   });
+    // }
+    
+
+css: 
+  inline: |
+    .amenities-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px 20px;
+        padding: 10px;
+    }
+    
+    .amenity-item {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+    }
+    
+    .swiper-item-html-container,
+    .swiper-img-container {
+        border-radius: 15px;
+    }
+    
+    
+    /* overview */
+    .property-overview {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 15px 40px;
+        padding: 20px;
+        background-color: #fff;
+        /* border-radius: 10px; */
+        /* border: 1px solid #e0e0e0; */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        font-family: 'Segoe UI', sans-serif;
+    }
+    
+    .property-attribute {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 0;
+        border-bottom: 1px dashed #ccc;
+    }
+    
+    .property-attribute:last-child {
+        border-bottom: none;
+    }
+    
+    .property-attribute .label {
+        /* font-size: 14px;
+      color: #151414;
+      font-weight: 400;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px; */
+        font-size: 12px;
+        color: #888;
+        text-transform: uppercase;
+    }
+    
+    /* .property-attribute .value {
+      font-size: 16px;
+      color: #554e4e81;
+      font-weight: 500;
+    } */
+    
+    .property-attribute .value {
+        /* font-size: 14px;
+        color: #000;
+        font-weight: 600; */
+        font-size: 14px;
+        color: #333;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+    
+    .property-attribute span.label {
+        font-size: 12px;
+        color: #888;
+        text-transform: uppercase;
+    }
+    
+    .property-attribute {
+        font-size: 14px;
+        color: #333;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+    
+    /* map */
+    .map-container {
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        transition: box-shadow 0.3s ease-in-out;
+    }
+    
+    .map-container:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* card details */
+    
+    .property-card {
+      /* background: #fff; */
+      /* padding: 20px 25px; */
+      /* border-radius: 10px;
+      border: 1px solid #e0e0e0; */
+      /* box-shadow: 0 4px 15px rgba(0,0,0,0.06); */
+      font-family: 'Segoe UI', sans-serif;
+    }
+    
+    .property-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #1a1a1a;
+      margin-top: -10px;
+    }
+    
+    .project-name {
+      font-size: 24px;
+      font-weight: 600;
+      /* margin: 0 0 10px 0; */
+      color: #1a1a1a;
+        margin-top: -10px;
+    }
+    
+    .price {
+      font-size: 16px;
+      font-weight: bold;
+      color: #2e7d32;
+      margin-bottom: 15px;
+    }
+    
+    .property-details {
+      font-size: 15px;
+      color: #333;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+    
+    .property-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 14px;
+      color: #444;
+      align-items: center;
+    }
+    
+    .property-icons span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    /* SLIDER */
+    .image-box {
+      position: relative;
+      /* width: 300px;  */
+      width: full;
+      height: 400px;
+      margin: auto;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+     
+    .image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.5s ease-in-out;
+    }
+     
+    .prev-btn,
+    .next-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+      border: none;
+      font-size: 24px;
+      padding: 6px 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 1;
+    }
+     
+    .prev-btn {
+      left: 10px;
+    }
+     
+    .next-btn {
+      right: 10px;
+    }
+
+security: 
+  authentication: Page Is Public
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-meta-tags: false
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: IMAGE SLIDER ================================
+  id: 519249499326372954
+  identification: 
+    name: IMAGE SLIDER
+    type: Static Content
+
+  source: 
+    html-code: |
+      <div class="image-box">
+      <img id="slider-image" src="" alt="Slider Image" />
+      <button type="button" class="prev-btn">❮</button>
+      <button type="button" class="next-btn">❯</button>
+      </div>
+
+  layout: 
+    sequence: 120
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: User favorite ===============================
+  id: 14768911132241784
+  identification: 
+    name: User favorite
+    type: Heart Toggle
+
+  source: 
+    location: None
+
+  layout: 
+    sequence: 100
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: 11
+    new-column: true
+    column-span: 2
+
+  appearance: 
+    template: None
+    render-components: Above Content
+
+  advanced: 
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      display: Single (Partial)
+
+    settings: 
+      is_favourite: '&P56_IS_FAVOURITE.'
+
+- # ====== Region: Favorite ====================================
+  id: 15042142015476345
+  identification: 
+    name: Favorite
+    type: Static Content
+
+  source: 
+    html-code: |
+      <button id="favBtn" class="t-Button t-Button--icon t-Button--noLabel">
+        <i id="favIcon"></i>
+      </button>
+
+  layout: 
+    sequence: 110
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    - margin-top-md
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Details =====================================
+  id: 38264113535555292757
+  identification: 
+    name: Details
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      -- select P.PROPERTY_ID,
+      --        P.PROPERTY_TYPES_ID,
+      --        P.STATUS_ID,
+      --        P.ADDRESS,
+      --        P.PURCHASE_DATE,
+      --        P.AREA,
+      --        P.PROPERTY_AGE,
+      --        P.FLOOR_NUMBER,
+      --        P.TOTAL_FLOORS,
+      --        P.FURNISHING_STATUS,
+      --        P.FACING_DIRECTION,
+      --        P.IMAGES_VIDEOS_UPLOAD,
+      --        P.MAP_LOCATION,
+      --        P.NEAR_BY_LOCATIONS,
+      --        P.LAT_LONG,
+      --        P.LANDMARK,
+      --        P.LISTING_BY,
+      --        P.PRICE,
+      --        P.PROJECT_NAME,
+      --        P.PROPERTY_NAME,
+      --        P.PURPOSE,
+      --        P.CREATED,
+      --        P.CREATED_BY,
+      --        P.UPDATED,
+      --        P.UPDATED_BY,
+      --        P.USER_ID,
+      --        P.PROPERTY_CATEGORY,
+      --        P.PROPERTY_UNITS,
+      --        PS.STATUS_NAME,
+      --        PC.PROPERTY_SUB_CATEGORY_NAME,
+      --        PU.PROPERTY_UNITS_NAME,
+      --        PT.PROPERTY_TYPE,
+      --        P.AMENITIES
+      --   from PMS002_PROPERTY P 
+      --   INNER JOIN PMS002_PROPERTYSTATUSES PS ON P.STATUS_ID = PS.STATUS_ID
+      --   INNER JOIN PMS002_PROPERTY_CATEGORY PC ON P.PROPERTY_CATEGORY = PC.PROPERTY_SUB_CATEGORY_ID
+      --   INNER JOIN PMS002_PROPERTY_UNITS PU ON P.PROPERTY_UNITS = PU.PROPERTY_UNITS_ID
+      --   INNER JOIN PMS002_PROPERTY_TYPES PT ON P.PROPERTY_TYPES_ID = PT.PROPERTY_TYPES_ID
+      --   where PROPERTY_ID = :P56_PROPERTY_ID;
+      
+      
+      
+      
+      
+      SELECT pm.PROPERTY_ID,
+             pm.AREA,
+             pm.PROJECT_NAME,
+             pm.PROJECT_DESCRIPTION,
+             pm.LAUNCH_DATE,
+             pm.HANDOVER_DATE,
+             pm.PROPERTY_NAME,
+             pm.PROPERTY_DESCRIPTION,
+             pm.TOTAL_FLOORS,
+             pm.FLOOR_NUMBER,
+             pc.PROPERTY_CATEGORY_NAME,
+             pt.PROPERTY_TYPE,
+             pu.PROPERTY_UNITS_NAME,
+          --    pm.PRICE,
+             TO_CHAR(pm.PRICE, '999,99,99,999') AS PRICE,
+             pm.ADDRESS,
+             pm.CITY,
+             pm.LAT_LONG,
+             pm.LANDMARK,
+           REGEXP_SUBSTR(PM.IMAGE_URL, '[^,]+', 1, 1) AS FIRST_IMAGE_URL,
+             pp.PROPERTY_PURPOSE,
+             ps.PROPERTY_AVAILABILITY_STATUS,
+             pf.PROPERTY_FURNISHING_STATUS,
+             pfd.PROPERTY_FACING_DIRECTION,
+             pm.PROPERTY_AGE,
+             pm.AMENITIES_TYPE,
+          --    pm.LISTINGBY,
+             pm.LISTING_FOR,
+             pm.CREATED_AT,
+             pm.CREATED_BY,
+             pm.UPDATED_AT,
+             pm.UPDATED_BY
+      FROM PMS_PROPERTY_MASTER pm
+      JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+      JOIN PMS_PROPERTY_TYPE pt ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+      JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      JOIN PMS_PROPERTY_STATUS ps ON ps.PROPERTY_AVAILABILITY_STATUS_ID = pm.PROPERTY_AVAILABILITY_STATUS
+      JOIN PMS_PROPERTY_FURNISHING pf ON pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+      JOIN PMS_PROPERTY_FACING_DIRECTION pfd ON pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+      
+       where PROPERTY_ID = :P56_PROPERTY_ID;
+      
+    page-items-to-submit: 
+    - P56_PROPERTY_ID
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 140
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--removeHeader js-removeLandmark
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 14804403904867834
+    appearance: 
+      layout: Horizontal (Row)
+
+    title: 
+      advanced-formatting: false
+
+    subtitle: 
+      advanced-formatting: false
+
+    body: 
+      advanced-formatting: true
+      html-expression: |
+        <!-- <h2><strong> &PROPERTY_NAME. </strong></h2>
+        <h2><strong> &PROJECT_NAME.</strong></h2>
+        <h4><strong> INR &PRICE. </strong></h4>
+        <p> &AREA. (sq.ft) &PROPERTY_TYPE. &PROPERTY_CATEGORY_NAME. For &PROPERTY_PURPOSE. in &ADDRESS.</p>
+        <div style="display:flex; gap:10px;">
+            <p> 🗄 &PROPERTY_FURNISHING_STATUS. </p> 
+            <p> | </p>
+            <p> 🏢 &FLOOR_NUMBER.(Out of &TOTAL_FLOORS. floors)</p>
+            <p> | </p>
+            <p> 🧭 &PROPERTY_FACING_DIRECTION. </p>
+        </div> -->
+        
+        <div class="property-card">
+          <h2 class="property-title"> &PROPERTY_NAME. </h2>
+          <h3 class="project-name"> &PROJECT_NAME. </h3>
+          <h4 class="price"> INR &PRICE. </h4>
+        
+          <p class="property-details">
+            &AREA. (sq.ft) &PROPERTY_TYPE. &PROPERTY_CATEGORY_NAME. For &PROPERTY_PURPOSE. in &ADDRESS.
+          </p>
+        
+          <div class="property-icons">
+            <span>🗄 &PROPERTY_FURNISHING_STATUS.</span>
+            <span>|</span>
+            <span>🏢 &FLOOR_NUMBER. (Out of &TOTAL_FLOORS. floors)</span>
+            <span>|</span>
+            <span>🧭 &PROPERTY_FACING_DIRECTION.</span>
+          </div>
+        </div>
+        
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: No Icon
+
+    media: 
+      advanced-formatting: false
+      source: No Media
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+- # ====== Region: Grouping ====================================
+  id: 38264117028748292792
+  identification: 
+    name: Grouping
+    type: Region Display Selector
+
+  layout: 
+    sequence: 150
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Below Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      mode: View Single Region
+      display-region-icons: true
+      include-'show-all': false
+      remember-selection: By User
+
+- # ====== Region: Overview ====================================
+  id: 38264117204396292793
+  identification: 
+    name: Overview
+    type: Dynamic Content
+
+  source: 
+    language: PL/SQL
+    pl/sql-function-body-returning-a-clob: |
+      -- DECLARE
+      --   l_area               VARCHAR2(100);
+      --   l_status_name        VARCHAR2(100);
+      --   l_facing_direction   VARCHAR2(100);
+      --   l_furnishing_status  VARCHAR2(100);
+      --   l_property_category   VARCHAR2(100);
+      --   l_property_units     VARCHAR2(100);
+      --   l_property_type      VARCHAR2(100);
+      --   l_html               CLOB;
+      -- BEGIN
+      --   -- Fetch required values
+      --   SELECT 
+      --      pm.AREA,
+      --      ps.PROPERTY_AVAILABILITY_STATUS,
+      --      pfd.PROPERTY_FACING_DIRECTION,
+      --     pf.PROPERTY_FURNISHING_STATUS,
+      --     pc.PROPERTY_CATEGORY_NAME,
+      --     pu.PROPERTY_UNITS_NAME,
+      --      pt.PROPERTY_TYPE
+      --   INTO 
+      --     l_area,
+      --     l_status_name,
+      --     l_facing_direction,
+      --     l_furnishing_status,
+      --     l_property_category,
+      --     l_property_units,
+      --     l_property_type
+      -- FROM PMS_PROPERTY_MASTER pm
+      -- JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+      -- JOIN PMS_PROPERTY_TYPE pt ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      -- JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+      -- JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      -- JOIN PMS_PROPERTY_STATUS ps ON ps.PROPERTY_AVAILABILITY_STATUS_ID = pm.PROPERTY_AVAILABILITY_STATUS
+      -- JOIN PMS_PROPERTY_FURNISHING pf ON pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+      -- JOIN PMS_PROPERTY_FACING_DIRECTION pfd ON pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+      --   WHERE Pm.PROPERTY_ID = :P56_PROPERTY_ID;
+      
+      --   -- Build HTML output
+      --   l_html := 
+      --     '<p><strong>Area: </strong>' || l_area || ' sq.ft</p>' ||
+      --     '<p><strong>Status: </strong>' || l_status_name || '</p>' ||
+      --     '<p><strong>Facing Direction: </strong>' || l_facing_direction || '</p>' ||
+      --     '<p><strong>Furnishing Status: </strong>' || l_furnishing_status || '</p>' ||
+      --     '<p><strong>Property Type: </strong>' || l_property_type || '</p>' ||
+      --     '<p><strong>Property Category: </strong>' || l_property_category || '</p>' ||
+      --     '<p><strong>Property Units: </strong>' || l_property_units || '</p>';
+      
+      --   RETURN l_html;
+      -- EXCEPTION
+      --   WHEN NO_DATA_FOUND THEN
+      --     RETURN '<p><strong>No property found.</strong></p>';
+      --   WHEN OTHERS THEN
+      --     RETURN '<p><strong>Error: </strong>' || SQLERRM || '</p>';
+      -- END;
+      
+      DECLARE
+        l_area               VARCHAR2(100);
+        l_status_name        VARCHAR2(100);
+        l_facing_direction   VARCHAR2(100);
+        l_furnishing_status  VARCHAR2(100);
+        l_property_category   VARCHAR2(100);
+        l_property_units     VARCHAR2(100);
+        l_property_type      VARCHAR2(100);
+        l_html               CLOB;
+      BEGIN
+        -- Fetch required values
+        SELECT 
+           pm.AREA,
+           ps.PROPERTY_AVAILABILITY_STATUS,
+           pfd.PROPERTY_FACING_DIRECTION,
+          pf.PROPERTY_FURNISHING_STATUS,
+          pc.PROPERTY_CATEGORY_NAME,
+          pu.PROPERTY_UNITS_NAME,
+           pt.PROPERTY_TYPE
+        INTO 
+          l_area,
+          l_status_name,
+          l_facing_direction,
+          l_furnishing_status,
+          l_property_category,
+          l_property_units,
+          l_property_type
+      FROM PMS_PROPERTY_MASTER pm
+      JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+      JOIN PMS_PROPERTY_TYPE pt ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+      JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      JOIN PMS_PROPERTY_STATUS ps ON ps.PROPERTY_AVAILABILITY_STATUS_ID = pm.PROPERTY_AVAILABILITY_STATUS
+      JOIN PMS_PROPERTY_FURNISHING pf ON pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+      JOIN PMS_PROPERTY_FACING_DIRECTION pfd ON pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+        WHERE Pm.PROPERTY_ID = :P56_PROPERTY_ID;
+      
+      -- Build HTML output
+      l_html := '<div class="property-overview">' ||
+                  '<div class="property-attribute"><span class="label">Area</span> ' || l_area || ' sq.ft</div>' ||
+                  '<div class="property-attribute"><span class="label">Status</span> ' || l_status_name || '</div>' ||
+                  '<div class="property-attribute"><span class="label">Facing Direction</span> ' || l_facing_direction || '</div>' ||
+                  '<div class="property-attribute"><span class="label">Furnishing Status</span> ' || l_furnishing_status || '</div>' ||
+                  '<div class="property-attribute"><span class="label">Property Type</span> ' || l_property_type || '</div>' ||
+                  '<div class="property-attribute"><span class="label">Property Category</span> ' || l_property_category || '</div>' ||
+                  '<div class="property-attribute"><span class="label">Property Units</span> ' || l_property_units || '</div>' ||
+                '</div>';
+      
+        RETURN l_html;
+      EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+          RETURN '<p><strong>No property found.</strong></p>';
+        WHEN OTHERS THEN
+          RETURN '<p><strong>Error: </strong>' || SQLERRM || '</p>';
+      END;
+    page-items-to-submit: 
+    - P56_PROPERTY_ID
+
+  layout: 
+    sequence: 10
+    parent-region: Grouping # 38264117028748292792
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    icon: fa-file-search
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    performance: 
+      lazy-loading: false
+
+- # ====== Region: Rent Details ================================
+  id: 38264117322053292794
+  identification: 
+    name: Rent Details
+    type: Dynamic Content
+
+  source: 
+    language: PL/SQL
+    pl/sql-function-body-returning-a-clob: |
+      -- DECLARE
+      --   l_rent    VARCHAR2(100);
+      --   l_purpose VARCHAR2(100);
+      --   l_html    CLOB;
+      -- BEGIN
+      --   SELECT 
+      --     pm.PRICE,
+      --     pp.PROPERTY_PURPOSE
+      --   INTO 
+      --     l_rent,
+      --     l_purpose
+      --   FROM PMS_PROPERTY_MASTER pm
+      --   JOIN PMS_PROPERTY_PURPOSE pp 
+      --     ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      --   WHERE pm.PROPERTY_ID = :P56_PROPERTY_ID;
+      
+      --   l_html := 
+      --     '<p><strong>Rent/Price:</strong> ' || l_rent || '</p>' ||
+      --     '<p><strong>Purpose:</strong> ' || l_purpose || '</p>';
+      
+      --   RETURN l_html;
+      
+      -- EXCEPTION
+      --   WHEN NO_DATA_FOUND THEN
+      --     RETURN '<p><strong>No property found.</strong></p>';
+      --   WHEN OTHERS THEN
+      --     RETURN '<p><strong>Error:</strong> ' || SQLERRM || '</p>';
+      -- END;
+      
+      DECLARE
+        l_rent    VARCHAR2(100);
+        l_purpose VARCHAR2(100);
+        l_html    CLOB;
+      BEGIN
+        SELECT 
+          -- pm.PRICE,
+          TO_CHAR(pm.PRICE, '999,99,99,999') AS PRICE,
+          pp.PROPERTY_PURPOSE
+        INTO 
+          l_rent,
+          l_purpose
+        FROM PMS_PROPERTY_MASTER pm
+        JOIN PMS_PROPERTY_PURPOSE pp 
+          ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+        WHERE pm.PROPERTY_ID = :P56_PROPERTY_ID;
+      
+        l_html := 
+          '<div class="property-details">' ||
+            '<div class="property-attribute">' ||
+              '<div class="label">Rent / Price </div>' ||
+              '<div class="value">' || l_rent || '</div>' ||
+            '</div>' ||
+            '<div class="property-attribute">' ||
+              '<div class="label">Purpose </div>' ||
+              '<div class="value">' || l_purpose || '</div>' ||
+            '</div>' ||
+          '</div>';
+      
+        RETURN l_html;
+      
+      EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+          RETURN '<p><strong>No property found.</strong></p>';
+        WHEN OTHERS THEN
+          RETURN '<p><strong>Error:</strong> ' || SQLERRM || '</p>';
+      END;
+    page-items-to-submit: 
+    - P56_PROPERTY_ID
+
+  layout: 
+    sequence: 20
+    parent-region: Grouping # 38264117028748292792
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--stacked
+    - t-Region--scrollBody
+    icon: fa-hand-money-bag
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    performance: 
+      lazy-loading: false
+
+- # ====== Region: Location ====================================
+  id: 38264117398027292795
+  identification: 
+    name: Location
+    type: Dynamic Content
+
+  source: 
+    language: PL/SQL
+    pl/sql-function-body-returning-a-clob: |
+      -- DECLARE
+      --   l_property_type VARCHAR2(100);
+      --   l_address       VARCHAR2(200);
+      --   l_landmark      VARCHAR2(100);
+      --   l_city          VARCHAR2(100);
+      --   l_html          CLOB;
+      -- BEGIN
+      --   SELECT 
+      --     pt.PROPERTY_TYPE,
+      --     pm.ADDRESS,
+      --     pm.LANDMARK,
+      --     pm.CITY
+      --   INTO 
+      --     l_property_type,
+      --     l_address,
+      --     l_landmark,
+      --     l_city
+      --   FROM PMS_PROPERTY_MASTER pm
+      --   JOIN PMS_PROPERTY_TYPE pt 
+      --     ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      --   WHERE pm.PROPERTY_ID = :P56_PROPERTY_ID;
+      
+      --   l_html := 
+      --     '<p><strong>Property Type:</strong> ' || l_property_type || '</p>' ||
+      --     '<p><strong>Address:</strong> ' || l_address || '</p>' ||
+      --     '<p><strong>Landmark:</strong> ' || l_landmark || '</p>' ||
+      --     '<p><strong>City:</strong> ' || l_city || '</p>';
+      
+      --   RETURN l_html;
+      
+      -- EXCEPTION
+      --   WHEN NO_DATA_FOUND THEN
+      --     RETURN '<p><strong>No property found.</strong></p>';
+      --   WHEN OTHERS THEN
+      --     RETURN '<p><strong>Error:</strong> ' || SQLERRM || '</p>';
+      -- END;
+      
+      DECLARE
+        l_property_type VARCHAR2(100);
+        l_address       VARCHAR2(200);
+        l_landmark      VARCHAR2(100);
+        l_city          VARCHAR2(100);
+        l_html          CLOB;
+      BEGIN
+        SELECT 
+          pt.PROPERTY_TYPE,
+          pm.ADDRESS,
+          pm.LANDMARK,
+          pm.CITY
+        INTO 
+          l_property_type,
+          l_address,
+          l_landmark,
+          l_city
+        FROM PMS_PROPERTY_MASTER pm
+        JOIN PMS_PROPERTY_TYPE pt 
+          ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+        WHERE pm.PROPERTY_ID = :P56_PROPERTY_ID;
+      
+        l_html := 
+          '<div class="property-details">' ||
+            '<div class="property-attribute">' ||
+              '<div class="label">PROPERTY TYPE</div>' ||
+              '<div class="value">' || l_property_type || '</div>' ||
+            '</div>' ||
+            '<div class="property-attribute">' ||
+              '<div class="label">ADDRESS</div>' ||
+              '<div class="value">' || l_address || '</div>' ||
+            '</div>' ||
+            '<div class="property-attribute">' ||
+              '<div class="label">LANDMARK</div>' ||
+              '<div class="value">' || l_landmark || '</div>' ||
+            '</div>' ||
+            '<div class="property-attribute">' ||
+              '<div class="label">CITY</div>' ||
+              '<div class="value">' || l_city || '</div>' ||
+            '</div>' ||
+          '</div>';
+      
+        RETURN l_html;
+      
+      EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+          RETURN '<p><strong>No property found.</strong></p>';
+        WHEN OTHERS THEN
+          RETURN '<p><strong>Error:</strong> ' || SQLERRM || '</p>';
+      END;
+      
+    page-items-to-submit: 
+    - P56_PROPERTY_ID
+
+  layout: 
+    sequence: 30
+    parent-region: Grouping # 38264117028748292792
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--stacked
+    - t-Region--scrollBody
+    icon: fa-location
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    performance: 
+      lazy-loading: false
+
+- # ====== Region: Amenities ===================================
+  id: 38264117541477292797
+  identification: 
+    name: Amenities
+    type: Dynamic Content
+
+  source: 
+    language: PL/SQL
+    pl/sql-function-body-returning-a-clob: |
+      DECLARE
+          l_html CLOB := '';
+      BEGIN
+          -- Main container with CSS grid
+          l_html := '
+      <style>
+        .amenities-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 20px;
+          padding: 20px;
+        }
+        .amenity-card {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          border: 1px solid #ddd;
+          padding: 12px 16px;
+          border-radius: 10px;
+          background-color: #fff;
+          transition: box-shadow 0.3s ease;
+        }
+        .amenity-card:hover {
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .amenity-card span {
+          font-size: 1.5rem;
+          color: #333;
+        }
+        .amenity-card p {
+          margin: 0;
+          font-size: 14px;
+          color: #222;
+          font-weight: 500;
+        }
+      </style>
+      
+      <div class="amenities-grid">';
+          
+          -- Dynamic Amenities Loop
+          FOR rec IN (
+              SELECT 
+                  AST.AMENITIES_NAME,
+                  AST.AMENITIES_ICON
+              FROM PMS_PROPERTY_MASTER PM
+              JOIN PMS_AMENITIES AST
+                ON INSTR(',' || PM.AMENITIES_TYPE || ',', ',' || AST.AMENITIES_ID || ',') > 0
+              WHERE PM.PROPERTY_ID = :P56_PROPERTY_ID
+          ) LOOP
+              l_html := l_html || '
+        <div class="amenity-card">
+          <span class="t-Icon fa ' || rec.AMENITIES_ICON || '" aria-hidden="true"></span>
+          <p>' || rec.AMENITIES_NAME || '</p>
+        </div>';
+          END LOOP;
+      
+          -- Close container
+          l_html := l_html || '</div>';
+      
+          -- Output final HTML
+          htp.p(l_html);
+      END;
+      
+
+  layout: 
+    sequence: 40
+    parent-region: Grouping # 38264117028748292792
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--stacked
+    - t-Region--scrollBody
+    icon: fa-rss
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    performance: 
+      lazy-loading: false
+
+- # ====== Region: Map =========================================
+  id: 43383032024225106955
+  identification: 
+    name: Map
+    type: Dynamic Content
+
+  source: 
+    language: PL/SQL
+    pl/sql-function-body-returning-a-clob: |
+      -- DECLARE
+      --   v_latlong VARCHAR2(100);
+      -- BEGIN
+      --   SELECT lat_long INTO v_latlong
+      --   FROM pms_property_master
+      --   WHERE property_id = :P56_PROPERTY_ID;
+       
+      --   -- Generate Map URL using latlong value
+      --   htp.p('
+      -- <iframe 
+      --       width="100%" 
+      --       height="450" 
+      --       frameborder="0" 
+      --       style="border:0" 
+      --       loading="lazy"
+      --       allowfullscreen
+      --       referrerpolicy="no-referrer-when-downgrade"
+      --       src="https://maps.google.com/maps?q=' || v_latlong || '&z=15&output=embed">
+      -- </iframe>');
+      -- END;
+      
+      DECLARE
+        v_latlong VARCHAR2(100);
+      BEGIN
+        SELECT lat_long INTO v_latlong
+        FROM pms_property_master
+        WHERE property_id = :P56_PROPERTY_ID;
+      
+        htp.p('
+        <div class="map-container">
+          <iframe 
+            width="100%" 
+            height="350" 
+            frameborder="0" 
+            style="border:0" 
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://maps.google.com/maps?q=' || v_latlong || '&z=15&output=embed">
+          </iframe>
+        </div>');
+      END;
+      
+    page-items-to-submit: 
+    - P56_PROPERTY_ID
+
+  layout: 
+    sequence: 160
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    performance: 
+      lazy-loading: false
+
+- # ====== Region: Image =======================================
+  id: 43383032758440106962
+  identification: 
+    name: Image
+    type: APEX Lazy Image Swiper
+
+  source: 
+    sql-query: |
+      SELECT
+          'url' AS SRC_TYPE,
+          TRIM(REGEXP_SUBSTR(pm.IMAGE_URL, '[^,]+', 1, rn.COLUMN_VALUE)) AS SRC_VALUE,
+          -- 'Image Title ' || rn.COLUMN_VALUE AS SRC_TITLE,
+          -- 'https://github.com/RonnyWeiss' AS LINK,
+          3 AS DURATION
+      FROM
+          PMS_PROPERTY_MASTER pm,
+          TABLE(
+              CAST(
+                  MULTISET(
+                      SELECT LEVEL FROM DUAL
+                      CONNECT BY LEVEL <= REGEXP_COUNT(pm.IMAGE_URL, ',') + 1
+                  ) AS SYS.ODCINUMBERLIST
+              )
+          ) rn
+      WHERE
+          -- REGEXP_SUBSTR(pv.IMAGES_VIDEOS_UPLOAD, '[^,]+', 1, rn.COLUMN_VALUE) IS NOT NULL or
+           property_id = :P56_PROPERTY_ID
+    page-items-to-submit: 
+    - P56_PROPERTY_ID
+
+  layout: 
+    sequence: 130
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+  attributes: 
+    settings: 
+      use-image-source-from-blob-column-(please-check-help): false
+      image-height: 480px
+      image-sizing: Cover
+      background-color: black
+      set-controls: 'keyboard:mousewheel:arrows'
+
+page-items: 
+- # ====== Page Item: P56_IMAGE_URL ============================
+  id: 519249642041372955
+  identification: 
+    name: P56_IMAGE_URL
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 80
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: SQL Query (return single value)
+    sql-query-(return-single-value): 'select IMAGE_URL FROM PMS_PROPERTY_MASTER WHERE PROPERTY_ID = :P56_PROPERTY_ID;'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P56_IS_FAVOURITE =========================
+  id: 14768791261241783
+  identification: 
+    name: P56_IS_FAVOURITE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 70
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: SQL Query (return multiple values)
+    sql-query-(return-multiple-values): |
+      SELECT
+        CASE
+          WHEN INSTR(',' || USER_FAVOURITE || ',', ',' || :P56_USER_ID || ',') > 0 THEN ''
+          ELSE '-o'
+        END
+      FROM PMS_PROPERTY_MASTER
+      WHERE PROPERTY_ID = :P56_PROPERTY_ID
+      
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P56_USER_FAV =============================
+  id: 15042067329476344
+  identification: 
+    name: P56_USER_FAV
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P56_USER_ID ==============================
+  id: 15118114104463627
+  identification: 
+    name: P56_USER_ID
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 50
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':user_id'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P56_PROPERTY_ID ==========================
+  id: 38264118145680292793
+  identification: 
+    name: P56_PROPERTY_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P56_ROLE_ID ==============================
+  id: 43383037393004106999
+  identification: 
+    name: P56_ROLE_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 170
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: Enquiry =====================================
+  id: 14805495428867842
+  identification: 
+    button-name: Enquiry
+    label: Enquiry
+
+  layout: 
+    sequence: 90
+    region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: 1
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text with Icon
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+    - t-Button--primary
+    - t-Button--simple
+    - t-Button--iconLeft
+    - t-Button--hoverIconSpin
+    - t-Button--gapLeft
+    - t-Button--gapRight
+    - t-Button--gapBottom
+    icon: fa-phone
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.::P5_PROPERTY_ID:&P56_PROPERTY_ID.'
+      page: 5 # Appointment
+      values: 
+        p5_property_id: '&P56_PROPERTY_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Enquiry =============================
+  id: 2583200326570420
+  identification: 
+    name: Enquiry
+
+  execution: 
+    sequence: 50
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: Enquiry # 14805495428867842
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 2583257371570421
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        var purl = "f?p=&APP_ID.:9999:&APP_SESSION.";   
+        apex.navigation.redirect (purl);
+
+    execution: 
+      sequence: 10
+      event: Enquiry # 2583200326570420
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    server-side-condition: 
+      type: Item is NULL
+      item: P56_USER_ID
+
+- # ====== Dynamic Action: User favorite =======================
+  id: 14768168347241777
+  identification: 
+    name: User favorite
+
+  execution: 
+    sequence: 40
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Region
+    region: User favorite # 14768911132241784
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 14767781988241773
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        var purl = "f?p=&APP_ID.:9999:&APP_SESSION.";   
+        apex.navigation.redirect (purl);
+
+    execution: 
+      sequence: 20
+      event: User favorite # 14768168347241777
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    client-side-condition: 
+      type: Item is null
+      item: P56_USER_ID
+
+  - # ====== Action: Execute Server-side Code ====================
+    id: 14768111772241776
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        DECLARE
+          l_user_id number := :user_id;
+          l_ids     VARCHAR2(4000);
+        
+        BEGIN
+          SELECT USER_FAVOURITE
+          INTO l_ids
+          FROM PMS_PROPERTY_MASTER
+          WHERE PROPERTY_ID = :P56_PROPERTY_ID;
+        
+          -- Remove or add logic
+          IF l_ids IS NULL THEN
+            l_ids := l_user_id;
+          ELSIF INSTR(',' || l_ids || ',', ',' || l_user_id || ',') > 0 THEN
+            -- Remove user
+            l_ids := REGEXP_REPLACE(l_ids, '(^|,)' || l_user_id || '(,|$)', '\1');
+            l_ids := REGEXP_REPLACE(l_ids, ',+', ',');
+            l_ids := TRIM(BOTH ',' FROM l_ids);
+          ELSE
+            -- Add user
+            l_ids := l_ids || ',' || l_user_id;
+          END IF;
+        
+          UPDATE PMS_PROPERTY_MASTER
+          SET USER_FAVOURITE = l_ids
+          WHERE PROPERTY_ID = :P56_PROPERTY_ID;
+        
+          :P56_USER_FAV := l_ids;
+        
+          COMMIT;
+        END;
+        
+      items-to-submit: 
+      - P56_PROPERTY_ID
+      items-to-return: 
+      - P56_USER_FAV
+      suppress-change-event: false
+
+    execution: 
+      sequence: 10
+      event: User favorite # 14768168347241777
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+    client-side-condition: 
+      type: Item is not null
+      item: P56_USER_ID
+
+- # ====== Dynamic Action: Add-Fve =============================
+  id: 15042273125476346
+  identification: 
+    name: Add-Fve
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Region
+    region: Favorite # 15042142015476345
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+  actions: 
+  - # ====== Action: Execute Server-side Code ====================
+    id: 15042359054476347
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        DECLARE
+          l_user_id number := :user_id;
+          l_ids     VARCHAR2(4000);
+        
+        BEGIN
+          SELECT USER_FAVOURITE
+          INTO l_ids
+          FROM PMS_PROPERTY_MASTER
+          WHERE PROPERTY_ID = :P56_PROPERTY_ID;
+        
+          -- Remove or add logic
+          IF l_ids IS NULL THEN
+            l_ids := l_user_id;
+          ELSIF INSTR(',' || l_ids || ',', ',' || l_user_id || ',') > 0 THEN
+            -- Remove user
+            l_ids := REGEXP_REPLACE(l_ids, '(^|,)' || l_user_id || '(,|$)', '\1');
+            l_ids := REGEXP_REPLACE(l_ids, ',+', ',');
+            l_ids := TRIM(BOTH ',' FROM l_ids);
+          ELSE
+            -- Add user
+            l_ids := l_ids || ',' || l_user_id;
+          END IF;
+        
+          UPDATE PMS_PROPERTY_MASTER
+          SET USER_FAVOURITE = l_ids
+          WHERE PROPERTY_ID = :P56_PROPERTY_ID;
+        
+          :P56_USER_FAV := l_ids;
+        
+          COMMIT;
+        END;
+        
+      items-to-submit: 
+      - P56_PROPERTY_ID
+      items-to-return: 
+      - P56_USER_FAV
+      suppress-change-event: false
+
+    execution: 
+      sequence: 10
+      event: Add-Fve # 15042273125476346
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+    configuration: 
+      build-option: Commented Out # 30584983782671713301
+
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 15042439161476348
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        var icon = document.getElementById('favIcon');
+        var isFav = icon.dataset.fav === 'Y';
+        
+        if (isFav) {
+          icon.className = 'fa fa-heart-o';   // Outline
+          icon.style.color = 'gray';
+          icon.dataset.fav = 'N';
+        } else {
+          icon.className = 'fa fa-heart';     // Filled
+          icon.style.color = 'red';
+          icon.dataset.fav = 'Y';
+        }
+        
+
+    execution: 
+      sequence: 20
+      event: Add-Fve # 15042273125476346
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    configuration: 
+      build-option: Commented Out # 30584983782671713301
+
+processes: 
+- # ====== Process: Fetch Role  ================================
+  id: 14800328222867810
+  identification: 
+    name: 'Fetch Role '
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P56_ROLE_ID := :ROLE_ID;'
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Fetch User Fav =============================
+  id: 15042580855476349
+  identification: 
+    name: Fetch User Fav
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      SELECT USER_FAVOURITE
+      INTO :P56_USER_FAV
+      FROM PMS_PROPERTY_MASTER
+      WHERE PROPERTY_ID = :P56_PROPERTY_ID;
+      
+
+  execution: 
+    sequence: 20
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+

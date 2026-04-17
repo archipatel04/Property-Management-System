@@ -1,0 +1,647 @@
+---
+# ====== Page: Reject Appointment ============================
+id: 35
+identification: 
+  name: Reject Appointment
+  alias: REJECT-APPOINTMENT
+  title: Reject Appointment
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+page-items: 
+- # ====== Page Item: P35_NEW ==================================
+  id: 14593520733345101
+  identification: 
+    name: P35_NEW
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 120
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P35_APPOINTMENT_ID =======================
+  id: 35148799950738005515
+  identification: 
+    name: P35_APPOINTMENT_ID
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 40
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P35_FROM_USER_ID =========================
+  id: 35148800031975005516
+  identification: 
+    name: P35_FROM_USER_ID
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 50
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P35_APPOINTMENT_DATE =====================
+  id: 35148800167961005517
+  identification: 
+    name: P35_APPOINTMENT_DATE
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 60
+    region: No Parent
+    slot: BODY
+
+  appearance: 
+    format-mask: MM-DD-YYYY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P35_APPOINTMENT_TIME =====================
+  id: 35148800268165005518
+  identification: 
+    name: P35_APPOINTMENT_TIME
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 70
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P35_FROM_NAME ============================
+  id: 35148800726375005523
+  identification: 
+    name: P35_FROM_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 90
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P35_FROM_EMAIL ===========================
+  id: 35148800859946005524
+  identification: 
+    name: P35_FROM_EMAIL
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 100
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: SQL Query (return single value)
+    sql-query-(return-single-value): 'select upper(email) from pms_users where user_id = :P35_FROM_USER_ID'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P35_LOCATION =============================
+  id: 35148801613579005532
+  identification: 
+    name: P35_LOCATION
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 80
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P35_USER_NAME ============================
+  id: 35148802603854005542
+  identification: 
+    name: P35_USER_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 110
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: SQL Query (return single value)
+    sql-query-(return-single-value): 'select LAST_NAME from pms_users where user_id = :user_id'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P35_REASON ===============================
+  id: 35148802743998005543
+  identification: 
+    name: P35_REASON
+    type: Textarea
+
+  label: 
+    label: Reason for Rejection
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 10
+    region: No Parent
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    height: 5
+
+  validation: 
+    value-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: Cancel ======================================
+  id: 35148799784945005513
+  identification: 
+    button-name: Cancel
+    label: Cancel
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--stretch
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: Reject ======================================
+  id: 35148799829071005514
+  identification: 
+    button-name: Reject
+    label: Reject
+
+  layout: 
+    sequence: 30
+    region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--stretch
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: New =================================
+  id: 35148800957026005525
+  identification: 
+    name: New
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P35_FROM_USER_ID
+
+  actions: 
+  - # ====== Action: Set Value ===================================
+    id: 35148801026988005526
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: SQL Statement
+      sql-statement: 'SELECT UPPER(EMAIL) FROM PMS_users where user_id = :P35_USER_ID;'
+      items-to-submit: 
+      - P35_FROM_USER_ID
+      escape-special-characters: true
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P35_FROM_EMAIL
+
+    execution: 
+      sequence: 10
+      event: New # 35148800957026005525
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+processes: 
+- # ====== Process: New ========================================
+  id: 35148800404699005520
+  identification: 
+    name: New
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: "update pms_appointment set status = 'Reject' where appointment_id = :P35_APPOINTMENT_ID;"
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: Reject # 35148799829071005514
+
+- # ====== Process: email sending ==============================
+  id: 35148800606873005522
+  identification: 
+    name: email sending
+    type: Send E-Mail
+    execution-chain: None
+
+  settings: 
+    from: '&P35_FROM.'
+    to: archipatel2632004@gmail.com
+    subject: Appointment Rejection
+    body-plain-text: |
+      Dear &P35_TO.,
+      
+      We hope this message finds you well.
+      
+      We regret to inform you that your requested appointment for &P35_APPOINTMENT_DATE.,&P35_APPOINTMENT_TIME. regarding &P35_LOCATION. has been declined. Unfortunately, due to Unavailability, we are unable to accommodate the appointment at the requested time.
+      
+      We sincerely apologize for any inconvenience this may cause.
+      Please feel free to suggest an alternative date and time, and we will do our best to assist you accordingly.
+      
+      Thank you for your understanding.
+      
+      Kind regards,
+      &P35_FROM.
+    send-immediately: false
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: Reject # 35148799829071005514
+    type: Never
+
+- # ====== Process: push notification ==========================
+  id: 35148801718419005533
+  identification: 
+    name: push notification
+    type: Send Push Notification
+    execution-chain: None
+
+  settings: 
+    to: '&P35_FROM_EMAIL.'
+    title: Appointment Rejection
+    body: |
+      &P35_REASON.
+      Date : &P35_APPOINTMENT_DATE.
+      Time : &P35_APPOINTMENT_TIME.
+      Address : &P35_LOCATION.
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: |
+      Appointment Rejected
+      
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: Reject # 35148799829071005514
+
+- # ====== Process: FAST NOTIFICATION ==========================
+  id: 35148802087861005536
+  identification: 
+    name: FAST NOTIFICATION
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: apex_pwa.push_queue;
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: Reject # 35148799829071005514
+
+- # ====== Process: New_1 ======================================
+  id: 36142580510177390120
+  identification: 
+    name: New_1
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      BEGIN
+        IF :P35_APPOINTMENT_DATE IS NOT NULL THEN
+          -- Assume it is stored as date or string in YYYY-MM-DD
+          :P35_APPOINTMENT_DATE := TO_CHAR(TO_DATE(:P35_APPOINTMENT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY');
+        END IF;
+      END;
+      
+
+  execution: 
+    sequence: 50
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+  server-side-condition: 
+    when-button-pressed: Reject # 35148799829071005514
+
+branches: 
+- # ====== Branch: Go To Page 32 ===============================
+  id: 35148800587469005521
+  identification: 
+    name: Go To Page 32
+
+  execution: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 32 # Accept & Reject
+

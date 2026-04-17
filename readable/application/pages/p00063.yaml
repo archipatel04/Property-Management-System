@@ -1,0 +1,493 @@
+---
+# ====== Page: Book Appointment Report =======================
+id: 63
+identification: 
+  name: Book Appointment Report
+  alias: BOOK-APPOINTMENT-REPORT
+  title: Book Appointment Report
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Appointment Report  =========================
+  id: 14979046422392703
+  identification: 
+    name: 'Appointment Report '
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select A.APPOINTMENT_ID,
+             A.FROM_TYPE,
+             A.FROM_USER_ID,
+             A.TO_TYPE,
+             R.ROLE_NAME,
+             A.TO_USER_ID,
+             U.LAST_NAME,
+             A.APPOINTMENT_DATE,
+             A.APPOINTMENT_TIME,
+             A.LOCATION,
+             A.STATUS,
+              CASE 
+              WHEN a.STATUS = 'Approved' THEN 
+                  '<span class="t-Badge t-Badge--success">Approved</span>'
+              WHEN a.STATUS = 'Rejected' THEN 
+                  '<span class="t-Badge t-Badge--danger">Rejected</span>'
+              WHEN a.STATUS = 'Pending' THEN 
+                  '<span class="t-Badge t-Badge--warning">Pending</span>'
+              ELSE 
+                  '<span class="t-Badge t-Badge--neutral">' || a.STATUS || '</span>'
+          END AS STATUS_BADGE
+        from PMS_APPOINTMENT A 
+        JOIN PMS_ROLES R ON A.TO_TYPE = R.ROLE_ID 
+        JOIN PMS_USERS U ON U.USER_ID = A.TO_USER_ID
+        WHERE a.APPOINTMENT_DATE  = :P63_APPOINTMENT_DATE AND FROM_TYPE = :role_id
+        order by A.APPOINTMENT_DATE desc,A.APPOINTMENT_TIME asc
+    page-items-to-submit: 
+    - P63_APPOINTMENT_DATE
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--textContent
+    - t-Region--scrollBody
+    - t-Form--stretchInputs
+    - t-Form--labelsAbove
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: APPOINTMENT_ID ==============================
+    id: 15116105778463607
+    identification: 
+      column-name: APPOINTMENT_ID
+      type: Link
+
+    heading: 
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: center
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:65:&SESSION.::&DEBUG.:65:P65_APPOINTMENT_ID:#APPOINTMENT_ID#'
+        page: 65 # Edit Appointment
+        clear-cache: 65
+        values: 
+          p65_appointment_id: '#APPOINTMENT_ID#'
+
+      link-text: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FROM_TYPE ===================================
+    id: 15116179416463608
+    identification: 
+      column-name: FROM_TYPE
+      type: Hidden
+
+    layout: 
+      sequence: 20
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FROM_USER_ID ================================
+    id: 15116307160463609
+    identification: 
+      column-name: FROM_USER_ID
+      type: Hidden
+
+    layout: 
+      sequence: 30
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TO_TYPE =====================================
+    id: 15116414022463610
+    identification: 
+      column-name: TO_TYPE
+      type: Hidden
+
+    layout: 
+      sequence: 40
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ROLE_NAME ===================================
+    id: 15116484150463611
+    identification: 
+      column-name: ROLE_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Role Name
+      alignment: start
+
+    layout: 
+      sequence: 50
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TO_USER_ID ==================================
+    id: 15116553298463612
+    identification: 
+      column-name: TO_USER_ID
+      type: Hidden
+
+    layout: 
+      sequence: 60
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LAST_NAME ===================================
+    id: 15116683787463613
+    identification: 
+      column-name: LAST_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Name
+      alignment: start
+
+    layout: 
+      sequence: 70
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: APPOINTMENT_DATE ============================
+    id: 15116766035463614
+    identification: 
+      column-name: APPOINTMENT_DATE
+      type: Plain Text
+
+    heading: 
+      heading: Visit Date
+      alignment: start
+
+    layout: 
+      sequence: 80
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: APPOINTMENT_TIME ============================
+    id: 15116904687463615
+    identification: 
+      column-name: APPOINTMENT_TIME
+      type: Plain Text
+
+    heading: 
+      heading: Visit Time
+      alignment: start
+
+    layout: 
+      sequence: 90
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LOCATION ====================================
+    id: 15117011479463616
+    identification: 
+      column-name: LOCATION
+      type: Plain Text
+
+    heading: 
+      heading: Location
+      alignment: start
+
+    layout: 
+      sequence: 100
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STATUS ======================================
+    id: 15117094427463617
+    identification: 
+      column-name: STATUS
+      type: Hidden
+
+    layout: 
+      sequence: 110
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STATUS_BADGE ================================
+    id: 15117199818463618
+    identification: 
+      column-name: STATUS_BADGE
+      type: Rich Text
+
+    heading: 
+      heading: 'Status '
+      alignment: center
+
+    layout: 
+      sequence: 120
+      column-alignment: center
+
+    settings: 
+      format: HTML
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+page-items: 
+- # ====== Page Item: P63_APPOINTMENT_DATE =====================
+  id: 14979244408392704
+  identification: 
+    name: P63_APPOINTMENT_DATE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+

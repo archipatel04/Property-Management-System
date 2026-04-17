@@ -1,0 +1,204 @@
+---
+# ====== Page: Global Page ===================================
+id: 0
+identification: 
+  name: Global Page
+
+page-items: 
+- # ====== Page Item: P0_APP_ID ================================
+  id: 2074351298096311
+  identification: 
+    name: P0_APP_ID
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 10
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':user_id'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+dynamic-actions: 
+- # ====== Dynamic Action: Navigation menu =====================
+  id: 2074166892096309
+  identification: 
+    name: Navigation menu
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+
+  when: 
+    event: Page Load
+
+  server-side-condition: 
+    type: Current Page = Page
+    page: 1
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 2038053292813819
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     var toggleButton = document.querySelector(".t-Button--megaMenuToggle");
+        //     var currentUser = $v("P0_APP_USER");
+        // console.log($v("P0_APP_USER"));
+        //     if (toggleButton) {
+        //         if (currentUser === "nobody" || currentUser === "") {
+        //             toggleButton.style.display = "none";
+        //         } else {
+        //             toggleButton.style.display = "block";
+        //         }
+        //     } else {
+        //         console.warn("Mega menu toggle button not found.");
+        //     }
+        // });
+        
+        document.querySelector('.t-Button--megaMenuToggle').style.display = 'block';
+
+    execution: 
+      sequence: 30
+      event: Navigation menu # 2074166892096309
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    server-side-condition: 
+      type: Item is NOT NULL
+      item: P0_APP_ID
+
+    configuration: 
+      build-option: Commented Out # 30584983782671713301
+
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 2038507005813823
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        var appUser = $v('P0_APP_ID'); 
+        var menu = document.querySelector('.t-Button--megaMenuToggle'); // Get the menu element
+        
+        if (appUser && appUser.trim() !== "") {
+          menu.style.display = 'block';
+        } else {
+          menu.style.display = 'none';
+        }
+
+    execution: 
+      sequence: 40
+      event: Navigation menu # 2074166892096309
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 2074278764096310
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     var toggleButton = document.querySelector(".t-Button--megaMenuToggle");
+        //     var currentUser = $v("P0_APP_USER");
+        // console.log($v("P0_APP_USER"));
+        //     if (toggleButton) {
+        //         if (currentUser === "nobody" || currentUser === "") {
+        //             toggleButton.style.display = "none";
+        //         } else {
+        //             toggleButton.style.display = "block";
+        //         }
+        //     } else {
+        //         console.warn("Mega menu toggle button not found.");
+        //     }
+        // });
+        
+        document.querySelector('.t-Button--megaMenuToggle').style.display = 'none';
+
+    execution: 
+      sequence: 20
+      event: Navigation menu # 2074166892096309
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    server-side-condition: 
+      type: Item is NULL
+      item: P0_APP_ID
+
+    configuration: 
+      build-option: Commented Out # 30584983782671713301
+
+- # ====== Dynamic Action: Zoom ================================
+  id: 3754382970017697
+  identification: 
+    name: Zoom
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+
+  when: 
+    event: Page Load
+
+  server-side-condition: 
+    type: Never
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 3754442919017698
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        // Prevent zoom with Ctrl + MouseWheel (desktop)
+        document.addEventListener('wheel', function(e) {
+          if (e.ctrlKey) {
+            e.preventDefault();
+          }
+        }, { passive: false });
+        
+        // Prevent zoom with pinch gesture (touch devices)
+        document.addEventListener('touchstart', function(e) {
+          if (e.touches.length > 1) {
+            e.preventDefault();
+          }
+        }, { passive: false });
+        
+        document.addEventListener('gesturestart', function(e) {
+          e.preventDefault();
+        });
+        
+
+    execution: 
+      sequence: 10
+      event: Zoom # 3754382970017697
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+

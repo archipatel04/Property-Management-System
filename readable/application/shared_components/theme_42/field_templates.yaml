@@ -1,0 +1,92 @@
+---
+- # ====== Field Template: PMS_Optional_Above ==================
+  id: 42327976037709664857
+  identification: 
+    name: PMS_Optional_Above
+    identifier: PMS_OPTIONAL_ABOVE
+    class: Optional Label
+
+  advanced: 
+    translatable: false
+
+  label: 
+    before: |
+      <style>
+      
+          /* Page Item CSS Start */
+       
+      /* Project Name INput Field CSS */
+      
+      .t-Form-itemWrapper input, .t-Form-itemWrapper select {
+      
+          width: 100%;
+      
+          border-radius: 5px;
+      
+          border: 1.2px solid #ddd;
+      
+          min-height: 35px;
+      
+          padding: 0px 0px 0px 10px;
+      
+      }
+       
+      /* Project Name Lable CSS */
+      
+      .t-Form-labelContainer label {
+      
+          font-size: 13px;
+      
+          font-weight: 700;
+      
+          font-family: sans-serif;
+      
+          letter-spacing: 0.4px;
+      
+      }
+       
+      .apex-item-comboselect .apex-item-comboselect--separated{
+      
+          width: 100%;
+      
+          border-radius: 5px;
+      
+          border: 1.2px solid #ddd;
+      
+          min-height: 35px;
+      
+          padding: 0px 0px 0px 10px;
+      
+      }
+       
+       .a-Icon{
+          font-size : 30px;
+       }
+      /* Page Item CSS End */
+      </style>
+       
+      
+      
+      <div class="t-Form-labelContainer">
+      <label for="#CURRENT_ITEM_NAME#" id="#LABEL_ID#" class="t-Form-label">
+    after: |
+      </label> #HELP_TEMPLATE#
+      </div>
+
+  item: 
+    before: <div class="t-Form-inputContainer"><div class="t-Form-itemWrapper">#ITEM_PRE_TEXT#
+    after: '#ITEM_POST_TEXT#</div>#INLINE_HELP_TEMPLATE##ERROR_TEMPLATE#</div>'
+    pre-text: <span class="t-Form-itemText t-Form-itemText--pre">#CURRENT_ITEM_PRE_TEXT#</span>
+    post-text: <span class="t-Form-itemText t-Form-itemText--post">#CURRENT_ITEM_POST_TEXT#</span>
+
+  help: 
+    invoke: <button class="t-Form-helpButton js-itemHelp" data-itemhelp="#CURRENT_ITEM_ID#" title="#CURRENT_ITEM_HELP_LABEL#" aria-label="#CURRENT_ITEM_HELP_LABEL#" tabindex="-1" type="button"><span class="a-Icon icon-help" aria-hidden="true"></span></button>
+    inline: <span class="t-Form-inlineHelp">#CURRENT_ITEM_INLINE_HELP_TEXT#</span>
+
+  error-templates: 
+    error-template: <span class="t-Form-error">#ERROR_MESSAGE#</span>
+
+  field-container: 
+    before-label-and-item: '<div class="t-Form-fieldContainer t-Form-fieldContainer--stacked #ITEM_CSS_CLASSES#" id="#CURRENT_ITEM_CONTAINER_ID#" data-otel-label="#CURRENT_ITEM_NAME!ATTR#">'
+    after-label-and-item: </div>
+

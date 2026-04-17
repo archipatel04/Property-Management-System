@@ -1,0 +1,1341 @@
+---
+# ====== Page: Property ======================================
+id: 9
+identification: 
+  name: Property
+  alias: PROPERTY
+  title: Property
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Property ====================================
+  id: 30652179719379998343
+  identification: 
+    name: Property
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select P.PROPERTY_ID,
+             P.PROPERTY_TYPES_ID,
+             P.STATUS_ID,
+             P.PROPERTY_NAME,
+             P.ADDRESS,
+             P.PURCHASE_DATE,
+             P.AREA,
+             P.PROPERTY_AGE,
+             P.FLOOR_NUMBER,
+             P.TOTAL_FLOORS,
+             P.FURNISHING_STATUS,
+             P.FACING_DIRECTION,
+             P.IMAGES_VIDEOS_UPLOAD,
+             P. MAP_LOCATION,
+             P.NEAR_BY_LOCATIONS,
+             P.LAT_LONG,
+             TRIM(SUBSTR(p.LAT_LONG, 1, INSTR(LAT_LONG, ',') - 1)) AS LAT_VAL,
+             TRIM(SUBSTR(p.LAT_LONG, INSTR(LAT_LONG, ',') + 1)) AS LNG_VAL,
+             P.LANDMARK,
+             P.LISTING_BY,
+             P.PRICE,
+             P.PROJECT_NAME,
+          --    P.PEOPERTY_NAME,
+             P.PURPOSE,
+             CASE P.PURPOSE
+          WHEN 'Sale' THEN 'success'
+          WHEN 'Rent' THEN 'warning'
+        END AS PURPOSE_1,
+             P.CREATED,
+             P.CREATED_BY,
+             P.UPDATED,
+             P.UPDATED_BY,
+             P.USER_ID,
+             U.NAME
+        from PMS002_PROPERTY P, PMS002_USERS U WHERE U.USERID = P.USER_ID
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 31045665917987694523
+    link: 
+      link-column: Link to Custom Target
+      target: 
+        url: 'f?p=&APP_ID.:10:&SESSION.::&DEBUG.:10:P10_PROPERTY_ID:#PROPERTY_ID#'
+        page: 10 # Property Form
+        clear-cache: 10
+        values: 
+          p10_property_id: '#PROPERTY_ID#'
+
+      link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 1000000
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 31047454270789465271
+      identification: 
+        name: Primary Report
+        alias: 310474543
+
+    columns: 
+    - # ====== Column: PROPERTY_ID =================================
+      id: 31045666013005694524
+      identification: 
+        column-name: PROPERTY_ID
+        type: Hidden
+
+      heading: 
+        heading: Property Id
+
+      layout: 
+        sequence: 10
+
+      source: 
+        primary-key: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PROPERTY_TYPES_ID ===========================
+      id: 31045666193541694525
+      identification: 
+        column-name: PROPERTY_TYPES_ID
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: PMS002_PROPERTY_TYPES.PROPERTY_TYPE # 30602592096921058679
+
+      heading: 
+        heading: Property Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: STATUS_ID ===================================
+      id: 31045666282144694526
+      identification: 
+        column-name: STATUS_ID
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: PMS002_PROPERTYSTATUSES.ROW_KEY # 30602592807853058680
+
+      heading: 
+        heading: 'Status '
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: ADDRESS =====================================
+      id: 31045666314163694527
+      identification: 
+        column-name: ADDRESS
+        type: Plain Text
+
+      heading: 
+        heading: Address
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PURCHASE_DATE ===============================
+      id: 31045666428513694528
+      identification: 
+        column-name: PURCHASE_DATE
+        type: Plain Text
+
+      heading: 
+        heading: Purchase Date
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: AREA ========================================
+      id: 31045666541110694529
+      identification: 
+        column-name: AREA
+        type: Plain Text
+
+      heading: 
+        heading: Area
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 70
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: 999G999G999G999
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PROPERTY_AGE ================================
+      id: 31045666679354694530
+      identification: 
+        column-name: PROPERTY_AGE
+        type: Plain Text
+
+      heading: 
+        heading: Property Age
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FLOOR_NUMBER ================================
+      id: 31045666783897694531
+      identification: 
+        column-name: FLOOR_NUMBER
+        type: Plain Text
+
+      heading: 
+        heading: Floor Number
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 90
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TOTAL_FLOORS ================================
+      id: 31045666839426694532
+      identification: 
+        column-name: TOTAL_FLOORS
+        type: Plain Text
+
+      heading: 
+        heading: Total Floors
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FURNISHING_STATUS ===========================
+      id: 31045666948411694533
+      identification: 
+        column-name: FURNISHING_STATUS
+        type: Plain Text
+
+      heading: 
+        heading: Furnishing Status
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FACING_DIRECTION ============================
+      id: 31045667053031694534
+      identification: 
+        column-name: FACING_DIRECTION
+        type: Plain Text
+
+      heading: 
+        heading: Facing Direction
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 120
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: IMAGES_VIDEOS_UPLOAD ========================
+      id: 31045667120573694535
+      identification: 
+        column-name: IMAGES_VIDEOS_UPLOAD
+        type: Plain Text
+
+      heading: 
+        heading: Images/Videos Upload
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 130
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-formatting: 
+        html-expression: |
+          <img src="#IMAGES_VIDEOS_UPLOAD#" alt="Image" width="100" height="80">
+          
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: MAP_LOCATION ================================
+      id: 31045667225412694536
+      identification: 
+        column-name: MAP_LOCATION
+        type: Link
+
+      heading: 
+        heading: Map Location
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 140
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:34:P34_LATITUDE,P34_LONGITUDE,P34_PROPERTY_ID,P34_PROPERTY_TYPE:#LAT_VAL#,#LNG_VAL#,#PROPERTY_ID#,#PROPERTY_TYPES_ID#'
+          page: 34 # Map Location
+          clear-cache: 34
+          values: 
+            p34_latitude: '#LAT_VAL#'
+            p34_longitude: '#LNG_VAL#'
+            p34_property_id: '#PROPERTY_ID#'
+            p34_property_type: '#PROPERTY_TYPES_ID#'
+
+        link-text: '#MAP_LOCATION#'
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: NEAR_BY_LOCATIONS ===========================
+      id: 31045667342502694537
+      identification: 
+        column-name: NEAR_BY_LOCATIONS
+        type: Plain Text
+
+      heading: 
+        heading: Near By Locations
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 150
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LAT_LONG ====================================
+      id: 31045667402766694538
+      identification: 
+        column-name: LAT_LONG
+        type: Plain Text
+
+      heading: 
+        heading: Lat Long
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 160
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LANDMARK ====================================
+      id: 31045667571122694539
+      identification: 
+        column-name: LANDMARK
+        type: Plain Text
+
+      heading: 
+        heading: Landmark
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 170
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LISTING_BY ==================================
+      id: 31045667624726694540
+      identification: 
+        column-name: LISTING_BY
+        type: Plain Text
+
+      heading: 
+        heading: Listing By
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 180
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PRICE =======================================
+      id: 31045667757201694541
+      identification: 
+        column-name: PRICE
+        type: Plain Text
+
+      heading: 
+        heading: Price
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 190
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: 999G999G999G999
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PROJECT_NAME ================================
+      id: 31045667871859694542
+      identification: 
+        column-name: PROJECT_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Project Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 200
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CREATED =====================================
+      id: 31045668119157694545
+      identification: 
+        column-name: CREATED
+        type: Hidden
+
+      heading: 
+        heading: Created
+
+      layout: 
+        sequence: 240
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CREATED_BY ==================================
+      id: 31045668244888694546
+      identification: 
+        column-name: CREATED_BY
+        type: Hidden
+
+      heading: 
+        heading: Created By
+
+      layout: 
+        sequence: 260
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UPDATED =====================================
+      id: 31045668310678694547
+      identification: 
+        column-name: UPDATED
+        type: Hidden
+
+      heading: 
+        heading: Updated
+
+      layout: 
+        sequence: 270
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UPDATED_BY ==================================
+      id: 31045668447385694548
+      identification: 
+        column-name: UPDATED_BY
+        type: Hidden
+
+      heading: 
+        heading: Updated By
+
+      layout: 
+        sequence: 280
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: USER_ID =====================================
+      id: 31045668558308694549
+      identification: 
+        column-name: USER_ID
+        type: Hidden
+
+      heading: 
+        heading: User Id
+
+      layout: 
+        sequence: 290
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: NAME ========================================
+      id: 35148802166511005537
+      identification: 
+        column-name: NAME
+        type: Plain Text
+
+      heading: 
+        heading: Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 230
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PURPOSE =====================================
+      id: 35148803143716005547
+      identification: 
+        column-name: PURPOSE
+        type: Hidden
+
+      heading: 
+        heading: Purpose
+
+      layout: 
+        sequence: 300
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: PROPERTY_NAME ===============================
+      id: 35148803348654005549
+      identification: 
+        column-name: PROPERTY_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Property Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 310
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LAT_VAL =====================================
+      id: 36142578628898390101
+      identification: 
+        column-name: LAT_VAL
+        type: Hidden
+
+      heading: 
+        heading: Lat Val
+
+      layout: 
+        sequence: 320
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LNG_VAL =====================================
+      id: 36142578746965390102
+      identification: 
+        column-name: LNG_VAL
+        type: Hidden
+
+      heading: 
+        heading: Lng Val
+
+      layout: 
+        sequence: 330
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PURPOSE_1 ===================================
+      id: 36142579138685390106
+      identification: 
+        column-name: PURPOSE_1
+        type: Badge
+
+      heading: 
+        heading: Purpose
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      settings: 
+        label: Purpose
+        value: PURPOSE
+        state: PURPOSE_1
+        display-label: false
+        style: Default
+        shape: Default
+        size: Default
+
+      layout: 
+        sequence: 340
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      enable-users-to: 
+        hide: true
+
+    printing: 
+      output: 
+        layout: Default Report Layout
+        view-file-as: Attachment
+
+      page: 
+        size: Letter
+        orientation: Landscape
+        units: Inches
+        width: 11
+        height: 8.5
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+buttons: 
+- # ====== Button: CREATE ======================================
+  id: 30652191584216998353
+  identification: 
+    button-name: CREATE
+    label: Create
+
+  layout: 
+    sequence: 10
+    region: Property # 30652179719379998343
+    slot: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:41:&SESSION.::&DEBUG.:10::'
+      page: 41 # Property Details 1
+      clear-cache: 10
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Edit Report - Dialog Closed =========
+  id: 30652191879898998353
+  identification: 
+    name: Edit Report - Dialog Closed
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Dialog Closed
+    selection-type: Region
+    region: Property # 30652179719379998343
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 30652192374620998354
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Property # 30652179719379998343
+
+    execution: 
+      sequence: 10
+      event: Edit Report - Dialog Closed # 30652191879898998353
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+

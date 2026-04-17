@@ -1,0 +1,30 @@
+---
+- # ====== Search Configuration: Property ======================
+  id: 39297632960782266949
+  identification: 
+    name: Property
+
+  subscription: 
+    version-number: 15634400061099
+
+  source: 
+    search-type: Simple (APEX Data Source)
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_PROPERTY_MASTER
+    searchable-columns: 'CITY:ADDRESS:LANDMARK'
+
+  column-mapping: 
+    primary-key-1-column-name: PROPERTY_ID
+    title-column-name: ADDRESS
+
+  icon-and-badge: 
+    icon-source: Initials
+
+  messages: 
+    when-no-data-found: Nothing found yet.
+
+  advanced: 
+    static-id: property
+

@@ -1,0 +1,1575 @@
+---
+# ====== Page: REDIRECT TO DETAILS ===========================
+id: 40
+identification: 
+  name: REDIRECT TO DETAILS
+  alias: REDIRECT-TO-DETAILS
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+javascript: 
+  function-and-global-variable-declaration: |
+    document.addEventListener("DOMContentLoaded", function () {
+      var imageString = $v("P40_PROPERTY_IMAGE"); // OR: $v("P1_IMAGE_URLS")
+      var imageList = imageString.split(",");
+      var currentIndex = 0;
+      var imgTag = document.getElementById("slider-image");
+      function showImage(index) {
+        imgTag.style.opacity = 0;
+        setTimeout(function () {
+          imgTag.src = imageList[index].trim();
+          imgTag.style.opacity = 1;
+        }, 200);
+      }
+      showImage(currentIndex);
+      document.querySelector(".next-btn").addEventListener("click", function (e) {
+        e.preventDefault();
+        currentIndex = (currentIndex + 1) % imageList.length;
+        showImage(currentIndex);
+      });
+      document.querySelector(".prev-btn").addEventListener("click", function (e) {
+        e.preventDefault();
+        currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+        showImage(currentIndex);
+      });
+      setInterval(function () {
+        currentIndex = (currentIndex + 1) % imageList.length;
+        showImage(currentIndex);
+      }, 3000);
+    });
+
+css: 
+  inline: |
+    .amenities-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px 20px;
+      padding: 10px;
+    }
+    
+    .amenity-item {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+    }
+    
+    /* SLIDER */
+    .image-box {
+      position: relative;
+      /* width: 300px;  */
+      width: full;
+      height: 400px;
+      margin: auto;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+     
+    .image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.5s ease-in-out;
+    }
+     
+    .prev-btn,
+    .next-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+      border: none;
+      font-size: 24px;
+      padding: 6px 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 1;
+    }
+     
+    .prev-btn {
+      left: 10px;
+    }
+     
+    .next-btn {
+      right: 10px;
+    }
+    
+    /* overview */
+    .property-overview {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 15px 40px;
+        padding: 20px;
+        background-color: #fff;
+        /* border-radius: 10px; */
+        /* border: 1px solid #e0e0e0; */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        font-family: 'Segoe UI', sans-serif;
+    }
+    
+    .property-attribute {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 0;
+        border-bottom: 1px dashed #ccc;
+    }
+    
+    .property-attribute:last-child {
+        border-bottom: none;
+    }
+    
+    .property-attribute .label {
+        /* font-size: 14px;
+      color: #151414;
+      font-weight: 400;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px; */
+        font-size: 12px;
+        color: #888;
+        text-transform: uppercase;
+    }
+    
+    /* .property-attribute .value {
+      font-size: 16px;
+      color: #554e4e81;
+      font-weight: 500;
+    } */
+    
+    .property-attribute .value {
+        /* font-size: 14px;
+        color: #000;
+        font-weight: 600; */
+        font-size: 14px;
+        color: #333;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+    
+    .property-attribute span.label {
+        font-size: 12px;
+        color: #888;
+        text-transform: uppercase;
+    }
+    
+    .property-attribute {
+        font-size: 14px;
+        color: #333;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+    
+    /* map */
+    .map-container {
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        transition: box-shadow 0.3s ease-in-out;
+    }
+    
+    .map-container:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* card details */
+    
+    .property-card {
+      /* background: #fff; */
+      /* padding: 20px 25px; */
+      /* border-radius: 10px;
+      border: 1px solid #e0e0e0; */
+      /* box-shadow: 0 4px 15px rgba(0,0,0,0.06); */
+      font-family: 'Segoe UI', sans-serif;
+    }
+    
+    .property-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #1a1a1a;
+      margin-top: -10px;
+    }
+    
+    .project-name {
+      font-size: 24px;
+      font-weight: 600;
+      /* margin: 0 0 10px 0; */
+      color: #1a1a1a;
+        margin-top: -10px;
+    }
+    
+    .price {
+      font-size: 16px;
+      font-weight: bold;
+      color: #2e7d32;
+      margin-bottom: 15px;
+    }
+    
+    .property-details {
+      font-size: 15px;
+      color: #333;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+    
+    .property-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 14px;
+      color: #444;
+      align-items: center;
+    }
+    
+    .property-icons span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+
+security: 
+  authentication: Page Is Public
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-meta-tags: false
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: IMAGE =======================================
+  id: 519250306142372962
+  identification: 
+    name: IMAGE
+    type: Static Content
+
+  source: 
+    html-code: |
+      <div class="image-box">
+      <img id="slider-image" src="" alt="Slider Image" />
+      <button type="button" class="prev-btn">❮</button>
+      <button type="button" class="next-btn">❯</button>
+      </div>
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: footer ======================================
+  id: 979657041795694221
+  identification: 
+    name: footer
+    type: Static Content
+
+  source: 
+    html-code: |
+      <div class="property-footer" style="padding: 15px; border-top: 1px solid #ccc; margin-top: 20px; font-size: 14px;">
+        <strong>Listed By:</strong> &P40_LISTED_BY.<br>
+        <!-- <strong>Listed On:</strong> &LISTED_DATE. -->
+      </div>
+      
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Details =====================================
+  id: 38248158512559600605
+  identification: 
+    name: Details
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      -- select P.PROPERTY_ID,
+      --        P.PROPERTY_TYPES_ID,
+      --        P.STATUS_ID,
+      --        P.ADDRESS,
+      --        P.PURCHASE_DATE,
+      --        P.AREA,
+      --        P.PROPERTY_AGE,
+      --        P.FLOOR_NUMBER,
+      --        P.TOTAL_FLOORS,
+      --        P.FURNISHING_STATUS,
+      --        P.FACING_DIRECTION,
+      --        P.IMAGES_VIDEOS_UPLOAD,
+      --        P.MAP_LOCATION,
+      --        P.NEAR_BY_LOCATIONS,
+      --        P.LAT_LONG,
+      --        P.LANDMARK,
+      --        P.LISTING_BY,
+      --        P.PRICE,
+      --        P.PROJECT_NAME,
+      --        P.PROPERTY_NAME,
+      --        P.PURPOSE,
+      --        P.CREATED,
+      --        P.CREATED_BY,
+      --        P.UPDATED,
+      --        P.UPDATED_BY,
+      --        P.USER_ID,
+      --        P.PROPERTY_CATEGORY,
+      --        P.PROPERTY_UNITS,
+      --        PS.STATUS_NAME,
+      --        PC.PROPERTY_SUB_CATEGORY_NAME,
+      --        PU.PROPERTY_UNITS_NAME,
+      --        PT.PROPERTY_TYPE,
+      --        P.AMENITIES
+      --   from PMS002_PROPERTY P 
+      --   INNER JOIN PMS002_PROPERTYSTATUSES PS ON P.STATUS_ID = PS.STATUS_ID
+      --   INNER JOIN PMS002_PROPERTY_CATEGORY PC ON P.PROPERTY_CATEGORY = PC.PROPERTY_SUB_CATEGORY_ID
+      --   INNER JOIN PMS002_PROPERTY_UNITS PU ON P.PROPERTY_UNITS = PU.PROPERTY_UNITS_ID
+      --   INNER JOIN PMS002_PROPERTY_TYPES PT ON P.PROPERTY_TYPES_ID = PT.PROPERTY_TYPES_ID
+      --   where PROPERTY_ID = :P40_PROPERTY_ID;
+      
+      
+      
+      
+      
+      SELECT pm.PROPERTY_ID,
+             pm.AREA,
+             pm.PROJECT_NAME,
+             pm.PROJECT_DESCRIPTION,
+             pm.LAUNCH_DATE,
+             pm.HANDOVER_DATE,
+             pm.PROPERTY_NAME,
+             pm.PROPERTY_DESCRIPTION,
+             pm.TOTAL_FLOORS,
+             pm.FLOOR_NUMBER,
+             pc.PROPERTY_CATEGORY_NAME,
+             pt.PROPERTY_TYPE,
+             pu.PROPERTY_UNITS_NAME,
+          --    pm.PRICE,
+             TO_CHAR(pm.PRICE, '999,99,99,999') AS PRICE,
+             pm.ADDRESS,
+             pm.CITY,
+             pm.LAT_LONG,
+             pm.LANDMARK,
+           REGEXP_SUBSTR(PM.IMAGE_URL, '[^,]+', 1, 1) AS FIRST_IMAGE_URL,
+             pp.PROPERTY_PURPOSE,
+             ps.PROPERTY_AVAILABILITY_STATUS,
+             pf.PROPERTY_FURNISHING_STATUS,
+             pfd.PROPERTY_FACING_DIRECTION,
+             pm.PROPERTY_AGE,
+             pm.AMENITIES_TYPE,
+          --    pm.LISTINGBY,
+             pm.LISTING_FOR,
+             pm.CREATED_AT,
+             pm.CREATED_BY,
+             pm.UPDATED_AT,
+             pm.UPDATED_BY
+      FROM PMS_PROPERTY_MASTER pm
+      JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+      JOIN PMS_PROPERTY_TYPE pt ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+      JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      JOIN PMS_PROPERTY_STATUS ps ON ps.PROPERTY_AVAILABILITY_STATUS_ID = pm.PROPERTY_AVAILABILITY_STATUS
+      JOIN PMS_PROPERTY_FURNISHING pf ON pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+      JOIN PMS_PROPERTY_FACING_DIRECTION pfd ON pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+      
+       where PROPERTY_ID = :P40_PROPERTY_ID;
+      
+    page-items-to-submit: 
+    - P40_PROPERTY_ID
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--removeHeader js-removeLandmark
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 38248158615642600606
+    appearance: 
+      layout: Horizontal (Row)
+
+    title: 
+      advanced-formatting: false
+
+    subtitle: 
+      advanced-formatting: false
+
+    body: 
+      advanced-formatting: true
+      html-expression: |
+        <!-- <h2><strong> &PROPERTY_NAME. </strong></h2>
+        <h2><strong> &PROJECT_NAME. </strong></h2>
+        <h5><strong> INR &PRICE. </strong></h5>
+        <p> &AREA. (sq.ft) &PROPERTY_TYPE. &PROPERTY_CATEGORY_NAME. For &PROPERTY_PURPOSE. in &ADDRESS.</p>
+        <div style="display:flex; gap:10px;">
+            <p> 🗄 &PROPERTY_FURNISHING_STATUS. </p> 
+            <p> | </p>
+            <p> 🏢 &FLOOR_NUMBER.(Out of &TOTAL_FLOORS. floors)</p>
+            <p> | </p>
+            <p> 🧭 &PROPERTY_FACING_DIRECTION. </p>
+        </div> -->
+        
+        <div class="property-card">
+          <h2 class="property-title"> &PROPERTY_NAME. </h2>
+          <h3 class="project-name"> &PROJECT_NAME. </h3>
+          <h4 class="price"> INR &PRICE. </h4>
+        
+          <p class="property-details">
+            &AREA. (sq.ft) &PROPERTY_TYPE. &PROPERTY_CATEGORY_NAME. For &PROPERTY_PURPOSE. in &ADDRESS.
+          </p>
+        
+          <div class="property-icons">
+            <span>🗄 &PROPERTY_FURNISHING_STATUS.</span>
+            <span>|</span>
+            <span>🏢 &FLOOR_NUMBER. (Out of &TOTAL_FLOORS. floors)</span>
+            <span>|</span>
+            <span>🧭 &PROPERTY_FACING_DIRECTION.</span>
+          </div>
+        </div>
+        
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: No Icon
+
+    media: 
+      advanced-formatting: false
+      source: No Media
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+- # ====== Region: Grouping ====================================
+  id: 38248162005752600640
+  identification: 
+    name: Grouping
+    type: Region Display Selector
+
+  layout: 
+    sequence: 80
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    - margin-bottom-none
+    render-components: Below Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      mode: View Single Region
+      display-region-icons: false
+      include-'show-all': false
+      remember-selection: By User
+
+- # ====== Region: Overview ====================================
+  id: 38248162181400600641
+  identification: 
+    name: Overview
+    type: Dynamic Content
+
+  source: 
+    language: PL/SQL
+    pl/sql-function-body-returning-a-clob: |
+      -- DECLARE
+      --   l_area               VARCHAR2(100);
+      --   l_status_name        VARCHAR2(100);
+      --   l_facing_direction   VARCHAR2(100);
+      --   l_furnishing_status  VARCHAR2(100);
+      --   l_property_category   VARCHAR2(100);
+      --   l_property_units     VARCHAR2(100);
+      --   l_property_type      VARCHAR2(100);
+      --   l_html               CLOB;
+      -- BEGIN
+      --   -- Fetch required values
+      --   SELECT 
+      --      pm.AREA,
+      --      ps.PROPERTY_AVAILABILITY_STATUS,
+      --      pfd.PROPERTY_FACING_DIRECTION,
+      --     pf.PROPERTY_FURNISHING_STATUS,
+      --     pc.PROPERTY_CATEGORY_NAME,
+      --     pu.PROPERTY_UNITS_NAME,
+      --      pt.PROPERTY_TYPE
+      --   INTO 
+      --     l_area,
+      --     l_status_name,
+      --     l_facing_direction,
+      --     l_furnishing_status,
+      --     l_property_category,
+      --     l_property_units,
+      --     l_property_type
+      -- FROM PMS_PROPERTY_MASTER pm
+      -- JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+      -- JOIN PMS_PROPERTY_TYPE pt ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      -- JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+      -- JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      -- JOIN PMS_PROPERTY_STATUS ps ON ps.PROPERTY_AVAILABILITY_STATUS_ID = pm.PROPERTY_AVAILABILITY_STATUS
+      -- JOIN PMS_PROPERTY_FURNISHING pf ON pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+      -- JOIN PMS_PROPERTY_FACING_DIRECTION pfd ON pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+      --   WHERE Pm.PROPERTY_ID = :P40_PROPERTY_ID;
+      
+      --   -- Build HTML output
+      --   l_html := 
+      --     '<p><strong>Area: </strong>' || l_area || ' sq.ft</p>' ||
+      --     '<p><strong>Status: </strong>' || l_status_name || '</p>' ||
+      --     '<p><strong>Facing Direction: </strong>' || l_facing_direction || '</p>' ||
+      --     '<p><strong>Furnishing Status: </strong>' || l_furnishing_status || '</p>' ||
+      --     '<p><strong>Property Type: </strong>' || l_property_type || '</p>' ||
+      --     '<p><strong>Property Category: </strong>' || l_property_category || '</p>' ||
+      --     '<p><strong>Property Units: </strong>' || l_property_units || '</p>';
+      
+      --   RETURN l_html;
+      -- EXCEPTION
+      --   WHEN NO_DATA_FOUND THEN
+      --     RETURN '<p><strong>No property found.</strong></p>';
+      --   WHEN OTHERS THEN
+      --     RETURN '<p><strong>Error: </strong>' || SQLERRM || '</p>';
+      -- END;
+      
+      DECLARE
+        l_area               VARCHAR2(100);
+        l_status_name        VARCHAR2(100);
+        l_facing_direction   VARCHAR2(100);
+        l_furnishing_status  VARCHAR2(100);
+        l_property_category   VARCHAR2(100);
+        l_property_units     VARCHAR2(100);
+        l_property_type      VARCHAR2(100);
+        l_html               CLOB;
+      BEGIN
+        -- Fetch required values
+        SELECT 
+           pm.AREA,
+           ps.PROPERTY_AVAILABILITY_STATUS,
+           pfd.PROPERTY_FACING_DIRECTION,
+          pf.PROPERTY_FURNISHING_STATUS,
+          pc.PROPERTY_CATEGORY_NAME,
+          pu.PROPERTY_UNITS_NAME,
+           pt.PROPERTY_TYPE
+        INTO 
+          l_area,
+          l_status_name,
+          l_facing_direction,
+          l_furnishing_status,
+          l_property_category,
+          l_property_units,
+          l_property_type
+      FROM PMS_PROPERTY_MASTER pm
+      JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+      JOIN PMS_PROPERTY_TYPE pt ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+      JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      JOIN PMS_PROPERTY_STATUS ps ON ps.PROPERTY_AVAILABILITY_STATUS_ID = pm.PROPERTY_AVAILABILITY_STATUS
+      JOIN PMS_PROPERTY_FURNISHING pf ON pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+      JOIN PMS_PROPERTY_FACING_DIRECTION pfd ON pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+        WHERE Pm.PROPERTY_ID = :P40_PROPERTY_ID;
+      
+      -- Build HTML output
+      l_html := '<div class="property-overview" style="display:flex; flex-wrap:wrap; gap:20px; margin-top:20px;">' ||
+                  '<div class="property-attribute" style="flex:1 1 30%; min-width:200px;">' ||
+                    '<span class="label" style="display:block; font-weight:bold; color:#666; font-size:12px; text-transform:uppercase;">Area</span>' ||
+                    '<span class="value" style="display:block; font-size:14px; font-weight:600;">' || l_area || ' sq.ft</span>' ||
+                  '</div>' ||
+      
+                  '<div class="property-attribute" style="flex:1 1 30%; min-width:200px;">' ||
+                    '<span class="label">Status</span>' ||
+                    '<span class="value">' || l_status_name || '</span>' ||
+                  '</div>' ||
+      
+                  '<div class="property-attribute" style="flex:1 1 30%; min-width:200px;">' ||
+                    '<span class="label">Facing Direction</span>' ||
+                    '<span class="value">' || l_facing_direction || '</span>' ||
+                  '</div>' ||
+      
+                  '<div class="property-attribute" style="flex:1 1 30%; min-width:200px;">' ||
+                    '<span class="label">Furnishing Status</span>' ||
+                    '<span class="value">' || l_furnishing_status || '</span>' ||
+                  '</div>' ||
+      
+                  '<div class="property-attribute" style="flex:1 1 30%; min-width:200px;">' ||
+                    '<span class="label">Property Type</span>' ||
+                    '<span class="value">' || l_property_type || '</span>' ||
+                  '</div>' ||
+      
+                  '<div class="property-attribute" style="flex:1 1 30%; min-width:200px;">' ||
+                    '<span class="label">Property Category</span>' ||
+                    '<span class="value">' || l_property_category || '</span>' ||
+                  '</div>' ||
+      
+                  '<div class="property-attribute" style="flex:1 1 30%; min-width:200px;">' ||
+                    '<span class="label">Property Units</span>' ||
+                    '<span class="value">' || l_property_units || '</span>' ||
+                  '</div>' ||
+                '</div>';
+      
+        RETURN l_html;
+      EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+          RETURN '<p><strong>No property found.</strong></p>';
+        WHEN OTHERS THEN
+          RETURN '<p><strong>Error: </strong>' || SQLERRM || '</p>';
+      END;
+    page-items-to-submit: 
+    - P40_PROPERTY_ID
+
+  layout: 
+    sequence: 10
+    parent-region: Grouping # 38248162005752600640
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--textContent
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    performance: 
+      lazy-loading: false
+
+- # ====== Region: Rent Details ================================
+  id: 38248162299057600642
+  identification: 
+    name: Rent Details
+    type: Dynamic Content
+
+  source: 
+    language: PL/SQL
+    pl/sql-function-body-returning-a-clob: |
+      -- DECLARE
+      --   l_rent    VARCHAR2(100);
+      --   l_purpose VARCHAR2(100);
+      --   l_html    CLOB;
+      -- BEGIN
+      --   SELECT 
+      --     pm.PRICE,
+      --     pp.PROPERTY_PURPOSE
+      --   INTO 
+      --     l_rent,
+      --     l_purpose
+      --   FROM PMS_PROPERTY_MASTER pm
+      --   JOIN PMS_PROPERTY_PURPOSE pp 
+      --     ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      --   WHERE pm.PROPERTY_ID = :P40_PROPERTY_ID;
+      
+      --   l_html := 
+      --     '<p><strong>Rent/Price:</strong> ' || l_rent || '</p>' ||
+      --     '<p><strong>Purpose:</strong> ' || l_purpose || '</p>';
+      
+      --   RETURN l_html;
+      
+      -- EXCEPTION
+      --   WHEN NO_DATA_FOUND THEN
+      --     RETURN '<p><strong>No property found.</strong></p>';
+      --   WHEN OTHERS THEN
+      --     RETURN '<p><strong>Error:</strong> ' || SQLERRM || '</p>';
+      -- END;
+      
+      DECLARE
+        l_rent    VARCHAR2(100);
+        l_purpose VARCHAR2(100);
+        l_html    CLOB;
+      BEGIN
+        SELECT 
+          -- pm.PRICE,
+          TO_CHAR(pm.PRICE, '999,99,99,999') AS PRICE,
+          pp.PROPERTY_PURPOSE
+        INTO 
+          l_rent,
+          l_purpose
+        FROM PMS_PROPERTY_MASTER pm
+        JOIN PMS_PROPERTY_PURPOSE pp 
+          ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+        WHERE pm.PROPERTY_ID = :P40_PROPERTY_ID;
+      
+        l_html := 
+          '<div class="property-details">' ||
+            '<div class="property-attribute">' ||
+              '<div class="label">Rent / Price </div>' ||
+              '<div class="value">' || l_rent || '</div>' ||
+            '</div>' ||
+            '<div class="property-attribute">' ||
+              '<div class="label">Purpose </div>' ||
+              '<div class="value">' || l_purpose || '</div>' ||
+            '</div>' ||
+          '</div>';
+      
+        RETURN l_html;
+      
+      EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+          RETURN '<p><strong>No property found.</strong></p>';
+        WHEN OTHERS THEN
+          RETURN '<p><strong>Error:</strong> ' || SQLERRM || '</p>';
+      END;
+    page-items-to-submit: 
+    - P40_PROPERTY_ID
+
+  layout: 
+    sequence: 20
+    parent-region: Grouping # 38248162005752600640
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--stacked
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    performance: 
+      lazy-loading: false
+
+- # ====== Region: Location ====================================
+  id: 38248162375031600643
+  identification: 
+    name: Location
+    type: Dynamic Content
+
+  source: 
+    language: PL/SQL
+    pl/sql-function-body-returning-a-clob: |
+      -- DECLARE
+      --   l_property_type VARCHAR2(100);
+      --   l_address       VARCHAR2(200);
+      --   l_landmark      VARCHAR2(100);
+      --   l_city          VARCHAR2(100);
+      --   l_html          CLOB;
+      -- BEGIN
+      --   SELECT 
+      --     pt.PROPERTY_TYPE,
+      --     pm.ADDRESS,
+      --     pm.LANDMARK,
+      --     pm.CITY
+      --   INTO 
+      --     l_property_type,
+      --     l_address,
+      --     l_landmark,
+      --     l_city
+      --   FROM PMS_PROPERTY_MASTER pm
+      --   JOIN PMS_PROPERTY_TYPE pt 
+      --     ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      --   WHERE pm.PROPERTY_ID = :P40_PROPERTY_ID;
+      
+      --   l_html := 
+      --     '<p><strong>Property Type:</strong> ' || l_property_type || '</p>' ||
+      --     '<p><strong>Address:</strong> ' || l_address || '</p>' ||
+      --     '<p><strong>Landmark:</strong> ' || l_landmark || '</p>' ||
+      --     '<p><strong>City:</strong> ' || l_city || '</p>';
+      
+      --   RETURN l_html;
+      
+      -- EXCEPTION
+      --   WHEN NO_DATA_FOUND THEN
+      --     RETURN '<p><strong>No property found.</strong></p>';
+      --   WHEN OTHERS THEN
+      --     RETURN '<p><strong>Error:</strong> ' || SQLERRM || '</p>';
+      -- END;
+      
+      DECLARE
+        l_property_type VARCHAR2(100);
+        l_address       VARCHAR2(200);
+        l_landmark      VARCHAR2(100);
+        l_city          VARCHAR2(100);
+        l_html          CLOB;
+      BEGIN
+        SELECT 
+          pt.PROPERTY_TYPE,
+          pm.ADDRESS,
+          pm.LANDMARK,
+          pm.CITY
+        INTO 
+          l_property_type,
+          l_address,
+          l_landmark,
+          l_city
+        FROM PMS_PROPERTY_MASTER pm
+        JOIN PMS_PROPERTY_TYPE pt 
+          ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+        WHERE pm.PROPERTY_ID = :P40_PROPERTY_ID;
+      
+        l_html := 
+          '<div class="property-details">' ||
+            '<div class="property-attribute">' ||
+              '<div class="label">PROPERTY TYPE</div>' ||
+              '<div class="value">' || l_property_type || '</div>' ||
+            '</div>' ||
+            '<div class="property-attribute">' ||
+              '<div class="label">ADDRESS</div>' ||
+              '<div class="value">' || l_address || '</div>' ||
+            '</div>' ||
+            '<div class="property-attribute">' ||
+              '<div class="label">LANDMARK</div>' ||
+              '<div class="value">' || l_landmark || '</div>' ||
+            '</div>' ||
+            '<div class="property-attribute">' ||
+              '<div class="label">CITY</div>' ||
+              '<div class="value">' || l_city || '</div>' ||
+            '</div>' ||
+          '</div>';
+      
+        RETURN l_html;
+      
+      EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+          RETURN '<p><strong>No property found.</strong></p>';
+        WHEN OTHERS THEN
+          RETURN '<p><strong>Error:</strong> ' || SQLERRM || '</p>';
+      END;
+      
+    page-items-to-submit: 
+    - P40_PROPERTY_ID
+
+  layout: 
+    sequence: 30
+    parent-region: Grouping # 38248162005752600640
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--stacked
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    performance: 
+      lazy-loading: false
+
+- # ====== Region: Amenities ===================================
+  id: 38248162518481600645
+  identification: 
+    name: Amenities
+    type: Dynamic Content
+
+  source: 
+    language: PL/SQL
+    pl/sql-function-body-returning-a-clob: |
+      DECLARE
+          l_html CLOB := '';
+      BEGIN
+          -- Main container with CSS grid
+          l_html := '
+      <style>
+        .amenities-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 20px;
+          padding: 20px;
+        }
+        .amenity-card {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          border: 1px solid #ddd;
+          padding: 12px 16px;
+          border-radius: 10px;
+          background-color: #fff;
+          transition: box-shadow 0.3s ease;
+        }
+        .amenity-card:hover {
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .amenity-card span {
+          font-size: 1.5rem;
+          color: #333;
+        }
+        .amenity-card p {
+          margin: 0;
+          font-size: 14px;
+          color: #222;
+          font-weight: 500;
+        }
+      </style>
+      
+      <div class="amenities-grid">';
+          
+          -- Dynamic Amenities Loop
+          FOR rec IN (
+              SELECT 
+                  AST.AMENITIES_NAME,
+                  AST.AMENITIES_ICON
+              FROM PMS_PROPERTY_MASTER PM
+              JOIN PMS_AMENITIES AST
+                ON INSTR(',' || PM.AMENITIES_TYPE || ',', ',' || AST.AMENITIES_ID || ',') > 0
+              WHERE PM.PROPERTY_ID = :P40_PROPERTY_ID
+          ) LOOP
+              l_html := l_html || '
+        <div class="amenity-card">
+          <span class="t-Icon fa ' || rec.AMENITIES_ICON || '" aria-hidden="true"></span>
+          <p>' || rec.AMENITIES_NAME || '</p>
+        </div>';
+          END LOOP;
+      
+          -- Close container
+          l_html := l_html || '</div>';
+      
+          -- Output final HTML
+          htp.p(l_html);
+      END;
+      
+
+  layout: 
+    sequence: 40
+    parent-region: Grouping # 38248162005752600640
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--stacked
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    performance: 
+      lazy-loading: false
+
+- # ====== Region: Map =========================================
+  id: 43367077001229414803
+  identification: 
+    name: Map
+    type: Dynamic Content
+
+  source: 
+    language: PL/SQL
+    pl/sql-function-body-returning-a-clob: |
+      -- DECLARE
+      --   v_latlong VARCHAR2(100);
+      -- BEGIN
+      --   SELECT lat_long INTO v_latlong
+      --   FROM pms_property_master
+      --   WHERE property_id = :P40_PROPERTY_ID;
+       
+      --   -- Generate Map URL using latlong value
+      --   htp.p('
+      -- <iframe 
+      --       width="100%" 
+      --       height="450" 
+      --       frameborder="0" 
+      --       style="border:0" 
+      --       loading="lazy"
+      --       allowfullscreen
+      --       referrerpolicy="no-referrer-when-downgrade"
+      --       src="https://maps.google.com/maps?q=' || v_latlong || '&z=15&output=embed">
+      -- </iframe>');
+      -- END;
+      
+      DECLARE
+        v_latlong VARCHAR2(100);
+        v_html    CLOB;
+      BEGIN
+        SELECT lat_long INTO v_latlong
+        FROM pms_property_master
+        WHERE property_id = :P40_PROPERTY_ID;
+      
+        v_html := '
+        <div class="map-container">
+          <iframe 
+            width="100%" 
+            height="350" 
+            frameborder="0" 
+            style="border:0" 
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://maps.google.com/maps?q=' || v_latlong || '&z=15&output=embed">
+          </iframe>
+        </div>';
+      
+        RETURN v_html;
+      EXCEPTION
+        WHEN OTHERS THEN
+          RETURN '<p><strong>Error loading map: </strong>' || SQLERRM || '</p>';
+      END;
+      
+    page-items-to-submit: 
+    - P40_PROPERTY_ID
+
+  layout: 
+    sequence: 90
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    performance: 
+      lazy-loading: false
+
+- # ====== Region: Image =======================================
+  id: 43367077735444414810
+  identification: 
+    name: Image
+    type: APEX Lazy Image Swiper
+
+  source: 
+    sql-query: |
+      SELECT
+          'url' AS SRC_TYPE,
+          TRIM(REGEXP_SUBSTR(pm.IMAGE_URL, '[^,]+', 1, rn.COLUMN_VALUE)) AS SRC_VALUE,
+          -- 'Image Title ' || rn.COLUMN_VALUE AS SRC_TITLE,
+          -- 'https://github.com/RonnyWeiss' AS LINK,
+          3 AS DURATION
+      FROM
+          PMS_PROPERTY_MASTER pm,
+          TABLE(
+              CAST(
+                  MULTISET(
+                      SELECT LEVEL FROM DUAL
+                      CONNECT BY LEVEL <= REGEXP_COUNT(pm.IMAGE_URL, ',') + 1
+                  ) AS SYS.ODCINUMBERLIST
+              )
+          ) rn
+      WHERE
+          -- REGEXP_SUBSTR(pv.IMAGES_VIDEOS_UPLOAD, '[^,]+', 1, rn.COLUMN_VALUE) IS NOT NULL or
+           property_id = :P40_PROPERTY_ID
+      
+    page-items-to-submit: 
+    - P40_PROPERTY_ID
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+  attributes: 
+    settings: 
+      use-image-source-from-blob-column-(please-check-help): false
+      image-height: 480px
+      image-sizing: Cover
+      background-color: black
+      set-controls: 'keyboard:mousewheel:arrows'
+
+page-items: 
+- # ====== Page Item: P40_PROPERTY_IMAGE =======================
+  id: 519249773377372956
+  identification: 
+    name: P40_PROPERTY_IMAGE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: SQL Query (return single value)
+    sql-query-(return-single-value): 'select IMAGE_URL from PMS_PROPERTY_MASTER where PROPERTY_ID = :P40_PROPERTY_ID'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P40_LISTED_BY ============================
+  id: 979657213967694222
+  identification: 
+    name: P40_LISTED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: footer # 979657041795694221
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      :user_name
+      
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P40_PROPERTY_ID ==========================
+  id: 38248158288461600602
+  identification: 
+    name: P40_PROPERTY_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P40_ROLE_ID ==============================
+  id: 43367077535785414808
+  identification: 
+    name: P40_ROLE_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 100
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: Enquiry =====================================
+  id: 42289717902119921339
+  identification: 
+    button-name: Enquiry
+    label: Enquiry
+
+  layout: 
+    sequence: 40
+    region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text with Icon
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+    - t-Button--primary
+    - t-Button--simple
+    - t-Button--iconLeft
+    - t-Button--hoverIconSpin
+    - t-Button--gapLeft
+    - t-Button--gapRight
+    - t-Button--gapTop
+    - t-Button--gapBottom
+    icon: fa-phone
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.::P5_PROPERTY_ID:&P40_PROPERTY_ID.'
+      page: 5 # Appointment
+      values: 
+        p5_property_id: '&P40_PROPERTY_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item = Value
+    item: P40_ROLE_ID
+    value: 4
+
+- # ====== Button: Edit ========================================
+  id: 43367077461837414807
+  identification: 
+    button-name: Edit
+    label: Edit
+
+  layout: 
+    sequence: 30
+    region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Icon
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--primary
+    - t-Button--simple
+    - t-Button--hoverIconPush
+    - t-Button--gapLeft
+    - t-Button--gapRight
+    - t-Button--gapBottom
+    icon: fa-edit
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:59:&SESSION.::&DEBUG.:59:P59_PROPERTY_ID:&P40_PROPERTY_ID.'
+      page: 59 # Property Form
+      clear-cache: 59
+      values: 
+        p59_property_id: '&P40_PROPERTY_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item != Value
+    item: P40_ROLE_ID
+    value: 4
+
+processes: 
+- # ====== Process: New ========================================
+  id: 43367077621819414809
+  identification: 
+    name: New
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ':P40_ROLE_ID := :ROLE_ID;'
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+

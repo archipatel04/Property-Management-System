@@ -1,0 +1,2847 @@
+---
+# ====== Page: Builder Property Report =======================
+id: 45
+identification: 
+  name: Builder Property Report
+  alias: BUILDER-PROPERTY-REPORT
+  title: Builder Property Report
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+css: 
+  inline: |
+    /*.card_image{
+        margin: 0 auto;
+        border-radius: 0;
+        height: 200px;
+        /* width: 200px; */
+        /* width: 100%;
+        object-fit: cover;
+    } */
+    
+    /* reset and add property button */
+    .apex-item-file--native::-webkit-file-upload-button, .t-Button, .t-Form-helpButton{
+        border-radius: 10px;
+    }
+    
+    .t-Form-fieldContainer--floatingLabel .apex-item-select{
+        border-radius: 7px;
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Builder Property List =======================
+  id: 519249453756372953
+  identification: 
+    name: Builder Property List
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      -- SELECT pm.PROPERTY_ID,
+      --        pm.AREA,
+      --        pm.PROJECT_NAME,
+      --        pc.PROPERTY_CATEGORY_NAME,
+      --        pt.PROPERTY_TYPE,
+      --        pu.PROPERTY_UNITS_NAME,
+      --        pm.PRICE,
+      --        pm.HANDOVER_DATE,
+      --        pm.ADDRESS,
+      --        pm.CITY,
+      --        pm.LAT_LONG,
+      --        pm.LANDMARK,
+      --     --    pm.IMAGE_URL,
+      --      REGEXP_SUBSTR(PM.IMAGE_URL, '[^,]+', 1, 1) AS FIRST_IMAGE_URL,
+      --        pp.PROPERTY_PURPOSE,
+      --        ps.PROPERTY_AVAILABILITY_STATUS,
+      --        pf.PROPERTY_FURNISHING_STATUS,
+      --        pfd.PROPERTY_FACING_DIRECTION,
+      --        pm.PROPERTY_AGE,
+      --        pm.AMENITIES_TYPE
+      --     --    pm.LISTINGBY,
+      --     --    pm.LISTING_FOR,
+      --     --    pm.CREATED_AT,
+      --     --    pm.CREATED_BY,
+      --     --    pm.UPDATED_AT,
+      --     --    pm.UPDATED_BY
+      -- FROM PMS_PROPERTY_MASTER pm
+      -- -- JOIN pms_users u ON u.user_id = pm.listingby
+      -- -- JOIN PMS_USER_ROLE_ACCESS_MASTER ur ON ur.user_id = u.user_id
+      -- JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+      -- JOIN PMS_PROPERTY_TYPE pt ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      -- JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+      -- JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      -- JOIN PMS_PROPERTY_STATUS ps ON ps.PROPERTY_AVAILABILITY_STATUS_ID = pm.PROPERTY_AVAILABILITY_STATUS
+      -- JOIN PMS_PROPERTY_FURNISHING pf ON pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+      -- JOIN PMS_PROPERTY_FACING_DIRECTION pfd ON pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+      
+      -- WHERE (:P45_PROPERTY_TYPE IS NULL OR pm.PROPERTY_TYPE = :P45_PROPERTY_TYPE)
+      --   AND (:P45_AVAILABILITY_STATUS IS NULL OR pm.PROPERTY_AVAILABILITY_STATUS = :P45_AVAILABILITY_STATUS)
+      --    AND (pm.listing_by = :user_id or pm.listing_for = :user_id) 
+      -- ORDER BY pm.PROPERTY_ID ASC;
+      
+      SELECT pm.PROPERTY_ID,
+             pm.AREA,
+             pm.PROJECT_NAME,
+             pc.PROPERTY_CATEGORY_NAME,
+             pt.PROPERTY_TYPE,
+             pu.PROPERTY_UNITS_NAME,
+             TO_CHAR(pm.PRICE, '999,99,99,999') AS PRICE,
+             pm.HANDOVER_DATE,
+             pm.ADDRESS,
+             pm.CITY,
+             pm.LAT_LONG,
+             pm.LANDMARK,
+             COALESCE(REGEXP_SUBSTR(pm.IMAGE_URL, '[^,]+', 1, 1), 'default.jpg') AS FIRST_IMAGE_URL,
+             pp.PROPERTY_PURPOSE,
+             ps.PROPERTY_AVAILABILITY_STATUS,
+             pf.PROPERTY_FURNISHING_STATUS,
+             pfd.PROPERTY_FACING_DIRECTION,
+             pm.PROPERTY_AGE,
+             pm.AMENITIES_TYPE,
+             pm.PROJECT_NAME || ' ' || pm.PROPERTY_NAME AS DISPLAY_PROPERTY_TITLE,
+             CASE 
+               WHEN pp.PROPERTY_PURPOSE = 'Sale' THEN 'badge-sale'
+               WHEN pp.PROPERTY_PURPOSE = 'Rent' THEN 'badge-rent'
+               ELSE 'badge-default'
+             END AS PURPOSE_CLASS
+      FROM PMS_PROPERTY_MASTER pm
+      JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+      JOIN PMS_PROPERTY_TYPE pt ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+      JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      JOIN PMS_PROPERTY_STATUS ps ON ps.PROPERTY_AVAILABILITY_STATUS_ID = pm.PROPERTY_AVAILABILITY_STATUS
+      JOIN PMS_PROPERTY_FURNISHING pf ON pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+      JOIN PMS_PROPERTY_FACING_DIRECTION pfd ON pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+      
+      WHERE (:P45_PROPERTY_TYPE IS NULL OR pm.PROPERTY_TYPE = :P45_PROPERTY_TYPE)
+        AND (:P45_AVAILABILITY_STATUS IS NULL OR pm.PROPERTY_AVAILABILITY_STATUS = :P45_AVAILABILITY_STATUS)
+        AND (pm.listing_by = :user_id OR pm.listing_for = :user_id)
+      ORDER BY pm.PROPERTY_ID ASC;
+      
+    page-items-to-submit: 
+    - P45_PROPERTY_TYPE
+    - P45_AVAILABILITY_STATUS
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: PMS CARDS 40
+      template-options: 
+      - '#DEFAULT#'
+      - u-colors
+      - t-Cards--basic
+      - t-Cards--3cols
+      - t-Cards--animColorFill
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    messages: 
+      when-no-data-found: No Property
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: PROPERTY_ID =================================
+    id: 519249298514372952
+    identification: 
+      column-name: PROPERTY_ID
+      type: Plain Text
+
+    heading: 
+      heading: Property Id
+      alignment: end
+
+    layout: 
+      sequence: 10
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: AREA ========================================
+    id: 519249231755372951
+    identification: 
+      column-name: AREA
+      type: Plain Text
+
+    heading: 
+      heading: Area
+      alignment: end
+
+    layout: 
+      sequence: 20
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROJECT_NAME ================================
+    id: 519249097958372950
+    identification: 
+      column-name: PROJECT_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Project Name
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROPERTY_CATEGORY_NAME ======================
+    id: 519249064460372949
+    identification: 
+      column-name: PROPERTY_CATEGORY_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Property Category Name
+      alignment: start
+
+    layout: 
+      sequence: 40
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROPERTY_TYPE ===============================
+    id: 519248901509372948
+    identification: 
+      column-name: PROPERTY_TYPE
+      type: Plain Text
+
+    heading: 
+      heading: Property Type
+      alignment: start
+
+    layout: 
+      sequence: 50
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROPERTY_UNITS_NAME =========================
+    id: 519248838618372947
+    identification: 
+      column-name: PROPERTY_UNITS_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Property Units Name
+      alignment: start
+
+    layout: 
+      sequence: 60
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PRICE =======================================
+    id: 519248767030372946
+    identification: 
+      column-name: PRICE
+      type: Plain Text
+
+    heading: 
+      heading: Price
+      alignment: end
+
+    layout: 
+      sequence: 70
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: HANDOVER_DATE ===============================
+    id: 519248585185372945
+    identification: 
+      column-name: HANDOVER_DATE
+      type: Plain Text
+
+    heading: 
+      heading: Handover Date
+      alignment: start
+
+    layout: 
+      sequence: 80
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ADDRESS =====================================
+    id: 519248530540372944
+    identification: 
+      column-name: ADDRESS
+      type: Plain Text
+
+    heading: 
+      heading: Address
+      alignment: start
+
+    layout: 
+      sequence: 90
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CITY ========================================
+    id: 519248416812372943
+    identification: 
+      column-name: CITY
+      type: Plain Text
+
+    heading: 
+      heading: City
+      alignment: start
+
+    layout: 
+      sequence: 100
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LAT_LONG ====================================
+    id: 519248339624372942
+    identification: 
+      column-name: LAT_LONG
+      type: Plain Text
+
+    heading: 
+      heading: Lat Long
+      alignment: start
+
+    layout: 
+      sequence: 110
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LANDMARK ====================================
+    id: 519248198319372941
+    identification: 
+      column-name: LANDMARK
+      type: Plain Text
+
+    heading: 
+      heading: Landmark
+      alignment: start
+
+    layout: 
+      sequence: 120
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FIRST_IMAGE_URL =============================
+    id: 519248126862372940
+    identification: 
+      column-name: FIRST_IMAGE_URL
+      type: Plain Text
+
+    heading: 
+      heading: First Image Url
+      alignment: start
+
+    layout: 
+      sequence: 130
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROPERTY_PURPOSE ============================
+    id: 979656026815694211
+    identification: 
+      column-name: PROPERTY_PURPOSE
+      type: Plain Text
+
+    heading: 
+      heading: Property Purpose
+      alignment: start
+
+    layout: 
+      sequence: 140
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROPERTY_AVAILABILITY_STATUS ================
+    id: 979656208583694212
+    identification: 
+      column-name: PROPERTY_AVAILABILITY_STATUS
+      type: Plain Text
+
+    heading: 
+      heading: Property Availability Status
+      alignment: start
+
+    layout: 
+      sequence: 150
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROPERTY_FURNISHING_STATUS ==================
+    id: 979656302924694213
+    identification: 
+      column-name: PROPERTY_FURNISHING_STATUS
+      type: Plain Text
+
+    heading: 
+      heading: Property Furnishing Status
+      alignment: start
+
+    layout: 
+      sequence: 160
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROPERTY_FACING_DIRECTION ===================
+    id: 979656371537694214
+    identification: 
+      column-name: PROPERTY_FACING_DIRECTION
+      type: Plain Text
+
+    heading: 
+      heading: Property Facing Direction
+      alignment: start
+
+    layout: 
+      sequence: 170
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROPERTY_AGE ================================
+    id: 979656438292694215
+    identification: 
+      column-name: PROPERTY_AGE
+      type: Plain Text
+
+    heading: 
+      heading: Property Age
+      alignment: start
+
+    layout: 
+      sequence: 180
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: AMENITIES_TYPE ==============================
+    id: 979656521737694216
+    identification: 
+      column-name: AMENITIES_TYPE
+      type: Plain Text
+
+    heading: 
+      heading: Amenities Type
+      alignment: start
+
+    layout: 
+      sequence: 190
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DISPLAY_PROPERTY_TITLE ======================
+    id: 979656807700694218
+    identification: 
+      column-name: DISPLAY_PROPERTY_TITLE
+      type: Plain Text
+
+    heading: 
+      heading: Display Property Title
+      alignment: start
+
+    layout: 
+      sequence: 200
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PURPOSE_CLASS ===============================
+    id: 979656819679694219
+    identification: 
+      column-name: PURPOSE_CLASS
+      type: Plain Text
+
+    heading: 
+      heading: Purpose Class
+      alignment: start
+
+    layout: 
+      sequence: 210
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Builder Property Report =====================
+  id: 33405333282741842925
+  identification: 
+    name: Builder Property Report
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select pm.PROPERTY_ID,
+             pm.AREA,
+             pc.PROPERTY_CATEGORY_NAME,
+             psc.PROPERTY_SUB_CATEGORY_NAME,
+             pu.PROPERTY_UNITS_NAME,
+             pm.PRICE,
+             pm.HANDOVER_DATE,
+             pm.ADDRESS,
+             pm.LOCATION,
+             pm.LATLONG,
+             pm.LANDMARK,
+             pp.PROPERTY_PURPOSE_NAME,
+             case pp.PROPERTY_PURPOSE_NAME
+             when 'Rent' then 'warning'
+             when 'Sale' then 'danger'
+             end as property_purpose,
+             ps.PROPERTY_COMPLETION_STATUS_NAME,
+             pf.PROPERTY_FURNISHING_NAME,
+             pfd.PROPERTY_FACING_DIRECTION_NAME,
+             pm.PROPERTY_AGE,
+             pm.IMAGE_VIDEO,
+             pm.AMENITIES_TYPE,
+             pm.LISTINGBY,
+             PM.LISTING_FOR,
+             pm.CREATED_AT,
+             pm.CREATED_BY,
+             pm.UPDATED_AT,
+             pm.UPDATED_BY,
+             (select first_name from pms_users where user_id = pm.listing_for) as listing_for_name
+        from PMS_PROPERTY_MASTER pm
+        join pms_users u on u.user_id = pm.listingby
+        join PMS_USER_ROLE_ACCESS_MASTER ur on ur.user_id = u.user_id
+        join PMS_PROPERTY_CATEGORY pc on pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+        join PMS_PROPERTY_SUB_CATEGORY psc on psc.PROPERTY_SUB_CATEGORY_ID = pm.PROPERTY_SUB_CATEGORY
+        join PMS_PROPERTY_UNITS pu on pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+        join PMS_PROPERTY_PURPOSE pp on pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+        join PMS_PROPERTY_STATUS ps on ps.PROPERTY_COMPLETION_STATUS_ID = pm.PROPERTY_COMPLETION_STATUS
+        join PMS_PROPERTY_FURNISHING pf on pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+        join PMS_PROPERTY_FACING_DIRECTION pfd on pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+      where (pm.listingby = :user_id or pm.listing_for = :user_id) 
+      -- and pm.PROPERTY_COMPLETION_STATUS = 2
+      
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+  attributes: 
+    id: 36160406094316837930
+    link: 
+      link-column: Link to Custom Target
+      target: 
+        url: 'f?p=&APP_ID.:65:&SESSION.::&DEBUG.:65:P65_PROPERTY_ID:#PROPERTY_ID#'
+        page: 65 # Edit Appointment
+        clear-cache: 65
+        values: 
+          p65_property_id: '#PROPERTY_ID#'
+
+      link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 1000000
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 36170354485656935852
+      identification: 
+        name: Primary Report
+        alias: 361854965
+
+    columns: 
+    - # ====== Column: PROPERTY_ID =================================
+      id: 36160406198892837931
+      identification: 
+        column-name: PROPERTY_ID
+        type: Hidden
+
+      heading: 
+        heading: Property Id
+
+      layout: 
+        sequence: 10
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: AREA ========================================
+      id: 36160406253647837932
+      identification: 
+        column-name: AREA
+        type: Plain Text
+
+      heading: 
+        heading: Area
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: '99G99G99G999 '
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PROPERTY_CATEGORY_NAME ======================
+      id: 36160406350837837933
+      identification: 
+        column-name: PROPERTY_CATEGORY_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Property Category Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PROPERTY_SUB_CATEGORY_NAME ==================
+      id: 36160406417493837934
+      identification: 
+        column-name: PROPERTY_SUB_CATEGORY_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Property Sub Category Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PROPERTY_UNITS_NAME =========================
+      id: 36160406539892837935
+      identification: 
+        column-name: PROPERTY_UNITS_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Property Units Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PRICE =======================================
+      id: 36160406704979837936
+      identification: 
+        column-name: PRICE
+        type: Plain Text
+
+      heading: 
+        heading: Price
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: '99G99G99G999 '
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: HANDOVER_DATE ===============================
+      id: 36170128630495205787
+      identification: 
+        column-name: HANDOVER_DATE
+        type: Hidden
+
+      heading: 
+        heading: Handover Date
+
+      layout: 
+        sequence: 70
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ADDRESS =====================================
+      id: 36170128744076205788
+      identification: 
+        column-name: ADDRESS
+        type: Plain Text
+
+      heading: 
+        heading: Address
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LOCATION ====================================
+      id: 36170128875459205789
+      identification: 
+        column-name: LOCATION
+        type: Plain Text
+
+      heading: 
+        heading: Location
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 90
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LATLONG =====================================
+      id: 36170128958009205790
+      identification: 
+        column-name: LATLONG
+        type: Plain Text
+
+      heading: 
+        heading: Latlong
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LANDMARK ====================================
+      id: 36170129053961205791
+      identification: 
+        column-name: LANDMARK
+        type: Plain Text
+
+      heading: 
+        heading: Landmark
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PROPERTY_PURPOSE_NAME =======================
+      id: 36170129118058205792
+      identification: 
+        column-name: PROPERTY_PURPOSE_NAME
+        type: Hidden
+
+      heading: 
+        heading: Property Purpose Name
+
+      layout: 
+        sequence: 120
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PROPERTY_COMPLETION_STATUS_NAME =============
+      id: 36170129258562205793
+      identification: 
+        column-name: PROPERTY_COMPLETION_STATUS_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Property Completion Status Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 130
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PROPERTY_FURNISHING_NAME ====================
+      id: 36170129371388205794
+      identification: 
+        column-name: PROPERTY_FURNISHING_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Property Furnishing Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 140
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PROPERTY_FACING_DIRECTION_NAME ==============
+      id: 36170129432623205795
+      identification: 
+        column-name: PROPERTY_FACING_DIRECTION_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Property Facing Direction Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 150
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PROPERTY_AGE ================================
+      id: 36170129540710205796
+      identification: 
+        column-name: PROPERTY_AGE
+        type: Plain Text
+
+      heading: 
+        heading: Property Age
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 160
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: IMAGE_VIDEO =================================
+      id: 36170129625185205797
+      identification: 
+        column-name: IMAGE_VIDEO
+        type: Hidden
+
+      heading: 
+        heading: Image Video
+
+      layout: 
+        sequence: 170
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: AMENITIES_TYPE ==============================
+      id: 36170129766773205798
+      identification: 
+        column-name: AMENITIES_TYPE
+        type: Plain Text
+
+      heading: 
+        heading: Amenities Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 180
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LISTINGBY ===================================
+      id: 36170129891898205799
+      identification: 
+        column-name: LISTINGBY
+        type: Hidden
+
+      heading: 
+        heading: Listingby
+
+      layout: 
+        sequence: 200
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CREATED_AT ==================================
+      id: 36170129948570205800
+      identification: 
+        column-name: CREATED_AT
+        type: Hidden
+
+      heading: 
+        heading: Created At
+
+      layout: 
+        sequence: 220
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CREATED_BY ==================================
+      id: 36170130074453205801
+      identification: 
+        column-name: CREATED_BY
+        type: Hidden
+
+      heading: 
+        heading: Created By
+
+      layout: 
+        sequence: 230
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UPDATED_AT ==================================
+      id: 36170130166472205802
+      identification: 
+        column-name: UPDATED_AT
+        type: Hidden
+
+      heading: 
+        heading: Updated At
+
+      layout: 
+        sequence: 240
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UPDATED_BY ==================================
+      id: 36170130290572205803
+      identification: 
+        column-name: UPDATED_BY
+        type: Hidden
+
+      heading: 
+        heading: Updated By
+
+      layout: 
+        sequence: 250
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PROPERTY_PURPOSE ============================
+      id: 36170130316442205804
+      identification: 
+        column-name: PROPERTY_PURPOSE
+        type: Badge
+
+      heading: 
+        heading: Property Purpose
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      settings: 
+        label: Property Purpose
+        value: PROPERTY_PURPOSE_NAME
+        state: PROPERTY_PURPOSE
+        display-label: false
+        style: Default
+        shape: Default
+        size: Default
+
+      layout: 
+        sequence: 260
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      enable-users-to: 
+        hide: true
+
+    - # ====== Column: LISTING_FOR =================================
+      id: 36170131846966205819
+      identification: 
+        column-name: LISTING_FOR
+        type: Hidden
+
+      heading: 
+        heading: Listing For
+
+      layout: 
+        sequence: 190
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LISTING_FOR_NAME ============================
+      id: 36170132059678205821
+      identification: 
+        column-name: LISTING_FOR_NAME
+        type: Plain Text
+
+      heading: 
+        heading: 'Listing For '
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 210
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    printing: 
+      output: 
+        layout: Default Report Layout
+        view-file-as: Attachment
+
+      page: 
+        size: Letter
+        orientation: Landscape
+        units: Inches
+        width: 11
+        height: 8.5
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+- # ====== Region: Builder Project Report ======================
+  id: 34373649902012043016
+  identification: 
+    name: Builder Project Report
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      -- SELECT pm.PROPERTY_ID,
+      --        pm.AREA,
+      --        pm.PROJECT_NAME,
+      --        pm.PROJECT_DESCRIPTION,
+      --        pm.LAUNCH_DATE,
+      --        pm.PROPERTY_NAME,
+      --        pm.PROPERTY_DESCRIPTION,
+      --        pm.PROPERTY_CATEGORY,
+      --        pm.PROPERTY_SUB_CATEGORY,
+      --        pm.PROPERTY_UNITS,
+      --        pm.PROPERTY_PURPOSE,
+      --        pm.PROPERTY_COMPLETION_STATUS,
+      --        pm.PROPERTY_FURNISHING,
+      --        pm.PROPERTY_FACING_DIRECTION,
+      --        pc.PROPERTY_CATEGORY_NAME,
+      --        psc.PROPERTY_SUB_CATEGORY_NAME,
+      --        pu.PROPERTY_UNITS_NAME,
+      --        pm.PRICE,
+      --        pm.HANDOVER_DATE,
+      --        pm.ADDRESS,
+      --        pm.city,
+      --     --    pm.LATLONG,
+      --         to_number(SUBSTR(latlong, 1, INSTR(pm.latlong, ',') - 1)) AS latitude,
+      --   to_number(SUBSTR(latlong, INSTR(pm.latlong, ',') + 1)) AS longitude,
+      --        pm.LANDMARK,
+      --        pp.PROPERTY_PURPOSE_NAME,
+      --        ps.PROPERTY_COMPLETION_STATUS_NAME,
+      --        pf.PROPERTY_FURNISHING_NAME,
+      --        pfd.PROPERTY_FACING_DIRECTION_NAME,
+      --        pm.PROPERTY_AGE,
+      --        pi.FILE_NAME,
+      --        pi.MIME_TYPE,
+      --        pi.IMAGE_BLOB,
+      --        pm.AMENITIES_TYPE,
+      --        pm.LISTINGBY,
+      --        pm.LISTING_FOR,
+      --        pm.CREATED_AT,
+      --        pm.CREATED_BY,
+      --        pm.UPDATED_AT,
+      --        pm.UPDATED_BY
+      -- FROM PMS_PROPERTY_MASTER pm
+      -- JOIN pms_users u ON u.user_id = pm.listingby
+      -- JOIN PMS_USER_ROLE_ACCESS_MASTER ur ON ur.user_id = u.user_id
+      -- JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+      -- JOIN PMS_PROPERTY_SUB_CATEGORY psc ON psc.PROPERTY_SUB_CATEGORY_ID = pm.PROPERTY_SUB_CATEGORY
+      -- JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+      -- JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      -- JOIN PMS_PROPERTY_STATUS ps ON ps.PROPERTY_COMPLETION_STATUS_ID = pm.PROPERTY_COMPLETION_STATUS
+      -- JOIN PMS_PROPERTY_FURNISHING pf ON pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+      -- JOIN PMS_PROPERTY_FACING_DIRECTION pfd ON pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+      -- WHERE (:P45_PROPERTY_TYPE IS NULL OR pm.PROPERTY_CATEGORY = :P45_PROPERTY_TYPE)
+      -- --   AND (:P1_SUB_CATEGORY IS NULL OR pm.PROPERTY_SUB_CATEGORY = :P1_SUB_CATEGORY)
+      -- --   AND (:P1_UNITS IS NULL OR pm.PROPERTY_UNITS = :P1_UNITS)
+      -- --   AND (:P1_PURPOSE IS NULL OR pm.PROPERTY_PURPOSE = :P1_PURPOSE)
+      --   AND (:P45_AVAILABILITY_STATUS IS NULL OR pm.PROPERTY_COMPLETION_STATUS = :P45_AVAILABILITY_STATUS)
+      -- --   AND (:P1_FURNISHING IS NULL OR pm.PROPERTY_FURNISHING = :P1_FURNISHING)
+      -- --   AND (:P1_FASING_DIRECTION IS NULL OR pm.PROPERTY_FACING_DIRECTION = :P1_FASING_DIRECTION)
+      --   and (pm.listingby = :user_id or pm.listing_for = :user_id) 
+      -- ORDER BY pm.PROPERTY_ID ASC;
+      
+      
+      
+      
+      
+      
+      SELECT pm.PROPERTY_ID,
+             pm.AREA,
+             pm.PROJECT_NAME,
+             pc.PROPERTY_CATEGORY_NAME,
+             pt.PROPERTY_TYPE,
+             pu.PROPERTY_UNITS_NAME,
+             pm.PRICE,
+             pm.HANDOVER_DATE,
+             pm.ADDRESS,
+             pm.CITY,
+             pm.LAT_LONG,
+             pm.LANDMARK,
+          --    pm.IMAGE_URL,
+           REGEXP_SUBSTR(PM.IMAGE_URL, '[^,]+', 1, 1) AS FIRST_IMAGE_URL,
+             pp.PROPERTY_PURPOSE,
+             ps.PROPERTY_AVAILABILITY_STATUS,
+             pf.PROPERTY_FURNISHING_STATUS,
+             pfd.PROPERTY_FACING_DIRECTION,
+             pm.PROPERTY_AGE,
+             pm.AMENITIES_TYPE
+          --    pm.LISTINGBY,
+          --    pm.LISTING_FOR,
+          --    pm.CREATED_AT,
+          --    pm.CREATED_BY,
+          --    pm.UPDATED_AT,
+          --    pm.UPDATED_BY
+      FROM PMS_PROPERTY_MASTER pm
+      -- JOIN pms_users u ON u.user_id = pm.listingby
+      -- JOIN PMS_USER_ROLE_ACCESS_MASTER ur ON ur.user_id = u.user_id
+      JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+      JOIN PMS_PROPERTY_TYPE pt ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+      JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      JOIN PMS_PROPERTY_STATUS ps ON ps.PROPERTY_AVAILABILITY_STATUS_ID = pm.PROPERTY_AVAILABILITY_STATUS
+      JOIN PMS_PROPERTY_FURNISHING pf ON pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+      JOIN PMS_PROPERTY_FACING_DIRECTION pfd ON pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+      
+      WHERE (:P45_PROPERTY_TYPE IS NULL OR pm.PROPERTY_TYPE = :P45_PROPERTY_TYPE)
+        AND (:P45_AVAILABILITY_STATUS IS NULL OR pm.PROPERTY_AVAILABILITY_STATUS = :P45_AVAILABILITY_STATUS)
+         AND (pm.listing_by = :user_id or pm.listing_for = :user_id) 
+      ORDER BY pm.PROPERTY_ID ASC;
+    page-items-to-submit: 
+    - P45_PROPERTY_TYPE
+    - P45_AVAILABILITY_STATUS
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+  attributes: 
+    id: 42158875947198358708
+    appearance: 
+      layout: Grid
+      grid-columns: 3 Columns
+
+    title: 
+      advanced-formatting: true
+      html-expression: |
+        <img src="&FIRST_IMAGE_URL." style="width:100%; max-height:200px; object-fit:cover;">
+        
+
+    subtitle: 
+      advanced-formatting: false
+
+    body: 
+      advanced-formatting: true
+      html-expression: |
+        <!-- &IMAGE_HTML.<br> -->
+        <!-- <strong>Property Name:</strong> &PROPERTY_NAME.<br>
+        <strong>Area:</strong> &AREA. sq.ft<br>
+        <strong>Floor Number:</strong> &FLOOR_NUMBER.<br>
+        <strong>Furnishing Status:</strong> &FURNISHING_STATUS.<br>
+        <strong>Facing Direction:</strong> &FACING_DIRECTION.<br>
+        <strong>Address:</strong> &ADDRESS.<br>
+        <strong>Rate:</strong> For <strong>Sale</strong> &PRICE.<br> -->
+        
+        
+        <h3><strong> &PROPERTY_NAME. </strong></h3>
+        <strong> &PROPERTY_UNITS_NAME. , &PROPERTY_CATEGORY_NAME. for &PROPERTY_PURPOSE. in &ADDRESS. </strong>
+        <p> 📍 &ADDRESS.</p>
+        <strong> INR &PRICE.</strong>
+        <p> 🏚️ &PROPERTY_AVAILABILITY_STATUS.</p>
+        <p> &AREA. (sq.ft)</p>
+        
+        
+        
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: No Icon
+
+    media: 
+      advanced-formatting: false
+      source: No Media
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Page
+      show-total-count: false
+      cards-per-page: 6
+
+    messages: 
+      when-no-data-found: No Property
+
+    actions: 
+    - # ====== Action: Full Card ===================================
+      id: 14756864250813248
+      identification: 
+        type: Full Card
+
+      layout: 
+        sequence: 20
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:40:&SESSION.::&DEBUG.:40:P40_PROPERTY_ID:&PROPERTY_ID.'
+          page: 40 # REDIRECT TO DETAILS
+          clear-cache: 40
+          values: 
+            p40_property_id: '&PROPERTY_ID.'
+
+    - # ====== Action: Edit ========================================
+      id: 42158876253915358711
+      identification: 
+        type: Button
+        label: Edit
+
+      layout: 
+        position: Primary
+        sequence: 10
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:66:&SESSION.::&DEBUG.:66:P66_PROPERTY_ID,P66_PURPOSE,P66_PROPERTY_TYPE,P66_CATEGORY,P66_UNITES,P66_LOCATION,P66_LANDMARK,P66_LATITUDE,P66_LONGITUDE,P66_AREA,P66_PRICE,P66_FURNISHING,P66_AVAILABILITY_STATUS,P66_PROJECT_NAME,P66_PROJECT_DESCRIPTION,P66_LAUNCH_DATE,P66_HANDOVER_DATE,P66_PROPERTY_NAME,P66_PROPERTY_DESCRIPTION,P66_PROPERTY_AGE,P66_PROPERTY_FACING,P66_LISTING_FOR,P66_ADDRESS:&PROPERTY_ID.,&PROPERTY_PURPOSE.,&PROPERTY_CATEGORY.,&PROPERTY_SUB_CATEGORY.,&PROPERTY_UNITS.,&LOCATION.,&LANDMARK.,&LATITUDE.,&LONGITUDE.,&AREA.,&PRICE.,&PROPERTY_FURNISHING.,&PROPERTY_COMPLETION_STATUS.,&PROJECT_NAME.,&PROJECT_DESCRIPTION.,&LAUNCH_DATE.,&HANDOVER_DATE.,&PROPERTY_NAME.,&PROPERTY_DESCRIPTION.,&PROPERTY_AGE.,&PROPERTY_FACING_DIRECTION.,&LISTING_FOR.,&ADDRESS.'
+          page: 66
+          clear-cache: 66
+          values: 
+            p66_property_id: '&PROPERTY_ID.'
+            p66_purpose: '&PROPERTY_PURPOSE.'
+            p66_property_type: '&PROPERTY_CATEGORY.'
+            p66_category: '&PROPERTY_SUB_CATEGORY.'
+            p66_unites: '&PROPERTY_UNITS.'
+            p66_location: '&LOCATION.'
+            p66_landmark: '&LANDMARK.'
+            p66_latitude: '&LATITUDE.'
+            p66_longitude: '&LONGITUDE.'
+            p66_area: '&AREA.'
+            p66_price: '&PRICE.'
+            p66_furnishing: '&PROPERTY_FURNISHING.'
+            p66_availability_status: '&PROPERTY_COMPLETION_STATUS.'
+            p66_project_name: '&PROJECT_NAME.'
+            p66_project_description: '&PROJECT_DESCRIPTION.'
+            p66_launch_date: '&LAUNCH_DATE.'
+            p66_handover_date: '&HANDOVER_DATE.'
+            p66_property_name: '&PROPERTY_NAME.'
+            p66_property_description: '&PROPERTY_DESCRIPTION.'
+            p66_property_age: '&PROPERTY_AGE.'
+            p66_property_facing: '&PROPERTY_FACING_DIRECTION.'
+            p66_listing_for: '&LISTING_FOR.'
+            p66_address: '&ADDRESS.'
+
+      appearance: 
+        display-type: Text
+        hot: false
+
+      configuration: 
+        build-option: Commented Out # 30584983782671713301
+
+- # ====== Region: Filter ======================================
+  id: 42158876395429358712
+  identification: 
+    name: Filter
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P45_PROPERTY_TYPE ========================
+  id: 42158876419867358713
+  identification: 
+    name: P45_PROPERTY_TYPE
+    type: Select List
+
+  label: 
+    label: Property Type
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 10
+    region: Filter # 42158876395429358712
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    icon: fa-building-o
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: select PROPERTY_TYPE , PROPERTY_TYPE_ID from PMS_PROPERTY_TYPE
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: '- select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P45_AVAILABILITY_STATUS ==================
+  id: 42158876775882358716
+  identification: 
+    name: P45_AVAILABILITY_STATUS
+    type: Select List
+
+  label: 
+    label: Availability Status
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 20
+    region: Filter # 42158876395429358712
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    icon: fa-meeting-room
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select PROPERTY_AVAILABILITY_STATUS , PROPERTY_AVAILABILITY_STATUS_ID from PMS_PROPERTY_STATUS
+      
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: '- select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: AddProperty =================================
+  id: 14688128151631503
+  identification: 
+    button-name: AddProperty
+    label: Add Property
+
+  layout: 
+    sequence: 20
+    region: Builder Project Report # 34373649902012043016
+    slot: TOP
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    horizontal-alignment: Right
+
+  appearance: 
+    button-template: Text with Icon
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+    - t-Button--iconLeft
+    - t-Button--padBottom
+    icon: fa-plus
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:59:&SESSION.::&DEBUG.:::'
+      page: 59 # Property Form
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: AddProperty_1 ===============================
+  id: 979656649279694217
+  identification: 
+    button-name: AddProperty_1
+    label: Add Property
+
+  layout: 
+    sequence: 50
+    region: Filter # 42158876395429358712
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text with Icon
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+    - t-Button--iconLeft
+    - t-Button--gapLeft
+    - t-Button--gapTop
+    icon: fa-plus
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:59:&SESSION.::&DEBUG.:::'
+      page: 59 # Property Form
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: CREATE ======================================
+  id: 33405361171821842949
+  identification: 
+    button-name: CREATE
+    label: Create
+
+  layout: 
+    sequence: 30
+    region: Builder Project Report # 34373649902012043016
+    slot: TOP
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    horizontal-alignment: Right
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:47:&SESSION.::&DEBUG.:47::'
+      page: 47 # PMS USERS FORM
+      clear-cache: 47
+
+    warn-on-unsaved-changes: Do Not Check
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+- # ====== Button: CREATE_1 ====================================
+  id: 38550387340478960525
+  identification: 
+    button-name: CREATE_1
+    label: Create 1
+
+  layout: 
+    sequence: 40
+    region: Builder Project Report # 34373649902012043016
+    slot: TOP
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    horizontal-alignment: Right
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:77:&SESSION.::&DEBUG.:77::'
+      page: 77
+      clear-cache: 77
+
+    warn-on-unsaved-changes: Do Not Check
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+- # ====== Button: CREATE_1_1 ==================================
+  id: 39258314921554436308
+  identification: 
+    button-name: CREATE_1_1
+    label: Create 2
+
+  layout: 
+    sequence: 60
+    region: Builder Project Report # 34373649902012043016
+    slot: TOP
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    horizontal-alignment: Right
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:60:&SESSION.::&DEBUG.:60::'
+      page: 60 # Appointment Calendar 
+      clear-cache: 60
+
+    warn-on-unsaved-changes: Do Not Check
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+- # ====== Button: CREATE_1_1_1 ================================
+  id: 41656392556555134317
+  identification: 
+    button-name: CREATE_1_1_1
+    label: Create 3
+
+  layout: 
+    sequence: 70
+    region: Builder Project Report # 34373649902012043016
+    slot: TOP
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    horizontal-alignment: Right
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:65:&SESSION.::&DEBUG.:65::'
+      page: 65 # Edit Appointment
+      clear-cache: 65
+
+    warn-on-unsaved-changes: Do Not Check
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+- # ====== Button: Reset =======================================
+  id: 42158877023395358719
+  identification: 
+    button-name: Reset
+    label: Reset
+
+  layout: 
+    sequence: 40
+    region: Filter # 42158876395429358712
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text with Icon
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+    - t-Button--iconLeft
+    - t-Button--hoverIconPush
+    - t-Button--gapLeft
+    - t-Button--gapTop
+    icon: fa-rotate-left
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: CREATE_1_1_1_1 ==============================
+  id: 43833653105332013097
+  identification: 
+    button-name: CREATE_1_1_1_1
+    label: user
+
+  layout: 
+    sequence: 80
+    region: Builder Project Report # 34373649902012043016
+    slot: TOP
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    horizontal-alignment: Right
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:75:&SESSION.::&DEBUG.:75::'
+      page: 75
+      clear-cache: 75
+
+    warn-on-unsaved-changes: Do Not Check
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+dynamic-actions: 
+- # ====== Dynamic Action: Edit Report - Dialog Closed =========
+  id: 33405361419125842949
+  identification: 
+    name: Edit Report - Dialog Closed
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Dialog Closed
+    selection-type: Region
+    region: Builder Property Report # 33405333282741842925
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 33405361942081842950
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Builder Property Report # 33405333282741842925
+
+    execution: 
+      sequence: 10
+      event: Edit Report - Dialog Closed # 33405361419125842949
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Refresh =============================
+  id: 42158876602641358714
+  identification: 
+    name: Refresh
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P45_PROPERTY_TYPE
+    - P45_AVAILABILITY_STATUS
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 42158876627862358715
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Builder Property List # 519249453756372953
+
+    execution: 
+      sequence: 10
+      event: Refresh # 42158876602641358714
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: clear ===============================
+  id: 42158877203260358720
+  identification: 
+    name: clear
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+
+  when: 
+    event: Page Load
+
+  actions: 
+  - # ====== Action: Clear =======================================
+    id: 42158877220147358721
+    identification: 
+      action: Clear
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P45_PROPERTY_TYPE
+      - P45_AVAILABILITY_STATUS
+
+    execution: 
+      sequence: 10
+      event: clear # 42158877203260358720
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Refresh =====================================
+    id: 42158877327847358722
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Builder Project Report # 34373649902012043016
+
+    execution: 
+      sequence: 20
+      event: clear # 42158877203260358720
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: clear filter ========================
+  id: 42158877740855358726
+  identification: 
+    name: clear filter
+
+  execution: 
+    sequence: 50
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: Reset # 42158877023395358719
+
+  actions: 
+  - # ====== Action: Clear =======================================
+    id: 42158877910267358727
+    identification: 
+      action: Clear
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P45_PROPERTY_TYPE
+      - P45_AVAILABILITY_STATUS
+
+    execution: 
+      sequence: 10
+      event: clear filter # 42158877740855358726
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Refresh =====================================
+    id: 42158877972414358728
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Builder Property List # 519249453756372953
+
+    execution: 
+      sequence: 20
+      event: clear filter # 42158877740855358726
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+

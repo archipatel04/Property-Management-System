@@ -1,0 +1,1576 @@
+---
+- # ====== List: Navigation Menu ===============================
+  id: 30584984865718713303
+  identification: 
+    name: Navigation Menu
+
+  subscription: 
+    version-number: 15634920720950
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: PMS PROPERTY =================================
+    id: 44452229193549
+    label: 
+      label: PMS PROPERTY
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
+
+    layout: 
+      sequence: 240
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 20
+      - 42
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:20:&APP_SESSION.::&DEBUG.:::'
+        page: 20 # PMS PROPERTY
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: PMS User Role Access =========================
+    id: 285677461878521
+    label: 
+      label: PMS User Role Access
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
+
+    layout: 
+      sequence: 250
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 48
+      - 49
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:48:&APP_SESSION.::&DEBUG.:::'
+        page: 48 # PMS User Role Access
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: PMS Page Master ==============================
+    id: 310542633941307
+    label: 
+      label: PMS Page Master
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
+
+    layout: 
+      sequence: 260
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 50
+      - 51
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:50:&APP_SESSION.::&DEBUG.:::'
+        page: 50 # PMS Page Master
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: PMS Role Page Access =========================
+    id: 340451941241560
+    label: 
+      label: PMS Role Page Access
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
+
+    layout: 
+      sequence: 270
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 52
+      - 53
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:52:&APP_SESSION.::&DEBUG.:::'
+        page: 52 # PMS Role Page Access
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: PMS Navigation Menu ==========================
+    id: 369408069341207
+    label: 
+      label: PMS Navigation Menu
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
+
+    layout: 
+      sequence: 280
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 54
+      - 55
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:54:&APP_SESSION.::&DEBUG.:::'
+        page: 54 # PMS Navigation Menu
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Property Certificate =========================
+    id: 3834391742588552183
+    label: 
+      label: Property Certificate
+
+    icon: 
+      image/icon-css-classes: fa-certificate
+
+    layout: 
+      sequence: 290
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:67:&SESSION.:PRINT_REPORT=PROPERTY:&DEBUG.::::YES'
+        page: 67 # Property Certificate
+        request: PRINT_REPORT=PROPERTY
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Home =========================================
+    id: 30584996696831713318
+    label: 
+      label: Home
+
+    icon: 
+      image/icon-css-classes: fa-home
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1:&APP_SESSION.::&DEBUG.:::'
+        page: 1 # Home
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Property =====================================
+    id: 30652179353922998342
+    label: 
+      label: Property
+
+    icon: 
+      image/icon-css-classes: fa-building-o
+
+    layout: 
+      sequence: 30
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 9
+      - 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:9:&SESSION.::&DEBUG.::::'
+        page: 9 # Property
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Owner ========================================
+    id: 30666141632323861364
+    label: 
+      label: Owner
+
+    icon: 
+      image/icon-css-classes: fa-user-chart
+
+    layout: 
+      sequence: 40
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 11
+      - 12
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:11:&SESSION.::&DEBUG.::::'
+        page: 11 # Owner
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Builder ======================================
+    id: 30710162733079451300
+    label: 
+      label: Builder
+
+    icon: 
+      image/icon-css-classes: fa-city
+
+    layout: 
+      sequence: 50
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 15
+      - 16
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:15:&SESSION.::&DEBUG.::::'
+        page: 15 # Builder
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Agent ========================================
+    id: 30714600547411535248
+    label: 
+      label: Agent
+
+    icon: 
+      image/icon-css-classes: fa-person-standing
+
+    layout: 
+      sequence: 60
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 17
+      - 18
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:17:&SESSION.::&DEBUG.::::'
+        page: 17 # Agent
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Project ======================================
+    id: 30720105896734881925
+    label: 
+      label: Project
+
+    icon: 
+      image/icon-css-classes: fa-projector
+
+    layout: 
+      sequence: 70
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 19
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:19:&SESSION.::&DEBUG.::::'
+        page: 19 # Project
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Search =======================================
+    id: 31050973862749543488
+    label: 
+      label: Search
+
+    icon: 
+      image/icon-css-classes: fa-search
+
+    layout: 
+      sequence: 90
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 21
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:21:&SESSION.::&DEBUG.::::'
+        page: 21 # Search
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Listing Coordinator ==========================
+    id: 32842876909656132945
+    label: 
+      label: Listing Coordinator
+
+    icon: 
+      image/icon-css-classes: fa-list
+
+    layout: 
+      sequence: 100
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 2
+      - 3
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:2:&SESSION.::&DEBUG.::::'
+        page: 2 # Listing Coordinator
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: User Master ==================================
+    id: 32906979003366812239
+    label: 
+      label: User Master
+
+    icon: 
+      image/icon-css-classes: fa-user-secret
+
+    layout: 
+      sequence: 140
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 13
+      - 14
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:13:&SESSION.::&DEBUG.::::'
+        page: 13 # User Master
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: User Role Master =============================
+    id: 32908902439004850117
+    label: 
+      label: User Role Master
+
+    icon: 
+      image/icon-css-classes: fa-user-check
+
+    layout: 
+      sequence: 150
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 22
+      - 23
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:22:&SESSION.::&DEBUG.::::'
+        page: 22 # User Role Master
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Page Master ==================================
+    id: 32910436500777883073
+    label: 
+      label: Page Master
+
+    icon: 
+      image/icon-css-classes: fa-ai-sparkle-generate-document
+
+    layout: 
+      sequence: 160
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 24
+      - 25
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:24:&SESSION.::&DEBUG.::::'
+        page: 24 # Page Master
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: user role access master ======================
+    id: 32911460399898899365
+    label: 
+      label: user role access master
+
+    icon: 
+      image/icon-css-classes: fa-universal-access
+
+    layout: 
+      sequence: 170
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 26
+      - 27
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:26:&SESSION.::&DEBUG.::::'
+        page: 26 # user role access master
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Role Page Access Master ======================
+    id: 32913432321603941998
+    label: 
+      label: Role Page Access Master
+
+    icon: 
+      image/icon-css-classes: fa-file-check
+
+    layout: 
+      sequence: 180
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 28
+      - 29
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:28:&SESSION.::&DEBUG.::::'
+        page: 28 # Role Page Access Master
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Navigation Menu Master =======================
+    id: 32916052969318242874
+    label: 
+      label: Navigation Menu Master
+
+    icon: 
+      image/icon-css-classes: fa-breadcrumb
+
+    layout: 
+      sequence: 190
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 30
+      - 31
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:30:&SESSION.::&DEBUG.::::'
+        page: 30 # Navigation Menu Master
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Accept & Reject ==============================
+    id: 34348476475296053553
+    label: 
+      label: Accept & Reject
+
+    icon: 
+      image/icon-css-classes: fa-file-o
+
+    layout: 
+      sequence: 200
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 32
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:32:&APP_SESSION.::&DEBUG.:::'
+        page: 32 # Accept & Reject
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Residential ==================================
+    id: 37323767716944337023
+    label: 
+      label: Residential
+
+    icon: 
+      image/icon-css-classes: fa-cards
+
+    layout: 
+      sequence: 210
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 37
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:37:&APP_SESSION.::&DEBUG.:::'
+        page: 37 # Residential
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Property Details 1 ===========================
+    id: 42195501932939525296
+    label: 
+      label: Property Details 1
+
+    icon: 
+      image/icon-css-classes: fa-file-o
+
+    layout: 
+      sequence: 220
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 41
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:41:&APP_SESSION.::&DEBUG.:::'
+        page: 41 # Property Details 1
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Property Details =============================
+    id: 43328109436206555921
+    label: 
+      label: Property Details
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
+
+    layout: 
+      sequence: 230
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 39
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:39:&APP_SESSION.::&DEBUG.:::'
+        page: 39 # Property Details
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+- # ====== List: Navigation Bar ================================
+  id: 30584986099480713305
+  identification: 
+    name: Navigation Bar
+
+  subscription: 
+    version-number: 15634423459263
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Manage Properties  ===========================
+    id: 14670271610383481
+    label: 
+      label: 'Manage Properties '
+
+    icon: 
+      image/icon-css-classes: fa-list-ul
+
+    layout: 
+      sequence: 2
+      parent-entry: '&APP_DISPLAY.' # 30584998191995713321
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:72:&SESSION.::&DEBUG.::::'
+        page: 72 # Builder Listing Proeprty
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: My Profile ===================================
+    id: 14671285620389473
+    label: 
+      label: My Profile
+
+    icon: 
+      image/icon-css-classes: fa-address-card-o
+
+    layout: 
+      sequence: 1
+      parent-entry: '&APP_DISPLAY.' # 30584998191995713321
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:68:&SESSION.::&DEBUG.::::'
+        page: 68 # Profile
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Install App ==================================
+    id: 14951374410202835
+    label: 
+      label: Install App
+
+    icon: 
+      image/icon-css-classes: fa-cloud-download
+
+    layout: 
+      sequence: 1
+
+    is-current: 
+      type: Never
+
+    link: 
+      target: '#action$a-pwa-install'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      2.: a-pwaInstall
+
+  - # ====== Entry: Favorite Property ============================
+    id: 15119181555501998
+    label: 
+      label: Favorite Property
+
+    icon: 
+      image/icon-css-classes: fa-cart-heart
+
+    layout: 
+      sequence: 3
+      parent-entry: '&APP_DISPLAY.' # 30584998191995713321
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:64:&SESSION.::&DEBUG.::::'
+        page: 64 # Favorite Property
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: &APP_DISPLAY. ================================
+    id: 30584998191995713321
+    label: 
+      label: '&APP_DISPLAY.'
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '#'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: |
+        <!-- User name and image in one centered row -->
+        <span class="t-Button-badge" style="display: flex; align-items: center; gap: 10px;">
+        <!-- User name display -->
+        <span class="zone" style="font-size: 12px; font-weight: bold;">&APP_DISPLAY_NAME.</span>
+         
+          <span id="user-avatar-container" style="position: relative; display: inline-block; width:35px; height:35px;">
+        <!-- Image -->
+        <img id="user-avatar-img"
+        
+                 src="f?p=&APP_ID.:0:&APP_SESSION.:APPLICATION_PROCESS=GET_PROFILE_IMAGE:::APP_IMAGE_ID:&APP_USER."
+        
+                 alt="User"
+        
+                 style="width:100%; height:100%; border-radius:50%; object-fit:cover; position:absolute; top:0px; left:0;"
+        
+                 onerror="this.style.display='none'; document.getElementById('user-avatar-initials').style.display='flex';">
+         
+            <!-- Fallback Initials -->
+        <span id="user-avatar-initials"
+        
+                  style="display:none; width:100%; height:100%; border-radius:50%; background-color:#fff; color:#DA4153; font-weight:bold; align-items:center; justify-content:center; font-size:14px; position:absolute; top:1.5px; left:0;">
+        </span>
+        </span>
+        </span>
+         
+         
+        <!-- JavaScript to handle fallback -->
+        <script>
+        
+          const img = document.getElementById("user-avatar-img");
+        
+          const initialsSpan = document.getElementById("user-avatar-initials");
+         
+          fetch("f?p=&APP_ID.:0:&APP_SESSION.:APPLICATION_PROCESS=GET_PROFILE_IMAGE:::APP_IMAGE_ID:&APP_USER.")
+        
+            .then(res => res.blob())
+        
+            .then(blob => {
+        
+              if (blob.type.startsWith("image/")) {
+        
+                const url = URL.createObjectURL(blob);
+        
+                img.src = url;
+        
+                img.style.display = "block";
+        
+                initialsSpan.style.display = "none";
+        
+              } else {
+        
+                // Not an image – treat as text initials
+        
+                blob.text().then(text => {
+        
+                  initialsSpan.textContent = text.trim() || "NA";
+        
+                  initialsSpan.style.display = "flex";
+        
+                  img.style.display = "none";
+        
+                });
+        
+              }
+        
+            })
+        
+            .catch(() => {
+        
+              initialsSpan.textContent = "NA";
+        
+              initialsSpan.style.display = "flex";
+        
+              img.style.display = "none";
+        
+            });
+        </script>
+         
+      2.: has-username
+
+    server-side-condition: 
+      type: User is Authenticated (not public)
+
+  - # ====== Entry: --- ==========================================
+    id: 30584998602104713322
+    label: 
+      label: '---'
+
+    layout: 
+      sequence: 20
+      parent-entry: '&APP_DISPLAY.' # 30584998191995713321
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: separator
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    server-side-condition: 
+      type: User is Authenticated (not public)
+
+  - # ====== Entry: Sign Out =====================================
+    id: 30584999056239713322
+    label: 
+      label: Sign Out
+
+    icon: 
+      image/icon-css-classes: fa-sign-out
+
+    layout: 
+      sequence: 30
+      parent-entry: '&APP_DISPLAY.' # 30584998191995713321
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '&LOGOUT_URL.'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    server-side-condition: 
+      type: User is Authenticated (not public)
+
+  - # ====== Entry: Settings =====================================
+    id: 34293923149919177430
+    label: 
+      label: Settings
+
+    icon: 
+      image/icon-css-classes: fa-gear
+
+    layout: 
+      sequence: 10
+      parent-entry: '&APP_DISPLAY.' # 30584998191995713321
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:20000:&SESSION.::&DEBUG.::::'
+        page: 20000 # Settings
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    configuration: 
+      build-option: 'Feature: User Settings' # 34293916752029177420
+
+  - # ====== Entry: Sign-In ======================================
+    id: 45952026138104529743
+    label: 
+      label: Sign-In
+
+    icon: 
+      image/icon-css-classes: fa-user-circle
+
+    layout: 
+      sequence: 40
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:9999:&SESSION.::&DEBUG.::::'
+        page: 9999 # Login Page
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    server-side-condition: 
+      type: User is the Public User (user has not authenticated)
+
+- # ====== List: RBAC_NAV ======================================
+  id: 33339902415156167195
+  identification: 
+    name: RBAC_NAV
+
+  subscription: 
+    version-number: 15634700332452
+
+  source: 
+    type: SQL Query
+    sql-query: |
+      SELECT null,
+       
+              NM.MENU_NAME label,
+       
+             'f?p=&APP_ID.:'|| P.APEX_PAGE_ID ||':'||:APP_SESSION||':::::' target,
+       
+             null is_current,
+       
+             NM.ICON
+       
+          -- U.USER_ID,
+       
+          -- U.USER_DISP_NAME,
+       
+          -- U.EMAIL,
+       
+          -- R.ROLE_ID,
+       
+          -- R.ROLE_NAME,
+       
+          -- URAM.USER_ROLE_ACESS_ID,
+       
+          -- P.PAGE_ID,
+       
+          -- P.PAGE_NAME,
+       
+          -- P.APEX_PAGE_ID,
+       
+          -- NM.MENU_ID,
+       
+          -- NM.MENU_SEQ_ID,
+       
+          -- NM.MENU_NAME,
+       
+          -- NM.PARENT_MENU_ID,
+       
+          -- NM.PAGE_ID,
+       
+          -- NM.APEX_PAGE_ID
+       
+      FROM
+       
+          PMS_USERS U,
+       
+          PMS_USER_ROLE_ACCESS_MASTER URAM,
+       
+          PMS_ROLES R,
+       
+          PMS_ROLE_PAGE_ACCESS_MASTER RPAM,
+       
+          PMS_PAGE_MASTER P,
+       
+          PMS_NAVIGATION_MENU_MASTER NM
+       
+      WHERE 1 = 1 
+          AND U.USER_ID = URAM.USER_ID
+       
+          AND URAM.ROLE_ID = R.ROLE_ID
+       
+          AND R.ROLE_ID = RPAM.ROLE_ID
+       
+          AND RPAM.PAGE_ID = P.PAGE_ID
+       
+          AND P.PAGE_ID = NM.PAGE_ID
+       
+          AND U.USER_ID = :USER_ID
+       
+          order by NM.MENU_SEQ_ID;
+
+  entries: 
+  - # ====== Entry: PMS USERS ====================================
+    id: 250019316534249
+    label: 
+      label: PMS USERS
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
+
+    layout: 
+      sequence: 60
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 46
+      - 47
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:46:&APP_SESSION.::&DEBUG.:::'
+        page: 46 # PMS USERS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Appointment Calendar =========================
+    id: 15093836270775845
+    label: 
+      label: Appointment Calendar
+
+    icon: 
+      image/icon-css-classes: fa-file-o
+
+    layout: 
+      sequence: 80
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 58
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:58:&APP_SESSION.::&DEBUG.:::'
+        page: 58 # Appointment Calendar
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: PMS Appointment ==============================
+    id: 15123574271136467
+    label: 
+      label: PMS Appointment
+
+    icon: 
+      image/icon-css-classes: fa-forms
+
+    layout: 
+      sequence: 70
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 57
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:57:&APP_SESSION.::&DEBUG.:::'
+        page: 57 # PMS Appointment
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Property Certificate =========================
+    id: 3830057670407445267
+    label: 
+      label: Property Certificate
+
+    icon: 
+      image/icon-css-classes: fa-table
+
+    layout: 
+      sequence: 90
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 67
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:67:&APP_SESSION.::&DEBUG.:::'
+        page: 67 # Property Certificate
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Add Property =================================
+    id: 33455154472389930632
+    label: 
+      label: Add Property
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 5
+      - 6
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:5:&APP_SESSION.::&DEBUG.:::'
+        page: 5 # Appointment
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Accept Appointment ===========================
+    id: 35150008298799747288
+    label: 
+      label: Accept Appointment
+
+    icon: 
+      image/icon-css-classes: fa-file-o
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 6
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:6:&APP_SESSION.::&DEBUG.:::'
+        page: 6 # Accept Appointment
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Reject Appointment ===========================
+    id: 35164049395947022800
+    label: 
+      label: Reject Appointment
+
+    icon: 
+      image/icon-css-classes: fa-file-o
+
+    layout: 
+      sequence: 30
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 35
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:35:&APP_SESSION.::&DEBUG.:::'
+        page: 35 # Reject Appointment
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Redirect to Map Page =========================
+    id: 36715238755385319115
+    label: 
+      label: Redirect to Map Page
+
+    icon: 
+      image/icon-css-classes: fa-map-marker
+
+    layout: 
+      sequence: 40
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 36
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:36:&APP_SESSION.::&DEBUG.:::'
+        page: 36 # Redirect to Map Page
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: User Property Details ========================
+    id: 43502735489067401435
+    label: 
+      label: User Property Details
+
+    icon: 
+      image/icon-css-classes: fa-cards
+
+    layout: 
+      sequence: 50
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 44
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:44:&APP_SESSION.::&DEBUG.:::'
+        page: 44 # User Property Details
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+- # ====== List: User Settings =================================
+  id: 34293920312108177427
+  identification: 
+    name: User Settings
+
+  subscription: 
+    version-number: 15620174778182
+
+  source: 
+    type: Static Values
+
+  configuration: 
+    build-option: 'Feature: User Settings' # 34293916752029177420
+
+  entries: 
+  - # ====== Entry: Push Notifications ===========================
+    id: 34293920748599177427
+    label: 
+      label: Push Notifications
+
+    icon: 
+      image/icon-css-classes: fa-bell-o
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:20010:&APP_SESSION.::&DEBUG.:::'
+        page: 20010 # Push Notifications
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Configure whether you want to receive push notifications on this device.
+      2.: <span class="a-pwaPush--state"></span>
+
+    configuration: 
+      build-option: 'Feature: Push Notifications' # 34293916493900177419
+
+- # ====== List: About_menu ====================================
+  id: 37313664824747049892
+  identification: 
+    name: About_menu
+
+  subscription: 
+    version-number: 15621677472052
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Legacy =======================================
+    id: 37313665021024049893
+    label: 
+      label: Legacy
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '#'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Leadership ===================================
+    id: 37313665482355049894
+    label: 
+      label: Leadership
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '#'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Thoughtful design ============================
+    id: 37313665887519049894
+    label: 
+      label: Thoughtful design
+
+    layout: 
+      sequence: 30
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '#'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Sustainability ===============================
+    id: 37313666238979049894
+    label: 
+      label: Sustainability
+
+    layout: 
+      sequence: 40
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '#'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+- # ====== List: Property_menu =================================
+  id: 37319948096065976131
+  identification: 
+    name: Property_menu
+
+  subscription: 
+    version-number: 15622063322359
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Residential ==================================
+    id: 37319948266925976133
+    label: 
+      label: Residential
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:37:&SESSION.::&DEBUG.::::'
+        page: 37 # Residential
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Commercial ===================================
+    id: 37319948690169976133
+    label: 
+      label: Commercial
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '#'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Agricultural =================================
+    id: 37319949012675976133
+    label: 
+      label: Agricultural
+
+    layout: 
+      sequence: 30
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '#'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Mixed-Use ====================================
+    id: 37319949483435976134
+    label: 
+      label: Mixed-Use
+
+    layout: 
+      sequence: 40
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '#'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Industrial ===================================
+    id: 37319949803981976134
+    label: 
+      label: Industrial
+
+    layout: 
+      sequence: 50
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '#'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+

@@ -1,0 +1,355 @@
+---
+# ====== Page: Profile =======================================
+id: 68
+identification: 
+  name: Profile
+  alias: PROFILE
+  title: Profile
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Drawer
+  template-options: 
+  - '#DEFAULT#'
+  - js-dialog-class-t-Drawer--pullOutEnd
+
+dialog: 
+  width: 500px
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Profile =====================================
+  id: 42705714395244825029
+  identification: 
+    name: Profile
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select USER_ID,
+             FIRST_NAME,
+             LAST_NAME,
+             EMAIL,
+             PHONE_NUMBER,
+             ADDRESS,
+             PASSWORD,
+             STATUS,
+             REGISTRATIONDATE,
+             CREATED_AT,
+             CREATED_BY,
+             UPDATED_AT,
+             UPDATED_BY,
+             STATE,
+             CITY,
+             APEX_PAGE.GET_URL(
+                  p_page   => 71,  -- Replace with actual page ID of your modal
+                  p_items  => 'P71_USER_ID',
+                  p_values => user_id 
+             ) AS user_LINK,
+             USER_IMAGE
+        from PMS_USERS
+       where user_id = :user_id
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 42705714455391825030
+    appearance: 
+      layout: Horizontal (Row)
+
+    title: 
+      advanced-formatting: true
+      html-expression: |2
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <a href="&USER_LINK."><i class="fa-solid fa-pen-to-square"></i></a>
+
+    subtitle: 
+      advanced-formatting: false
+
+    body: 
+      advanced-formatting: true
+      html-expression: |
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+        <style>
+            .profile-container {
+                max-width: 850px;
+                background: #fff;
+                margin: auto;
+                border-radius: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+                padding: 35px;
+            }
+        
+            .profile-header {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                /* gap: 30px; */
+            }
+        
+            .profile-image {
+                width: 140px;
+                height: 140px;
+                border-radius: 50%;
+                overflow: hidden;
+                border: 4px solid #3498db;
+            }
+        
+            .profile-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        
+            .profile-details {
+                flex: 1;
+            }
+        
+            .profile-details h2 {
+                font-size: 26px;
+                color: #333;
+                margin-bottom: 8px;
+            }
+        
+            .profile-details p {
+                font-size: 14px;
+                color: #666;
+                margin: 4px 0;
+            }
+        
+            .info-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 10px;
+                margin-top: 15px;
+            }
+        
+            .info-box {
+                background: #f9fbfc;
+                padding: 18px 20px;
+                border-radius: 12px;
+                transition: all 0.3s ease;
+                box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+            }
+        
+            .SC {
+                display: flex;
+                /* gap:30px; */
+                justify-content: space-between;
+            }
+        
+            .SC .info-box {
+                width: 48%;
+            }
+        
+            .info-box:hover {
+                box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+            }
+        
+            .label {
+                font-size: 13px;
+                font-weight: 600;
+                color: #555;
+                margin-bottom: 5px;
+            }
+        
+            .value {
+                font-size: 15px;
+                color: #222;
+            }
+        
+            .footer {
+                text-align: center;
+                font-size: 12px;
+                color: #888;
+                /* margin-top: 40px; */
+                padding-top: 10px;
+                border-top: 1px solid #eee;
+            }
+        
+            @media (max-width: 600px) {
+                .profile-header {
+                    flex-direction: column;
+                    text-align: center;
+                }
+            }
+        </style>
+        
+        <!-- <div class="profile-container"> -->
+        <div class="profile-header">
+            <div class="profile-image">
+                <img src="&USER_IMAGE." alt="User Profile">
+            </div>
+            <div class="profile-details">
+                <h2>&FIRST_NAME. &LAST_NAME.</h2>
+                <p> <strong>Status: </strong> <strong style="color: green;">&STATUS.</strong></p>
+                <p><strong>Email: </strong> &EMAIL.</p>
+                <p><strong> Phone: </strong> &PHONE_NUMBER.</p>
+            </div>
+        </div>
+        
+        <div class="info-grid">
+            <div class="info-box">
+                <div class="label">Address</div>
+                <div class="value">&ADDRESS.</div>
+            </div>
+            <div class="SC">
+                <div class="info-box">
+                    <div class="label">City</div>
+                    <div class="value">&CITY.</div>
+                </div>
+                <div class="info-box">
+                    <div class="label">State</div>
+                    <div class="value">&STATE.</div>
+                </div>
+            </div>
+            <div class="info-box">
+                <div class="label">Registration Date</div>
+                <div class="value">&REGISTRATIONDATE.</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            PMS User Profile View | Powered by Oracle APEX or Web Interface
+        </div>
+        <!-- </div> -->
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: No Icon
+
+    media: 
+      advanced-formatting: false
+      source: No Media
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+page-items: 
+- # ====== Page Item: P68_USER_ID ==============================
+  id: 15126344280581879
+  identification: 
+    name: P68_USER_ID
+    type: Text Field
+
+  label: 
+    label: User Id
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 30
+    region: No Parent
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':USER_ID'
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+

@@ -1,0 +1,681 @@
+---
+# ====== Page: Builder Listing Proeprty ======================
+id: 72
+identification: 
+  name: Builder Listing Proeprty
+  alias: BUILDER-LISTING-PROEPRTY
+  title: Listing Property
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+  - ui-dialog--stretch
+
+dialog: 
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Manage Project ==============================
+  id: 43347421108064419124
+  identification: 
+    name: Manage Project
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      -- SELECT pm.PROPERTY_ID,
+      --        pm.AREA,
+      --        pm.PROJECT_NAME,
+      --        pc.PROPERTY_CATEGORY_NAME,
+      --        pt.PROPERTY_TYPE,
+      --        pu.PROPERTY_UNITS_NAME,
+      --        pm.PRICE,
+      --        pm.HANDOVER_DATE,
+      --        PM.LAUNCH_DATE,
+      --        PM.PROPERTY_NAME,
+      --        PM.PROPERTY_AGE,
+      --        pm.ADDRESS,
+      --        pm.CITY,
+      --        pm.LAT_LONG,
+      --        pm.LANDMARK,
+      --     --    pm.IMAGE_URL,
+      --      REGEXP_SUBSTR(PM.IMAGE_URL, '[^,]+', 1, 1) AS FIRST_IMAGE_URL,
+      --        pp.PROPERTY_PURPOSE,
+      --        ps.PROPERTY_AVAILABILITY_STATUS,
+      --        pf.PROPERTY_FURNISHING_STATUS,
+      --        pfd.PROPERTY_FACING_DIRECTION,
+      --        pm.AMENITIES_TYPE,
+      --        pm.created_at,
+      --        U.FIRST_NAME,
+      --        U.LAST_NAME,
+      --        APEX_PAGE.GET_URL(
+      --             p_page   => 56,  -- Replace with actual page ID of your modal
+      --             p_items  => 'P56_PROPERTY_ID',
+      --             p_values => PROPERTY_ID 
+      --        ) AS DETAIS_LINK,
+      --        APEX_PAGE.GET_URL(
+      --             p_page   => 73,  -- Replace with actual page ID of your modal
+      --             p_items  => 'P73_property_id',
+      --             p_values => PROPERTY_ID 
+      --        ) AS DELETE_LINK,
+      --        APEX_PAGE.GET_URL(
+      --             p_page   => 59,  -- Replace with actual page ID of your modal
+      --             p_items  => 'P59_property_id',
+      --             p_values => PROPERTY_ID 
+      --        ) AS update_LINK
+      -- FROM PMS_PROPERTY_MASTER pm
+      -- JOIN pms_users u ON u.user_id = pm.listing_by
+      -- JOIN PMS_USER_ROLE_ACCESS_MASTER ur ON ur.user_id = u.user_id
+      -- JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+      -- JOIN PMS_PROPERTY_TYPE pt ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      -- JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+      -- JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      -- JOIN PMS_PROPERTY_STATUS ps ON ps.PROPERTY_AVAILABILITY_STATUS_ID = pm.PROPERTY_AVAILABILITY_STATUS
+      -- JOIN PMS_PROPERTY_FURNISHING pf ON pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+      -- JOIN PMS_PROPERTY_FACING_DIRECTION pfd ON pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+      
+      -- WHERE (pm.listing_by = :user_id or pm.listing_for = :user_id) and pm.PROPERTY_AVAILABILITY_STATUS = 1
+      -- ORDER BY pm.PROPERTY_ID ASC;
+      
+      
+      
+      SELECT pm.PROPERTY_ID,
+             pm.AREA,
+             pm.PROJECT_NAME,
+             pc.PROPERTY_CATEGORY_NAME,
+             pt.PROPERTY_TYPE,
+             pu.PROPERTY_UNITS_NAME,
+             pm.PRICE,
+             pm.HANDOVER_DATE,
+             PM.LAUNCH_DATE,
+             PM.PROPERTY_NAME,
+             PM.PROPERTY_AGE,
+             pm.ADDRESS,
+             pm.CITY,
+             pm.LAT_LONG,
+             pm.LANDMARK,
+          --    pm.IMAGE_URL,
+           REGEXP_SUBSTR(PM.IMAGE_URL, '[^,]+', 1, 1) AS FIRST_IMAGE_URL,
+             pp.PROPERTY_PURPOSE,
+             ps.PROPERTY_AVAILABILITY_STATUS,
+             pf.PROPERTY_FURNISHING_STATUS,
+             pfd.PROPERTY_FACING_DIRECTION,
+             pm.AMENITIES_TYPE,
+      (
+        SELECT LISTAGG(am.AMENITIES_TYPE, ', ') WITHIN GROUP (ORDER BY am.AMENITIES_TYPE)
+        FROM PMS_AMENITIES_TYPE am
+        WHERE ',' || pm.AMENITIES_TYPE || ',' LIKE '%,' || am.AMENITIES_TYPE_ID || ',%'
+      ) AS AMENITIES_LIST,
+             pm.created_at,
+             U.FIRST_NAME,
+             U.LAST_NAME,
+             APEX_PAGE.GET_URL(
+                  p_page   => 56,  -- Replace with actual page ID of your modal
+                  p_items  => 'P56_PROPERTY_ID',
+                  p_values => PROPERTY_ID 
+             ) AS DETAILS_LINK,
+             APEX_PAGE.GET_URL(
+                  p_page   => 73,  -- Replace with actual page ID of your modal
+                  p_items  => 'P73_property_id',
+                  p_values => PROPERTY_ID 
+             ) AS DELETE_LINK,
+             APEX_PAGE.GET_URL(
+                  p_page   => 59,  -- Replace with actual page ID of your modal
+                  p_items  => 'P59_PROPERTY_ID',
+                  p_values => PROPERTY_ID 
+             ) AS update_LINK
+      FROM PMS_PROPERTY_MASTER pm
+      JOIN pms_users u ON u.user_id = pm.listing_by
+      JOIN PMS_USER_ROLE_ACCESS_MASTER ur ON ur.user_id = u.user_id
+      JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+      JOIN PMS_PROPERTY_TYPE pt ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+      JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      JOIN PMS_PROPERTY_STATUS ps ON ps.PROPERTY_AVAILABILITY_STATUS_ID = pm.PROPERTY_AVAILABILITY_STATUS
+      JOIN PMS_PROPERTY_FURNISHING pf ON pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+      JOIN PMS_PROPERTY_FACING_DIRECTION pfd ON pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+      
+      WHERE (pm.listing_by = :user_id or pm.listing_for = :user_id) and pm.PROPERTY_AVAILABILITY_STATUS = 1
+      ORDER BY pm.PROPERTY_ID ASC;
+      
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 43347421317175419127
+    appearance: 
+      layout: Grid
+      grid-columns: 2 Columns
+
+    title: 
+      advanced-formatting: true
+      html-expression: |
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        <style>
+            .list{
+                display : flex;
+                gap : 30px;
+            }
+        </style>
+        
+        <div class="list">
+            <a href="&DETAILS_LINK."><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            <a href="&UPDATE_LINK."><i class="fa-solid fa-pen-to-square"></i></a>
+            <a href="&DELETE_LINK."><i class="fa-solid fa-trash"></i></a>
+        </div>
+
+    subtitle: 
+      advanced-formatting: false
+
+    body: 
+      advanced-formatting: true
+      html-expression: |2
+           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <style>
+                .property-card {
+                    display: flex;
+                    flex-direction: row;
+                    background: #ffffff;
+                    border-left: 6px solid #f9a825;
+                    border-radius: 10px;
+                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+                    overflow: hidden;
+                    transition: transform 0.2s ease, box-shadow 0.3s ease;
+                    margin-bottom: 30px;
+                }
+        
+                .property-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+                }
+        
+                .property-image img {
+                    width: 280px;
+                    height: 100%;
+                    object-fit: cover;
+                }
+        
+            .first{
+                display : flex;
+            }
+        
+                .property-details {
+                    padding: 20px 25px;
+                    flex: 1;
+                }
+        
+                .property-details h3 {
+                    margin-top: 0;
+                    font-size: 22px;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                }
+        
+                .plain-label {
+                    background-color: #f9a825;
+                    color: #fff;
+                    font-size: 12px;
+                    padding: 3px 8px;
+                    border-radius: 4px;
+                    margin-left: 12px;
+                }
+        
+                .meta,
+                .info,
+                .listing-info {
+                    font-size: 14px;
+                    margin-top: 8px;
+                    color: #444;
+                }
+        
+                .info strong {
+                    font-weight: 600;
+                    color: #333;
+                }
+        
+                .listing-info {
+                    font-size: 13px;
+                    color: #777;
+                    margin-top: 15px;
+                }
+        
+                @media (max-width: 768px) {
+                    .property-card {
+                        flex-direction: column;
+                    }
+        
+                    .property-image img {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+            </style>
+                <div class="property-details">
+                    <h3>&PROJECT_NAME. <span class="plain-label">&PROPERTY_PURPOSE.</span></h3>
+        
+                    <div class="meta">
+                        💰 <strong>Price:</strong> ₹&PRICE. &nbsp; | &nbsp; 📐 <strong>Area:</strong> &AREA. sq.ft. &nbsp; |
+                        &nbsp; 🏘️ <strong>Units:</strong> &PROPERTY_CATEGORY_NAME. &PROPERTY_UNITS_NAME.
+                    </div>
+        
+                    <div class="info">
+                        📍 <strong>City:</strong> &CITY. &nbsp; | &nbsp; 🏠 <strong>Address:</strong> &ADDRESS.
+                    </div>
+        
+                    <div class="info">
+                        🗓️ <strong>Launch: </strong> &LAUNCH_DATE. &nbsp; | &nbsp;  🗓️<strong>Handover:</strong> &HANDOVER_DATE.
+                    </div>
+        
+                    <div class="info">
+                        🧭 <strong>Facing:</strong> &PROPERTY_FACING_DIRECTION. &nbsp; | &nbsp; 🛋️ <strong>Furnishing:</strong>
+                        &PROPERTY_FURNISHING_STATUS.
+                    </div>
+        
+                    <div class="info">
+                        🏢 <strong>Avalibility Status:</strong> &PROPERTY_AVAILABILITY_STATUS.<br>
+                    </div>
+        
+                    <div class="info">
+                        🛠️ <strong>Amenities:</strong> &AMENITIES_LIST.
+                    </div>
+        
+                    <div class="listing-info">
+                        👤 <strong>Posted By:</strong> &FIRST_NAME. &LAST_NAME.  &nbsp; | &nbsp; 📅 <strong>Created At:</strong> &CREATED_AT.
+                        <!-- &nbsp; | &nbsp; 🎯 <strong>Purpose:</strong> #PROPERTY_PURPOSE# -->
+                    </div>
+                </div>
+            <!-- </div> -->
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: No Icon
+
+    media: 
+      advanced-formatting: false
+      source: No Media
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+    messages: 
+      when-no-data-found: No projects found.
+
+- # ====== Region: Region Display ==============================
+  id: 43347421422215419128
+  identification: 
+    name: Region Display
+    type: Region Display Selector
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      mode: View Single Region
+      display-region-icons: false
+      include-'show-all': false
+      remember-selection: By User
+
+- # ====== Region: Manage Property =============================
+  id: 43347421519634419129
+  identification: 
+    name: Manage Property
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT pm.PROPERTY_ID,
+             pm.AREA,
+             pm.PROJECT_NAME,
+             pc.PROPERTY_CATEGORY_NAME,
+             pt.PROPERTY_TYPE,
+             pu.PROPERTY_UNITS_NAME,
+             pm.PRICE,
+             pm.HANDOVER_DATE,
+             PM.LAUNCH_DATE,
+             PM.PROPERTY_NAME,
+             PM.PROPERTY_AGE,
+             pm.ADDRESS,
+             pm.CITY,
+             pm.LAT_LONG,
+             pm.LANDMARK,
+          --    pm.IMAGE_URL,
+           REGEXP_SUBSTR(PM.IMAGE_URL, '[^,]+', 1, 1) AS FIRST_IMAGE_URL,
+             pp.PROPERTY_PURPOSE,
+             ps.PROPERTY_AVAILABILITY_STATUS,
+             pf.PROPERTY_FURNISHING_STATUS,
+             pfd.PROPERTY_FACING_DIRECTION,
+             pm.AMENITIES_TYPE,
+             (
+        SELECT LISTAGG(am.AMENITIES_TYPE, ', ') WITHIN GROUP (ORDER BY am.AMENITIES_TYPE)
+        FROM PMS_AMENITIES_TYPE am
+        WHERE ',' || pm.AMENITIES_TYPE || ',' LIKE '%,' || am.AMENITIES_TYPE_ID || ',%'
+      ) AS AMENITIES_LIST,
+             pm.created_at,
+             U.FIRST_NAME,
+             U.LAST_NAME,
+             APEX_PAGE.GET_URL(
+                  p_page   => 56,  -- Replace with actual page ID of your modal
+                  p_items  => 'P56_PROPERTY_ID',
+                  p_values => PROPERTY_ID 
+             ) AS DETAILS_LINK,
+             APEX_PAGE.GET_URL(
+                  p_page   => 73,  -- Replace with actual page ID of your modal
+                  p_items  => 'P73_property_id',
+                  p_values => PROPERTY_ID 
+             ) AS DELETE_LINK,
+             APEX_PAGE.GET_URL(
+                  p_page   => 59,  -- Replace with actual page ID of your modal
+                  p_items  => 'P59_property_id',
+                  p_values => PROPERTY_ID 
+             ) AS update_LINK
+      FROM PMS_PROPERTY_MASTER pm
+      JOIN pms_users u ON u.user_id = pm.listing_by
+      JOIN PMS_USER_ROLE_ACCESS_MASTER ur ON ur.user_id = u.user_id
+      JOIN PMS_PROPERTY_CATEGORY pc ON pm.PROPERTY_CATEGORY = pc.PROPERTY_CATEGORY_ID
+      JOIN PMS_PROPERTY_TYPE pt ON pt.PROPERTY_TYPE_ID = pm.PROPERTY_TYPE
+      JOIN PMS_PROPERTY_UNITS pu ON pu.PROPERTY_UNITS_ID = pm.PROPERTY_UNITS
+      JOIN PMS_PROPERTY_PURPOSE pp ON pp.PROPERTY_PURPOSE_ID = pm.PROPERTY_PURPOSE
+      JOIN PMS_PROPERTY_STATUS ps ON ps.PROPERTY_AVAILABILITY_STATUS_ID = pm.PROPERTY_AVAILABILITY_STATUS
+      JOIN PMS_PROPERTY_FURNISHING pf ON pf.PROPERTY_FURNISHING_ID = pm.PROPERTY_FURNISHING
+      JOIN PMS_PROPERTY_FACING_DIRECTION pfd ON pfd.PROPERTY_FACING_DIRECTION_ID = pm.PROPERTY_FACING_DIRECTION
+      
+      WHERE (pm.listing_by = :user_id or pm.listing_for = :user_id) and pm.PROPERTY_AVAILABILITY_STATUS = 2
+      ORDER BY pm.PROPERTY_ID ASC;
+      
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 43347421707109419130
+    appearance: 
+      layout: Grid
+      grid-columns: 2 Columns
+
+    title: 
+      advanced-formatting: true
+      html-expression: |
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        <style>
+            .list{
+                display : flex;
+                gap : 30px;
+            }
+        </style>
+        
+        <div class="list">
+            <a href="&DETAILS_LINK."><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            <a href="&UPDATE_LINK."><i class="fa-solid fa-pen-to-square"></i></a>
+            <a href="&DELETE_LINK."><i class="fa-solid fa-trash"></i></a>
+        </div>
+
+    subtitle: 
+      advanced-formatting: false
+
+    body: 
+      advanced-formatting: true
+      html-expression: |2
+            <style>
+                .property-card {
+                    display: flex;
+                    flex-direction: row;
+                    background: #ffffff;
+                    border-left: 6px solid #f9a825;
+                    border-radius: 10px;
+                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+                    overflow: hidden;
+                    transition: transform 0.2s ease, box-shadow 0.3s ease;
+                    margin-bottom: 30px;
+                }
+        
+                .property-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+                }
+        
+                .property-image img {
+                    width: 280px;
+                    height: 100%;
+                    object-fit: cover;
+                }
+        
+                .property-details {
+                    padding: 20px 25px;
+                    flex: 1;
+                }
+        
+                .property-details h3 {
+                    margin-top: 0;
+                    font-size: 22px;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                }
+        
+                .plain-label {
+                    background-color: #f9a825;
+                    color: #fff;
+                    font-size: 12px;
+                    padding: 3px 8px;
+                    border-radius: 4px;
+                    margin-left: 12px;
+                }
+        
+                .meta,
+                .info,
+                .listing-info {
+                    font-size: 14px;
+                    margin-top: 8px;
+                    color: #444;
+                }
+        
+                .info strong {
+                    font-weight: 600;
+                    color: #333;
+                }
+        
+                .listing-info {
+                    font-size: 13px;
+                    color: #777;
+                    margin-top: 15px;
+                }
+        
+                @media (max-width: 768px) {
+                    .property-card {
+                        flex-direction: column;
+                    }
+        
+                    .property-image img {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+            </style>
+            <!-- <div class="property-card"> -->
+                <!-- <div class="property-image">
+                    <img src="#IMAGE_VIDEO#" alt="Property Image" />
+                </div> -->
+        
+                <div class="property-details">
+                    <h3> &PROPERTY_NAME. <span class="plain-label">&PROPERTY_PURPOSE. </span></h3>
+        
+                    <div class="meta">
+                        💰 <strong>Price:</strong> ₹&PRICE. &nbsp; | &nbsp; 📐 <strong>Area:</strong> &AREA. sq.ft. &nbsp; |
+                        &nbsp; 🏘️ <strong>Units:</strong> &PROPERTY_CATEGORY_NAME. &PROPERTY_UNITS_NAME.
+                    </div>
+        
+                    <div class="info">
+                        📍 <strong>City:</strong> &CITY. &nbsp; | &nbsp; 🏠 <strong>Address:</strong> &ADDRESS.
+                    </div>
+        
+                    <!-- <div class="info">
+                         <strong>Property Age: </strong> &PROPERTY_AGE. 
+                    </div> -->
+        
+                    <div class="info">
+                        🧭 <strong>Facing:</strong> &PROPERTY_FACING_DIRECTION. &nbsp; | &nbsp; 🛋️ <strong>Furnishing:</strong>
+                        &PROPERTY_FURNISHING_STATUS.
+                    </div>
+        
+                    <div class="info">
+                        🏢 <strong>Avalibility Status:</strong> &PROPERTY_AVAILABILITY_STATUS. &nbsp; | &nbsp; ⏳ <strong>Property Age:</strong>
+                         &PROPERTY_AGE. 
+                    </div>
+        
+                    <div class="info">
+                        🛠️ <strong>Amenities:</strong>  &AMENITIES_LIST.
+                    </div>
+        
+                    <div class="listing-info">
+                        👤 <strong>Posted By:</strong> &FIRST_NAME. &LAST_NAME.  &nbsp; | &nbsp; 📅 <strong>Created At:</strong> &CREATED_AT.
+                        <!-- &nbsp; | &nbsp; 🎯 <strong>Purpose:</strong> #PROPERTY_PURPOSE# -->
+                    </div>
+                </div>
+            <!-- </div> -->
+         
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: No Icon
+
+    media: 
+      advanced-formatting: false
+      source: No Media
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+    messages: 
+      when-no-data-found: No properties found.
+

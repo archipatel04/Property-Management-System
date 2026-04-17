@@ -1,0 +1,166 @@
+---
+# ====== Page: Commercial ====================================
+id: 38
+identification: 
+  name: Commercial
+  alias: COMMERCIAL
+  title: Commercial
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Commercial ==================================
+  id: 37873246610940944250
+  identification: 
+    name: Commercial
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select "PROPERTY_ID",
+             "PROPERTY_TYPES_ID",
+             ( select l1."PROPERTY_TYPE" from "PMS002_PROPERTY_TYPES" l1 where l1."PROPERTY_TYPES_ID" = m."PROPERTY_TYPES_ID") "PROPERTY_TYPES_ID_L$1",
+             "STATUS_ID",
+             ( select l2."ROW_KEY" from "PMS002_PROPERTYSTATUSES" l2 where l2."STATUS_ID" = m."STATUS_ID") "STATUS_ID_L$2",
+             "ADDRESS",
+             "PURCHASE_DATE",
+             "AREA",
+             "PROPERTY_AGE",
+             "FLOOR_NUMBER",
+             "TOTAL_FLOORS",
+             "FURNISHING_STATUS",
+             "FACING_DIRECTION",
+             "IMAGES_VIDEOS_UPLOAD",
+             "MAP_LOCATION",
+             "NEAR_BY_LOCATIONS",
+             "LAT_LONG",
+             "LANDMARK",
+             "LISTING_BY",
+             "PRICE",
+             "PROJECT_NAME",
+             "PROPERTY_NAME",
+             "PURPOSE",
+             "CREATED",
+             "CREATED_BY",
+             "UPDATED",
+             "UPDATED_BY",
+             "USER_ID"
+      from "PMS002_PROPERTY" m where PROPERTY_TYPES_ID = 2;
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 37873247168284944252
+    appearance: 
+      layout: Grid
+      grid-columns: 2 Columns
+
+    title: 
+      advanced-formatting: true
+      html-expression: '<img src="&IMAGES_VIDEOS_UPLOAD." style="width:100%; max-height:200px; object-fit:cover;">'
+
+    subtitle: 
+      advanced-formatting: false
+
+    body: 
+      advanced-formatting: true
+      html-expression: |
+        <!-- &IMAGE_HTML.<br> -->
+        <strong>Property Name:</strong> &PROPERTY_NAME.<br>
+        <strong>Area:</strong> &AREA. sq.ft<br>
+        <strong>Floor Number:</strong> &FLOOR_NUMBER.<br>
+        <strong>Furnishing Status:</strong> &FURNISHING_STATUS.<br>
+        <strong>Facing Direction:</strong> &FACING_DIRECTION.<br>
+        <strong>Address:</strong> &ADDRESS.<br>
+        <strong>Rate:</strong> For <strong>Sale</strong> &PRICE.<br>
+        
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: No Icon
+
+    media: 
+      advanced-formatting: false
+      source: No Media
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+    actions: 
+    - # ====== Action: Full Card ===================================
+      id: 37235241608148605328
+      identification: 
+        type: Full Card
+
+      layout: 
+        sequence: 10
+
+      link: 
+        type: Redirect to URL
+        target: '#'
+

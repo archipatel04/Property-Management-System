@@ -1,0 +1,59 @@
+---
+- # ====== Authentication: Oracle APEX Accounts ================
+  id: 30584984058426713302
+  identification: 
+    name: Oracle APEX Accounts
+
+  subscription: 
+    version-number: 15618547907807
+
+  settings: 
+    type: Oracle APEX Accounts
+
+  session-not-valid: 
+    redirect-to: Login Page
+
+  login-processing: 
+    switch-in-session: false
+
+  real-application-security: 
+    ras-mode: Disabled
+
+- # ====== Authentication: property_login ======================
+  id: 32973602319425168764
+  identification: 
+    name: property_login
+
+  subscription: 
+    version-number: 41145258879626
+
+  settings: 
+    type: Custom
+    authentication-function-name: PKG_PMS_AUTH.pms_login
+    enable-legacy-authentication-attributes: false
+
+  source: 
+    pl/sql-code: |
+      PROCEDURE post_authentication IS
+      BEGIN
+         PKG_PMS_AUTH.post_authentication(
+            P_username       => :P9999_USERNAME,
+            P_password       => :P9999_PASSWORD,
+            P_APP_USER_NAME  => :USER_NAME,
+            P_APP_USER_ID    => :USER_ID,
+            P_APP_ROLE_NAME  => :ROLE_NAME,
+            P_APP_ROLE_ID    => :ROLE_ID
+         
+         );
+      END post_authentication;
+
+  session-not-valid: 
+    redirect-to: Login Page
+
+  login-processing: 
+    post-authentication-procedure-name: post_authentication
+    switch-in-session: false
+
+  real-application-security: 
+    ras-mode: Disabled
+

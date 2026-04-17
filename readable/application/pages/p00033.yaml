@@ -1,0 +1,589 @@
+---
+# ====== Page: Details =======================================
+id: 33
+identification: 
+  name: Details
+  alias: DETAILS
+  title: Details
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Property Detail =============================
+  id: 32901593909556780935
+  identification: 
+    name: Property Detail
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      -- select PROPERTY_ID,
+      --        PROPERTY_TYPES_ID,
+      --        STATUS_ID,
+      --        ADDRESS,
+      --        PURCHASE_DATE,
+      --        AREA,
+      --        PROPERTY_AGE,
+      --        FLOOR_NUMBER,
+      --        TOTAL_FLOORS,
+      --        FURNISHING_STATUS,
+      --        FACING_DIRECTION,
+      --        IMAGES_VIDEOS_UPLOAD,
+      --        MAP_LOCATION,
+      --        NEAR_BY_LOCATIONS,
+      --        LAT_LONG,
+      --        LANDMARK,
+      --        LISTING_BY,
+      --        PRICE,
+      --        PROJECT_NAME,
+      --        PEOPERTY_NAME,
+      --        PURPOSE,
+      --        CREATED,
+      --        CREATED_BY,
+      --        UPDATED,
+      --        UPDATED_BY,
+      --        USER_ID
+      --   from PMS002_PROPERTY where property_id = :P33_PROPERTY_ID
+      
+      
+      
+      SELECT 
+          P.PROPERTY_ID,
+          P.PROPERTY_TYPES_ID,
+          P.STATUS_ID,
+          P.ADDRESS,
+          P.PURCHASE_DATE,
+          P.AREA,
+          P.PROPERTY_AGE,
+          P.FLOOR_NUMBER,
+          P.TOTAL_FLOORS,
+          P.FURNISHING_STATUS,
+          P.FACING_DIRECTION,
+          PT.PROPERTY_TYPE AS PROPERTY_TYPE,     
+          PS.STATUS_NAME AS STATUS_NAME,
+          P.MAP_LOCATION,
+          P.NEAR_BY_LOCATIONS,    
+          P.LAT_LONG,
+          P.LANDMARK,
+          P.LISTING_BY,
+          P.PRICE,
+          P.PROJECT_NAME,
+          P.PROPERTY_NAME,
+          P.PURPOSE
+      FROM 
+          PMS002_PROPERTY P
+      LEFT JOIN 
+          PMS002_PROPERTY_TYPES PT ON P.PROPERTY_TYPES_ID = PT.PROPERTY_TYPES_ID
+      LEFT JOIN 
+          PMS002_PROPERTYSTATUSES PS ON P.STATUS_ID = PS.STATUS_ID
+      WHERE 
+          P.PROPERTY_ID = :P33_PROPERTY_ID
+      
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 32901594023963780936
+    appearance: 
+      layout: Horizontal (Row)
+
+    title: 
+      advanced-formatting: false
+
+    subtitle: 
+      advanced-formatting: false
+
+    body: 
+      advanced-formatting: true
+      html-expression: |
+        <div class="box">
+            <div>
+                <img src="https://content.jdmagicbox.com/v2/comp/mumbai/k1/022pxx22.xx22.220319091338.t5k1/catalogue/garden-gokuldham-society-aarey-milk-colony-goregaon-east-mumbai-vepl9tvfhf.jpg" >
+            </div>
+            <div>
+                <p> Property Type : &PROPERTY_TYPE. </p>
+                <p> Property Status : &STATUS_NAME. </p>
+                <p> Address : &ADDRESS.</p>
+                <p> Purchase Date : &PURCHASE_DATE. </p>
+                <p> Area : &AREA.(sq.ft) </p>
+                <!-- <p> Area : &TO_CHAR(&AREA., '9,999,999').</p> -->
+                <p> Property Age : &PROPERTY_AGE. </p>
+                <p> Floor Number : &FLOOR_NUMBER. </p>
+                <p> Total Floors : &TOTAL_FLOORS. </p>
+                <p> Furnishing Status : &FURNISHING_STATUS. </p>
+                <p> Facing Direction : &FACING_DIRECTION. </p>
+                <p> Location : &MAP_LOCATION. </p>
+                <p> Near By Location : &NEAR_BY_LOCATIONS. </p>
+                <!-- <p> Latitude-Longitude : &LAT_LONG. </p> -->
+                <p> Landmark : &LANDMARK. </p>
+                <p> Listing By : &LISTING_BY. </p>
+                <p> Price : &PRICE. </p>
+                <p> Project Name : &PROJECT_NAME. </p>
+                <p> Property Name : &PROPERTY_NAME. </p>
+                <p> Purpose : &PURPOSE. </p>
+            </div>
+        </div>
+        
+        
+        <style>
+        .box{
+            display:flex;
+            gap: 20px
+        }
+        </style>
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: No Icon
+
+    media: 
+      advanced-formatting: false
+      source: No Media
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+- # ====== Region: Map =========================================
+  id: 36142579462762390109
+  identification: 
+    name: Map
+    type: Static Content
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Map =========================================
+  id: 36142579534143390110
+  identification: 
+    name: Map
+    type: Map
+
+  source: 
+    location: None
+
+  layout: 
+    sequence: 10
+    parent-region: Map # 36142579462762390109
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 36142579637119390111
+    map: 
+      background: Built-In
+      standard: Oracle World Map
+      dark-mode: Oracle World Map
+      height: 640
+
+    controls: 
+      navigation-bar: Zoom and Compass
+      navigation-bar-position: End
+      options: 
+      - Mousewheel Zoom
+      - Rectangle Zoom
+      - Scale Bar
+      - Infinite Map
+      - Get Browser Location
+
+    initial-position-and-zoom: 
+      get-position-from-browser: true
+      type: Based on Spatial Results
+
+    legend: 
+      show: true
+      position: End
+
+    attributes: 
+      messages-position: Below
+      unit-system: Metric
+
+    performance: 
+      lazy-loading: true
+
+    layers: 
+    - # ====== Layer: New ==========================================
+      id: 36142579798244390112
+      identification: 
+        name: New
+        layer-type: Points
+
+      layout: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |2
+            SELECT
+              PT.PROPERTY_TYPE,
+              P.AREA,
+              P.PRICE,
+              P.ADDRESS,
+              P.PROPERTY_ID AS ID,
+              TO_NUMBER(:P33_LAT) AS latitude,
+              TO_NUMBER(:P33_LONG) AS longitude,
+              'Property ID: ' || P.PROPERTY_ID AS PROPERTY_NAME
+          FROM PMS002_PROPERTY P, PMS002_PROPERTY_TYPES PT
+          WHERE :P33_LAT IS NOT NULL AND :P33_LONG IS NOT NULL AND P.PROPERTY_ID = :P33_PROPERTY_ID AND PT.PROPERTY_TYPE = :P33_PROPERTY_TYPE
+          
+        page-items-to-submit: 
+        - P33_LAT
+        - P33_LONG
+        - P33_PROPERTY_TYPE
+        use-spatial-index: false
+
+      column-mapping: 
+        geometry-column-data-type: Longitude/Latitude
+        longitude-column: LONGITUDE
+        latitude-column: LATITUDE
+
+      point-objects: 
+        style: SVG
+        shape: Face Smile
+
+      point-clustering: 
+        enable: true
+        clustering-radius: 80
+        shape: Home
+
+      tooltip: 
+        advanced-formatting: true
+        html-expression: |
+          <div style="padding: 15px; max-width: 300px; font-family: Arial, sans-serif;">
+          <div style="text-align: center;">
+          
+          </div>
+          <div style="font-size: 16px; font-weight: bold; color: #2c3e50; text-align: center; margin-bottom: 8px;">
+          &CATEGORY_DESCRIPTION.
+          </div>
+           
+            <div style="font-size: 14px; color: #555; line-height: 1.6;text-align:centre;">
+          <b>Property Type:</b> &PROPERTY_TYPE.<br/>
+          <b>Area:</b> &AREA. Sqft<br/>
+          <b>Price:</b> ₹&PRICE.<br/>
+          <b>Location:</b> &ADDRESS.
+          </div>
+          <!-- <div style="margin-top: 10px; text-align: center;">
+          <a href="&PROPERTY_DETAIL_LINK." target="_blank" style="display: inline-block; padding: 8px 12px; background-color: #4CAF50; color: white; border-radius: 4px; text-decoration: none; font-size: 14px;">
+          
+                View Details
+          </a>
+          </div> -->
+           
+          </div>
+          
+           
+
+      info-window: 
+        advanced-formatting: false
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+page-items: 
+- # ====== Page Item: P33_PROPERTY_ID ==========================
+  id: 32901593888134780934
+  identification: 
+    name: P33_PROPERTY_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P33_LAT ==================================
+  id: 36142579881034390113
+  identification: 
+    name: P33_LAT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Map # 36142579462762390109
+    slot: SUB_REGIONS
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P33_LONG =================================
+  id: 36142579992546390114
+  identification: 
+    name: P33_LONG
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Map # 36142579462762390109
+    slot: SUB_REGIONS
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P33_PROPERTY_TYPE ========================
+  id: 36142580188225390116
+  identification: 
+    name: P33_PROPERTY_TYPE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 50
+    region: Map # 36142579462762390109
+    slot: SUB_REGIONS
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: Cancel ======================================
+  id: 32901594129888780937
+  identification: 
+    button-name: Cancel
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Property Detail # 32901593909556780935
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:21:&SESSION.::&DEBUG.:::'
+      page: 21 # Search
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: BookAppointment =============================
+  id: 32901594203638780938
+  identification: 
+    button-name: BookAppointment
+    label: Book Appointment
+
+  layout: 
+    sequence: 20
+    region: Property Detail # 32901593909556780935
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: 2
+    alignment: Left center
+
+  appearance: 
+    button-template: Text with Icon
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-calendar-week
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.::P5_PROPERTY_ID:&P33_PROPERTY_ID.'
+      page: 5 # Appointment
+      values: 
+        p5_property_id: '&P33_PROPERTY_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+

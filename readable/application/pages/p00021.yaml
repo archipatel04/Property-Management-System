@@ -1,0 +1,2631 @@
+---
+# ====== Page: Search ========================================
+id: 21
+identification: 
+  name: Search
+  alias: SEARCH
+  title: Search
+
+appearance: 
+  page-mode: Normal
+  page-template: Left Side Column
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+css: 
+  inline: '.a-FS-totalArea{display: none !important;}'
+
+security: 
+  authentication: Page Is Public
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-meta-tags: false
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Search Results ==============================
+  id: 31050974298688543490
+  identification: 
+    name: Search Results
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select P.PROPERTY_ID,
+             P.PROPERTY_TYPES_ID,
+             P.STATUS_ID,
+             P.ADDRESS,
+             P.PURCHASE_DATE,
+             P.AREA,
+             P.PROPERTY_AGE,
+             P.FLOOR_NUMBER,
+             P.TOTAL_FLOORS,
+             P.FURNISHING_STATUS,
+             P.FACING_DIRECTION,
+             P.IMAGES_VIDEOS_UPLOAD,
+             P.MAP_LOCATION,
+             P.NEAR_BY_LOCATIONS,
+             P.LAT_LONG,
+             TRIM(SUBSTR(p.LAT_LONG, 1, INSTR(LAT_LONG, ',') - 1)) AS LAT_VAL,
+             TRIM(SUBSTR(p.LAT_LONG, INSTR(LAT_LONG, ',') + 1)) AS LNG_VAL,
+             P.LANDMARK,
+             P.LISTING_BY,
+             P.PRICE,
+             P.PROJECT_NAME,
+             P.PROPERTY_NAME,
+          --    P.PURPOSE,
+      --         CASE P.PURPOSE
+      --     WHEN 'Sell' THEN 'success'
+      --     WHEN 'Rent' THEN 'warning'
+      --   END AS PURPOSE_1,
+          CASE P.PURPOSE
+          WHEN 'Sale' THEN '<span class="t-Badge t-Badge--success">Sale</span>'
+          WHEN 'Rent' THEN '<span class="t-Badge t-Badge--warning">Rent</span>'
+          -- ELSE '<span class="t-Badge t-Badge--default">' || PURPOSE || '</span>'
+        END AS PURPOSE,
+             P.CREATED,
+             P.CREATED_BY,
+             P.UPDATED,
+             P.UPDATED_BY,
+             P.USER_ID, 
+             U.NAME, 'Details' as Detail 
+        from PMS002_PROPERTY P, PMS002_USERS U
+        WHERE (P.PROPERTY_AGE BETWEEN :P21_MIN_AGE  and :P21_MAX_AGE) AND U.USERID = P.USER_ID
+    page-items-to-submit: 
+    - P21_MIN_AGE
+    - P21_MAX_AGE
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 50
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--staticRowColors
+      - t-Report--rowHighlight
+      - t-Report--inline
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 100000
+
+    messages: 
+      when-no-data-found: no data found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: PROPERTY_ID =================================
+    id: 31050980381926543647
+    identification: 
+      column-name: PROPERTY_ID
+      type: Hidden
+
+    layout: 
+      sequence: 0
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROPERTY_TYPES_ID ===========================
+    id: 31050980723587543648
+    identification: 
+      column-name: PROPERTY_TYPES_ID
+      type: Plain Text (based on List of Values)
+
+    heading: 
+      heading: Property Types
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: PMS002_PROPERTY_TYPES.PROPERTY_TYPE # 30602592096921058679
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STATUS_ID ===================================
+    id: 31050981186072543648
+    identification: 
+      column-name: STATUS_ID
+      type: Plain Text (based on List of Values)
+
+    heading: 
+      heading: Status
+      alignment: start
+
+    layout: 
+      sequence: 40
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: PMS002_PROPERTYSTATUSES.ROW_KEY # 30602592807853058680
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ADDRESS =====================================
+    id: 31050981543248543649
+    identification: 
+      column-name: ADDRESS
+      type: Plain Text
+
+    heading: 
+      heading: Address
+      alignment: start
+
+    layout: 
+      sequence: 150
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PURCHASE_DATE ===============================
+    id: 31050981960375543649
+    identification: 
+      column-name: PURCHASE_DATE
+      type: Hidden
+
+    layout: 
+      sequence: 260
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: AREA ========================================
+    id: 31050982392432543649
+    identification: 
+      column-name: AREA
+      type: Plain Text
+
+    heading: 
+      heading: Area
+      alignment: end
+
+    layout: 
+      sequence: 70
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: 999G999G999G999G999G999G999G999G999G990
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROPERTY_AGE ================================
+    id: 31050982788033543650
+    identification: 
+      column-name: PROPERTY_AGE
+      type: Plain Text
+
+    heading: 
+      heading: Property Age
+      alignment: end
+
+    layout: 
+      sequence: 100
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: 999G999G999G999G999G999G999G999G999G990
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FLOOR_NUMBER ================================
+    id: 31050983175611543650
+    identification: 
+      column-name: FLOOR_NUMBER
+      type: Plain Text
+
+    heading: 
+      heading: Floor Number
+      alignment: end
+
+    layout: 
+      sequence: 50
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: 999G999G999G999G999G999G999G999G999G990
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TOTAL_FLOORS ================================
+    id: 31050983533454543650
+    identification: 
+      column-name: TOTAL_FLOORS
+      type: Plain Text
+
+    heading: 
+      heading: Total Floors
+      alignment: end
+
+    layout: 
+      sequence: 60
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: 999G999G999G999G999G999G999G999G999G990
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FURNISHING_STATUS ===========================
+    id: 31050983950720543651
+    identification: 
+      column-name: FURNISHING_STATUS
+      type: Plain Text
+
+    heading: 
+      heading: Furnishing Status
+      alignment: start
+
+    layout: 
+      sequence: 80
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FACING_DIRECTION ============================
+    id: 31050984354690543651
+    identification: 
+      column-name: FACING_DIRECTION
+      type: Plain Text
+
+    heading: 
+      heading: Facing Direction
+      alignment: start
+
+    layout: 
+      sequence: 90
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: IMAGES_VIDEOS_UPLOAD ========================
+    id: 31050984723206543651
+    identification: 
+      column-name: IMAGES_VIDEOS_UPLOAD
+      type: Plain Text
+
+    heading: 
+      heading: Images Videos Upload
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    column-formatting: 
+      html-expression: |
+        <img src="#IMAGES_VIDEOS_UPLOAD#" alt="Image" width="100" height="80">
+        
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: MAP_LOCATION ================================
+    id: 31050985116548543652
+    identification: 
+      column-name: MAP_LOCATION
+      type: Link
+
+    heading: 
+      heading: Map Location
+      alignment: start
+
+    layout: 
+      sequence: 110
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:34:P34_LATITUDE,P34_LONGITUDE,P34_PROPERTY_ID,P34_PROPERTY_TYPE:#LAT_VAL#,#LNG_VAL#,#PROPERTY_ID#,#PROPERTY_TYPES_ID#'
+        page: 34 # Map Location
+        clear-cache: 34
+        values: 
+          p34_latitude: '#LAT_VAL#'
+          p34_longitude: '#LNG_VAL#'
+          p34_property_id: '#PROPERTY_ID#'
+          p34_property_type: '#PROPERTY_TYPES_ID#'
+
+      link-text: '#MAP_LOCATION#'
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: NEAR_BY_LOCATIONS ===========================
+    id: 31050985545709543652
+    identification: 
+      column-name: NEAR_BY_LOCATIONS
+      type: Plain Text
+
+    heading: 
+      heading: Near By Locations
+      alignment: start
+
+    layout: 
+      sequence: 120
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LAT_LONG ====================================
+    id: 31050985988474543652
+    identification: 
+      column-name: LAT_LONG
+      type: Hidden
+
+    layout: 
+      sequence: 130
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LANDMARK ====================================
+    id: 31050986367929543652
+    identification: 
+      column-name: LANDMARK
+      type: Plain Text
+
+    heading: 
+      heading: Landmark
+      alignment: start
+
+    layout: 
+      sequence: 140
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LISTING_BY ==================================
+    id: 31050986722995543653
+    identification: 
+      column-name: LISTING_BY
+      type: Plain Text
+
+    heading: 
+      heading: Listing By
+      alignment: start
+
+    layout: 
+      sequence: 170
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PRICE =======================================
+    id: 31050987102105543653
+    identification: 
+      column-name: PRICE
+      type: Plain Text
+
+    heading: 
+      heading: Price
+      alignment: start
+
+    layout: 
+      sequence: 180
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: 999G999G999G999
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROJECT_NAME ================================
+    id: 31050987588070543653
+    identification: 
+      column-name: PROJECT_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Project Name
+      alignment: start
+
+    layout: 
+      sequence: 190
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREATED =====================================
+    id: 31050988864109543654
+    identification: 
+      column-name: CREATED
+      type: Hidden
+
+    layout: 
+      sequence: 200
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREATED_BY ==================================
+    id: 31050989237801543654
+    identification: 
+      column-name: CREATED_BY
+      type: Hidden
+
+    layout: 
+      sequence: 210
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UPDATED =====================================
+    id: 31050989612941543655
+    identification: 
+      column-name: UPDATED
+      type: Hidden
+
+    layout: 
+      sequence: 220
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UPDATED_BY ==================================
+    id: 31050990042197543655
+    identification: 
+      column-name: UPDATED_BY
+      type: Hidden
+
+    layout: 
+      sequence: 230
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USER_ID =====================================
+    id: 31050990400059543655
+    identification: 
+      column-name: USER_ID
+      type: Hidden
+
+    layout: 
+      sequence: 240
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DETAIL ======================================
+    id: 32901593748503780933
+    identification: 
+      column-name: DETAIL
+      type: Link
+
+    heading: 
+      heading: Detail
+      alignment: start
+
+    layout: 
+      sequence: 280
+      column-alignment: center
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:33:&SESSION.::&DEBUG.:33:P33_PROPERTY_ID,P33_LAT,P33_LONG,P33_PROPERTY_TYPE:#PROPERTY_ID#,#LAT_VAL#,#LNG_VAL#,#PROPERTY_TYPES_ID#'
+        page: 33 # Details
+        clear-cache: 33
+        values: 
+          p33_property_id: '#PROPERTY_ID#'
+          p33_lat: '#LAT_VAL#'
+          p33_long: '#LNG_VAL#'
+          p33_property_type: '#PROPERTY_TYPES_ID#'
+
+      link-text: '#DETAIL#'
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: NAME ========================================
+    id: 35148802320741005539
+    identification: 
+      column-name: NAME
+      type: Plain Text
+
+    heading: 
+      heading: Name
+      alignment: start
+
+    layout: 
+      sequence: 250
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROPERTY_NAME ===============================
+    id: 36142578816390390103
+    identification: 
+      column-name: PROPERTY_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Property Name
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LAT_VAL =====================================
+    id: 36142578981439390104
+    identification: 
+      column-name: LAT_VAL
+      type: Hidden
+
+    layout: 
+      sequence: 290
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LNG_VAL =====================================
+    id: 36142579037678390105
+    identification: 
+      column-name: LNG_VAL
+      type: Hidden
+
+    layout: 
+      sequence: 300
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PURPOSE =====================================
+    id: 36142580361727390118
+    identification: 
+      column-name: PURPOSE
+      type: Plain Text
+
+    heading: 
+      heading: Purpose
+      alignment: start
+
+    layout: 
+      sequence: 270
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: false
+
+- # ====== Region: Search ======================================
+  id: 31050974352916543490
+  identification: 
+    name: Search
+    type: Faceted Search
+
+  source: 
+    filtered-region: Search Results # 31050974298688543490
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    slot: REGION_POSITION_02
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+    landmark-label: Filters
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      batch-facet-changes: false
+      compact-numbers-threshold: 10000
+      show-current-facets: Selector
+      current-facets-selector: '#active_facets'
+      show-total-row-count: Yes
+      show-charts: Dialog
+      display-chart-for-top-n-values: 10
+
+  facets: 
+  - # ====== Facet: P21_FURNISHING_STATUS ========================
+    id: 31045668632086694550
+    identification: 
+      name: P21_FURNISHING_STATUS
+      type: Checkbox Group
+
+    label: 
+      label: Furnishing Status
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 40
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: select distinct(furnishing_status) as d, furnishing_status as r from pms002_property;
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: FURNISHING_STATUS
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Facet: P21_SEARCH ===================================
+    id: 31050974818378543491
+    identification: 
+      name: P21_SEARCH
+      type: Search
+
+    label: 
+      label: Search
+
+    settings: 
+      search-type: Row Search
+      input-field: Top of Faceted Search Region
+
+    layout: 
+      sequence: 20
+
+    source: 
+      database-column(s): FURNISHING_STATUS,PROPERTY_TYPES_ID,STATUS_ID,ADDRESS
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Facet: P21_PROPERTY_TYPES_ID ========================
+    id: 31050975240191543492
+    identification: 
+      name: P21_PROPERTY_TYPES_ID
+      type: Checkbox Group
+
+    label: 
+      label: Property Types
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 30
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: select distinct(PT.property_type) as d, P.property_types_id as r from PMS002_PROPERTY P, PMS002_PROPERTY_TYPES PT WHERE P.PROPERTY_TYPES_ID = PT.PROPERTY_TYPES_ID;
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: PROPERTY_TYPES_ID
+      data-type: NUMBER
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Facet: P21_FACING_DIRECTION =========================
+    id: 31050975621013543493
+    identification: 
+      name: P21_FACING_DIRECTION
+      type: Checkbox Group
+
+    label: 
+      label: Facing Direction
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 50
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: FACING_DIRECTION
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Facet: P21_PRICE ====================================
+    id: 31050976012161543495
+    identification: 
+      name: P21_PRICE
+      type: Range
+
+    label: 
+      label: Price
+      show-label-for-current-facet: true
+
+    settings: 
+      select-multiple: true
+      manual-entry: false
+
+    layout: 
+      sequence: 60
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Static Values
+      static-values: 'STATIC2:<200#G#000;|200000,200#G#000 - 400#G#000;200000|400000,400#G#000 - 3#G#000#G#000;400000|3000000,>=3#G#000#G#000;3000000|'
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: PRICE
+      data-type: NUMBER
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Facet: P21_PURPOSE ==================================
+    id: 31050976496991543495
+    identification: 
+      name: P21_PURPOSE
+      type: Radio Group
+
+    label: 
+      label: Purpose
+      show-label-for-current-facet: true
+
+    settings: 
+      hide-radio-buttons: false
+
+    layout: 
+      sequence: 80
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Disable
+      sort-by-top-counts: false
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: PURPOSE
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: false
+
+  - # ====== Facet: P21_STATUS_ID ================================
+    id: 31081801312732364001
+    identification: 
+      name: P21_STATUS_ID
+      type: Checkbox Group
+
+    label: 
+      label: Status Name
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 90
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: select status_name as d, status_id as r from PMS002_PROPERTYSTATUSES;
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: STATUS_ID
+      data-type: NUMBER
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Facet: P21_AREA =====================================
+    id: 31081801482908364002
+    identification: 
+      name: P21_AREA
+      type: Range
+
+    label: 
+      label: Area
+      show-label-for-current-facet: true
+
+    settings: 
+      select-multiple: true
+      manual-entry: false
+
+    layout: 
+      sequence: 100
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Static Values
+      static-values: 'STATIC:<1000;|1000,1000-2000;1000|2000,2000-3000;2000|3000,>=3000;3000|'
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: AREA
+      data-type: NUMBER
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Facet: P21_PROPERTY_AGE =============================
+    id: 31081801593132364003
+    identification: 
+      name: P21_PROPERTY_AGE
+      type: Range
+
+    label: 
+      label: Property Age
+      show-label-for-current-facet: true
+
+    settings: 
+      select-multiple: true
+      manual-entry: false
+
+    layout: 
+      sequence: 70
+
+    appearance: 
+      display: Inline
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+
+    advanced: 
+      collapsible: false
+
+    source: 
+      database-column: PROPERTY_AGE
+      data-type: NUMBER
+
+    server-side-condition: 
+      type: Never
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Facet: P21_TOTAL_FLOORS =============================
+    id: 31081801603493364004
+    identification: 
+      name: P21_TOTAL_FLOORS
+      type: Range
+
+    label: 
+      label: Total Floors
+      show-label-for-current-facet: true
+
+    settings: 
+      select-multiple: false
+      manual-entry: false
+
+    layout: 
+      sequence: 110
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Static Values
+      static-values: 'STATIC:<3;|3,3 - 5 ;3|5,5 - 7;5|7,>=7;7|'
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: TOTAL_FLOORS
+      data-type: NUMBER
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Facet: P21_LISTING_BY ===============================
+    id: 31081801789519364005
+    identification: 
+      name: P21_LISTING_BY
+      type: Checkbox Group
+
+    label: 
+      label: Listing By
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 120
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: SELECT DISTINCT(LISTING_BY) AS D, LISTING_BY AS R FROM PMS002_PROPERTY;
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: LISTING_BY
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Facet: P21_PROJECT_NAME =============================
+    id: 31081801851657364006
+    identification: 
+      name: P21_PROJECT_NAME
+      type: Checkbox Group
+
+    label: 
+      label: Project Name
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 130
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: SELECT DISTINCT(PROJECT_NAME) AS D, PROJECT_NAME AS R FROM PMS002_PROPERTY;
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: PROJECT_NAME
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  filters: 
+  - # ====== Filter: P21_FURNISHING_STATUS =======================
+    id: 31045668632086694550
+    identification: 
+      name: P21_FURNISHING_STATUS
+      type: Checkbox Group
+
+    label: 
+      label: Furnishing Status
+
+    layout: 
+      sequence: 40
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: select distinct(furnishing_status) as d, furnishing_status as r from pms002_property;
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: FURNISHING_STATUS
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Filter: P21_SEARCH ==================================
+    id: 31050974818378543491
+    identification: 
+      name: P21_SEARCH
+      type: Search
+
+    label: 
+      label: Search
+
+    settings: 
+      search-type: Row Search
+      collapsed-search-field: false
+
+    layout: 
+      sequence: 20
+
+    source: 
+      database-column(s): FURNISHING_STATUS,PROPERTY_TYPES_ID,STATUS_ID,ADDRESS
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Filter: P21_PROPERTY_TYPES_ID =======================
+    id: 31050975240191543492
+    identification: 
+      name: P21_PROPERTY_TYPES_ID
+      type: Checkbox Group
+
+    label: 
+      label: Property Types
+
+    layout: 
+      sequence: 30
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: select distinct(PT.property_type) as d, P.property_types_id as r from PMS002_PROPERTY P, PMS002_PROPERTY_TYPES PT WHERE P.PROPERTY_TYPES_ID = PT.PROPERTY_TYPES_ID;
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: PROPERTY_TYPES_ID
+      data-type: NUMBER
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Filter: P21_FACING_DIRECTION ========================
+    id: 31050975621013543493
+    identification: 
+      name: P21_FACING_DIRECTION
+      type: Checkbox Group
+
+    label: 
+      label: Facing Direction
+
+    layout: 
+      sequence: 50
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: FACING_DIRECTION
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Filter: P21_PRICE ===================================
+    id: 31050976012161543495
+    identification: 
+      name: P21_PRICE
+      type: Range
+
+    label: 
+      label: Price
+
+    settings: 
+      select-multiple: true
+      manual-entry: false
+
+    layout: 
+      sequence: 60
+
+    list-of-values: 
+      type: Static Values
+      static-values: 'STATIC2:<200#G#000;|200000,200#G#000 - 400#G#000;200000|400000,400#G#000 - 3#G#000#G#000;400000|3000000,>=3#G#000#G#000;3000000|'
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: PRICE
+      data-type: NUMBER
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Filter: P21_PURPOSE =================================
+    id: 31050976496991543495
+    identification: 
+      name: P21_PURPOSE
+      type: Radio Group
+
+    label: 
+      label: Purpose
+
+    layout: 
+      sequence: 80
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Disable
+      sort-by-top-counts: false
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: PURPOSE
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: false
+
+  - # ====== Filter: P21_STATUS_ID ===============================
+    id: 31081801312732364001
+    identification: 
+      name: P21_STATUS_ID
+      type: Checkbox Group
+
+    label: 
+      label: Status Name
+
+    layout: 
+      sequence: 90
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: select status_name as d, status_id as r from PMS002_PROPERTYSTATUSES;
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: STATUS_ID
+      data-type: NUMBER
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Filter: P21_AREA ====================================
+    id: 31081801482908364002
+    identification: 
+      name: P21_AREA
+      type: Range
+
+    label: 
+      label: Area
+
+    settings: 
+      select-multiple: true
+      manual-entry: false
+
+    layout: 
+      sequence: 100
+
+    list-of-values: 
+      type: Static Values
+      static-values: 'STATIC:<1000;|1000,1000-2000;1000|2000,2000-3000;2000|3000,>=3000;3000|'
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: AREA
+      data-type: NUMBER
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Filter: P21_PROPERTY_AGE ============================
+    id: 31081801593132364003
+    identification: 
+      name: P21_PROPERTY_AGE
+      type: Range
+
+    label: 
+      label: Property Age
+
+    settings: 
+      select-multiple: true
+      manual-entry: false
+
+    layout: 
+      sequence: 70
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: PROPERTY_AGE
+      data-type: NUMBER
+
+    server-side-condition: 
+      type: Never
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Filter: P21_TOTAL_FLOORS ============================
+    id: 31081801603493364004
+    identification: 
+      name: P21_TOTAL_FLOORS
+      type: Range
+
+    label: 
+      label: Total Floors
+
+    settings: 
+      select-multiple: false
+      manual-entry: false
+
+    layout: 
+      sequence: 110
+
+    list-of-values: 
+      type: Static Values
+      static-values: 'STATIC:<3;|3,3 - 5 ;3|5,5 - 7;5|7,>=7;7|'
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: TOTAL_FLOORS
+      data-type: NUMBER
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Filter: P21_LISTING_BY ==============================
+    id: 31081801789519364005
+    identification: 
+      name: P21_LISTING_BY
+      type: Checkbox Group
+
+    label: 
+      label: Listing By
+
+    layout: 
+      sequence: 120
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: SELECT DISTINCT(LISTING_BY) AS D, LISTING_BY AS R FROM PMS002_PROPERTY;
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: LISTING_BY
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Filter: P21_PROJECT_NAME ============================
+    id: 31081801851657364006
+    identification: 
+      name: P21_PROJECT_NAME
+      type: Checkbox Group
+
+    label: 
+      label: Project Name
+
+    layout: 
+      sequence: 130
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: SELECT DISTINCT(PROJECT_NAME) AS D, PROJECT_NAME AS R FROM PMS002_PROPERTY;
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: PROJECT_NAME
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+- # ====== Region: Button Bar ==================================
+  id: 31050976727312543496
+  identification: 
+    name: Button Bar
+    type: Static Content
+
+  source: 
+    html-code: <div id="active_facets"></div>
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-ButtonRegion--noPadding
+    - t-ButtonRegion--noUI
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: PROPERTY AGE ================================
+  id: 31081802065253364008
+  identification: 
+    name: PROPERTY AGE
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: Search # 31050974352916543490
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P21_PROPERTY_AGE1 ========================
+  id: 31081801933515364007
+  identification: 
+    name: P21_PROPERTY_AGE1
+    type: UC - Range Slider
+
+  label: 
+    alignment: Left
+
+  settings: 
+    type: Number
+    handles: Double
+    minimum--value: 0
+    maximum-value: 10
+    number-steps: 1
+    orientation: Horizontal
+    options: 'enable-ticks:enable-tooltip:bind-value-to-item:connects-bar'
+    ticks: 5
+    set-item(s): 
+    - P21_MIN_AGE
+    - P21_MAX_AGE
+    range-color: '#0076df'
+
+  layout: 
+    sequence: 10
+    region: PROPERTY AGE # 31081802065253364008
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P21_MIN_AGE ==============================
+  id: 31081802633168364014
+  identification: 
+    name: P21_MIN_AGE
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 30
+    region: PROPERTY AGE # 31081802065253364008
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P21_MAX_AGE ==============================
+  id: 31081802700313364015
+  identification: 
+    name: P21_MAX_AGE
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 40
+    region: PROPERTY AGE # 31081802065253364008
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: RESET =======================================
+  id: 31050977214456543496
+  identification: 
+    button-name: RESET
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Button Bar # 31050976727312543496
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--noUI
+    - t-Button--iconLeft
+    icon: fa-undo
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:21:&SESSION.::&DEBUG.:RR,21::'
+      page: 21 # Search
+      clear-cache: RR,21
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: LIST ========================================
+  id: 36142581313496390128
+  identification: 
+    button-name: LIST
+    label: List
+
+  layout: 
+    sequence: 10
+    region: Search Results # 31050974298688543490
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Icon
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--hoverIconPush
+    icon: fa-list
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: MAP =========================================
+  id: 36142581433910390129
+  identification: 
+    button-name: MAP
+    label: Map
+
+  layout: 
+    sequence: 20
+    region: Search Results # 31050974298688543490
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Icon
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--hoverIconPush
+    icon: fa-map-marker-o
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:36:&SESSION.::&DEBUG.:36::'
+      page: 36 # Redirect to Map Page
+      clear-cache: 36
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: New_1 ===============================
+  id: 31081803985879364027
+  identification: 
+    name: New_1
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+
+  when: 
+    event: Page Load
+
+  actions: 
+  - # ====== Action: Set Value ===================================
+    id: 31081804015799364028
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: SQL Statement
+      sql-statement: SELECT MIN(PROPERTY_AGE) FROM pms002_property
+      escape-special-characters: true
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P21_MIN_AGE
+
+    execution: 
+      sequence: 20
+      event: New_1 # 31081803985879364027
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Set Value ===================================
+    id: 31081804133048364029
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: SQL Statement
+      sql-statement: SELECT MAX(PROPERTY_AGE) FROM pms002_property
+      escape-special-characters: true
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P21_MAX_AGE
+
+    execution: 
+      sequence: 30
+      event: New_1 # 31081803985879364027
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+- # ====== Dynamic Action: New =================================
+  id: 31081804615583364034
+  identification: 
+    name: New
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P21_MIN_AGE
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 31081804785829364035
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Search Results # 31050974298688543490
+
+    execution: 
+      sequence: 10
+      event: New # 31081804615583364034
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: New_2 ===============================
+  id: 31081804844447364036
+  identification: 
+    name: New_2
+
+  execution: 
+    sequence: 40
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P21_MAX_AGE
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 31081804977288364037
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Search Results # 31050974298688543490
+
+    execution: 
+      sequence: 10
+      event: New_2 # 31081804844447364036
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: New_3 ===============================
+  id: 31081805456645364042
+  identification: 
+    name: New_3
+
+  execution: 
+    sequence: 50
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P21_MIN_PRICE
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 31081805525492364043
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Search Results # 31050974298688543490
+
+    execution: 
+      sequence: 10
+      event: New_3 # 31081805456645364042
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: New_3_1 =============================
+  id: 31081805684953364044
+  identification: 
+    name: New_3_1
+
+  execution: 
+    sequence: 60
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P21_MAX_PRICE
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 31081805704540364045
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Search Results # 31050974298688543490
+
+    execution: 
+      sequence: 10
+      event: New_3_1 # 31081805684953364044
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: refresh region ======================
+  id: 37034159105442859131
+  identification: 
+    name: refresh region
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+
+  when: 
+    event: Page Load
+
+  actions: 
+  - # ====== Action: Data Refresh ================================
+    id: 37034159031810859130
+    identification: 
+      name: Data Refresh
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Search # 31050974352916543490
+
+    execution: 
+      sequence: 20
+      event: refresh region # 37034159105442859131
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+

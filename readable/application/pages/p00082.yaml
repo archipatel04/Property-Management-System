@@ -1,0 +1,853 @@
+---
+# ====== Page: BUILDER APPOINTMENT REPORT ====================
+id: 82
+identification: 
+  name: BUILDER APPOINTMENT REPORT
+  alias: BUILDER-APPOINTMENT-REPORT1
+  title: BUILDER APPOINTMENT REPORT
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+css: 
+  inline: |
+    /*////////////////////////////////// Calender Cell /////////////////////////////////////////////*/
+    
+    /* 
+    
+    .fc-event-main {
+    
+            background-color: transparent !important;
+    
+            font-size: 13px;
+    
+            font-weight: 400;
+    
+            line-height: 18px;
+    
+    } */
+     
+    .fc-event.fc-apex-events-default {
+    
+        background-color: transparent !important;
+    
+        font-size: 13px;
+    
+        font-weight: 400;
+    
+        line-height: 18px;
+     
+    }
+     
+    a.fc-event {
+    
+        background-color: transparent;
+    
+        border: none;
+    
+    }
+     
+    .fc-event-main {
+    
+        display: flex  !important;
+    
+        justify-content: center  !important;
+    
+        align-items: center  !important;
+    
+        margin-bottom: 5px;
+    
+        margin: 0 auto;
+    
+    }
+     
+    /*//////////////////////// Background Color Of Cell /////////////////////////////////////////*/
+    
+    /* 👇 Light Green */
+    
+    .fc-daygrid-event.low-load {
+    
+      background-color: #d4edda !important;
+    
+      color: #155724 !important;
+    
+      border: none;
+    
+    }
+     
+    /* 👇 Yellow */
+    
+    .fc-daygrid-event.medium-load {
+    
+      background-color: #fff3cd !important;
+    
+      color: #856404 !important;
+    
+      border: none;
+    
+    }
+     
+    /* 👇 Light Red */
+    
+    .fc-daygrid-event.high-load {
+    
+      background-color: #f8d7da !important;
+    
+      color: #721c24 !important;
+    
+      border: none;
+    
+    }
+     
+     
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Appointment Calendar  =======================
+  id: 14170636366778873
+  identification: 
+    name: 'Appointment Calendar '
+    type: Calendar
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT
+          ROW_NUMBER() OVER (ORDER BY APPOINTMENT_DATE) AS ID,
+          APPOINTMENT_DATE AS START_DATE,
+          '<div style="text-align:center; font-size:14px; color:#000080; font-family:Arial, sans-serif;">
+              <span aria-hidden="true" class="fa fa-calendar"></span> 
+              Total Appointments: <b>' || COUNT(*) || '</b>
+              
+              <div style="
+                  background-color: #f9f9f9;
+                  border: 1px solid #ddd;
+                  border-radius: 8px;
+                  padding: 6px;
+                  text-align: center;
+                  font-size: 13px;
+                  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                  margin-top: 5px;
+                  line-height: 1.6;
+              ">
+      
+                  <div style="color: green;">
+                      ✅ Approved: <strong>' || COUNT(CASE WHEN STATUS = 'Approved' THEN 1 END) || '</strong>
+                  </div>
+      
+                  <div style="color: orange;">
+                      🕒 Pending: <strong>' || COUNT(CASE WHEN STATUS = 'Pending' THEN 1 END) || '</strong>
+                  </div>
+              </div>
+          </div>' AS TITLE
+      FROM PMS_APPOINTMENT AP
+      WHERE FROM_TYPE = :ROLE_ID
+        AND FROM_USER_ID = :USER_ID
+      GROUP BY AP.APPOINTMENT_DATE
+      ORDER BY AP.APPOINTMENT_DATE
+      
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      display-column: TITLE
+      start-date-column: START_DATE
+      event-sorting: Automatic
+      show-time: false
+      multiple-line-events: true
+      show-tooltip: true
+      additional-calendar-views: 'list:navigation'
+      view-/-edit-link: 
+        url: 'f?p=&APP_ID.:63:&SESSION.::&DEBUG.::P63_APPOINTMENT_DATE:&START_DATE.'
+        page: 63 # Book Appointment Report
+        values: 
+          p63_appointment_date: '&START_DATE.'
+
+      maximum-events-/-day: 10
+      show-weekend: true
+
+    performance: 
+      lazy-loading: false
+
+- # ====== Region: BUILDER APPOINTMENT REPORT ==================
+  id: 83174780352921136880
+  identification: 
+    name: BUILDER APPOINTMENT REPORT
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select A.APPOINTMENT_ID,
+             A.FROM_TYPE,
+             A.FROM_USER_ID,
+             A.TO_TYPE,
+             R.ROLE_NAME,
+             A.TO_USER_ID,
+             U.LAST_NAME,
+             A.APPOINTMENT_DATE,
+             A.APPOINTMENT_TIME,
+             A.LOCATION,
+             A.STATUS,
+              CASE 
+              WHEN a.STATUS = 'Approved' THEN 
+                  '<span class="t-Badge t-Badge--success">Approved</span>'
+              WHEN a.STATUS = 'Rejected' THEN 
+                  '<span class="t-Badge t-Badge--danger">Rejected</span>'
+              ELSE 
+                  '<span class="t-Badge t-Badge--neutral">' || a.STATUS || '</span>'
+          END AS STATUS_BADGE
+        from PMS_APPOINTMENT A 
+        JOIN PMS_ROLES R ON A.TO_TYPE = R.ROLE_ID 
+        JOIN PMS_USERS U ON U.USER_ID = A.TO_USER_ID
+        WHERE from_type = :ROLE_ID and FROM_USER_ID = :USER_ID 
+        order by A.APPOINTMENT_DATE desc,A.APPOINTMENT_TIME asc
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 85260262945145526319
+    link: 
+      link-column: Link to Custom Target
+      target: 
+        url: 'f?p=&APP_ID.:65:&SESSION.::&DEBUG.:65:P65_APPOINTMENT_ID:#APPOINTMENT_ID#'
+        page: 65 # Edit Appointment
+        clear-cache: 65
+        values: 
+          p65_appointment_id: '#APPOINTMENT_ID#'
+
+      link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 1000000
+
+    messages: 
+      when-no-data-found: No appointments have been scheduled at this time
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 85346778869541232671
+      identification: 
+        name: Primary Report
+        alias: 356464313
+
+    columns: 
+    - # ====== Column: LAST_NAME ===================================
+      id: 14687757138631499
+      identification: 
+        column-name: LAST_NAME
+        type: Link
+
+      heading: 
+        heading: Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 120
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:76:&SESSION.::&DEBUG.:76:P76_USER_ID:#TO_USER_ID#'
+          page: 76 # User Profile
+          clear-cache: 76
+          values: 
+            p76_user_id: '#TO_USER_ID#'
+
+        link-text: '#LAST_NAME#'
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STATUS_BADGE ================================
+      id: 15115912519463605
+      identification: 
+        column-name: STATUS_BADGE
+        type: Plain Text
+
+      heading: 
+        heading: 'Status '
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 130
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: APPOINTMENT_ID ==============================
+      id: 85260263119016526320
+      identification: 
+        column-name: APPOINTMENT_ID
+        type: Hidden
+
+      heading: 
+        heading: Appointment Id
+
+      layout: 
+        sequence: 10
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FROM_TYPE ===================================
+      id: 85260263218599526321
+      identification: 
+        column-name: FROM_TYPE
+        type: Hidden
+
+      heading: 
+        heading: From Type
+
+      layout: 
+        sequence: 20
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FROM_USER_ID ================================
+      id: 85260263250335526322
+      identification: 
+        column-name: FROM_USER_ID
+        type: Hidden
+
+      heading: 
+        heading: From User Id
+
+      layout: 
+        sequence: 30
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TO_TYPE =====================================
+      id: 85260263417635526323
+      identification: 
+        column-name: TO_TYPE
+        type: Hidden
+
+      heading: 
+        heading: To Type
+
+      layout: 
+        sequence: 40
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ROLE_NAME ===================================
+      id: 85260263515613526324
+      identification: 
+        column-name: ROLE_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Role Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TO_USER_ID ==================================
+      id: 85260263587055526325
+      identification: 
+        column-name: TO_USER_ID
+        type: Hidden
+
+      heading: 
+        heading: To User Id
+
+      layout: 
+        sequence: 60
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APPOINTMENT_DATE ============================
+      id: 85260263765174526327
+      identification: 
+        column-name: APPOINTMENT_DATE
+        type: Plain Text
+
+      heading: 
+        heading: Visit Date
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: APPOINTMENT_TIME ============================
+      id: 85260263925131526328
+      identification: 
+        column-name: APPOINTMENT_TIME
+        type: Plain Text
+
+      heading: 
+        heading: Visit Time
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 90
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LOCATION ====================================
+      id: 85260263959307526329
+      identification: 
+        column-name: LOCATION
+        type: Plain Text
+
+      heading: 
+        heading: Property Location
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STATUS ======================================
+      id: 85346147388394221380
+      identification: 
+        column-name: STATUS
+        type: Hidden
+
+      heading: 
+        heading: Visit Status
+
+      layout: 
+        sequence: 110
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    printing: 
+      output: 
+        layout: Default Report Layout
+        view-file-as: Attachment
+
+      page: 
+        size: Letter
+        orientation: Landscape
+        units: Inches
+        width: 11
+        height: 8.5
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+buttons: 
+- # ====== Button: CREATE ======================================
+  id: 49700352227250015495
+  identification: 
+    button-name: CREATE
+    label: Book Appointment
+
+  layout: 
+    sequence: 10
+    region: BUILDER APPOINTMENT REPORT # 83174780352921136880
+    slot: ABOVE_BOX
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    horizontal-alignment: Right
+
+  appearance: 
+    button-template: Text with Icon
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    - t-Button--hoverIconPush
+    - t-Button--padBottom
+    icon: fa-user-headset
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:83:&SESSION.::&DEBUG.:83::'
+      page: 83 # BUILDER APPOINTMENT FORM
+      clear-cache: 83
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Edit Report - Dialog Closed =========
+  id: 49700352847315015496
+  identification: 
+    name: Edit Report - Dialog Closed
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Dialog Closed
+    selection-type: Region
+    region: BUILDER APPOINTMENT REPORT # 83174780352921136880
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 49700353385835015496
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: BUILDER APPOINTMENT REPORT # 83174780352921136880
+
+    execution: 
+      sequence: 10
+      event: Edit Report - Dialog Closed # 49700352847315015496
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+

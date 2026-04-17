@@ -1,0 +1,79 @@
+---
+- # ====== Application Item: APP_DISPLAY_NAME ==================
+  id: 14988380578573641
+  identification: 
+    name: APP_DISPLAY_NAME
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: true
+
+  subscription: 
+    version-number: 41145903129109
+
+- # ====== Application Item: APP_IMAGE_ID ======================
+  id: 14988572739575789
+  identification: 
+    name: APP_IMAGE_ID
+    scope: Application
+
+  security: 
+    session-state-protection: Unrestricted
+    escape-special-characters: true
+
+  subscription: 
+    version-number: 41145902560450
+
+- # ====== Application Item: USER_ID ===========================
+  id: 32953910910148903037
+  identification: 
+    name: USER_ID
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: true
+
+  subscription: 
+    version-number: 15619582149448
+
+- # ====== Application Item: ROLE_ID ===========================
+  id: 32954035466781633521
+  identification: 
+    name: ROLE_ID
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: true
+
+  subscription: 
+    version-number: 15619582181364
+
+- # ====== Application Item: USER_NAME =========================
+  id: 32976367735653203203
+  identification: 
+    name: USER_NAME
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: true
+
+  subscription: 
+    version-number: 15619589561470
+
+- # ====== Application Item: ROLE_NAME =========================
+  id: 32976645559886205441
+  identification: 
+    name: ROLE_NAME
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: true
+
+  subscription: 
+    version-number: 15619589599209
+

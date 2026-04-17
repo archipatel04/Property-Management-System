@@ -1,0 +1,1244 @@
+---
+# ====== Page: BUILDER APPOINTMENT FORM ======================
+id: 83
+identification: 
+  name: BUILDER APPOINTMENT FORM
+  alias: BUILDER-APPOINTMENT-FORM1
+  title: BUILDER APPOINTMENT FORM
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: false
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: BUILDER APPOINTMENT FORM ====================
+  id: 83176270722520158417
+  identification: 
+    name: BUILDER APPOINTMENT FORM
+    type: Form
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select APPOINTMENT_ID,
+             FROM_TYPE,
+             FROM_USER_ID,
+             TO_TYPE,
+             TO_USER_ID,
+             APPOINTMENT_DATE,
+             APPOINTMENT_TIME,
+             LOCATION,
+             STATUS
+        from PMS_APPOINTMENT where from_type = :role_id and FROM_USER_ID = :P83_FROM_USER_ID
+    page-items-to-submit: 
+    - P83_FROM_USER_ID
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      - Update Row
+      - Delete Row
+      lost-update-type: Row Values
+
+- # ====== Region: Buttons =====================================
+  id: 83176877537781158428
+  identification: 
+    name: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+page-items: 
+- # ====== Page Item: P83_APPOINTMENT_ID =======================
+  id: 83176271620723158422
+  identification: 
+    name: P83_APPOINTMENT_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    column: APPOINTMENT_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: true
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P83_FROM_TYPE ============================
+  id: 83176271967418158423
+  identification: 
+    name: P83_FROM_TYPE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    column: FROM_TYPE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':role_id'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P83_FROM_USER_ID =========================
+  id: 83176272408077158424
+  identification: 
+    name: P83_FROM_USER_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    column: FROM_USER_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':user_id'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P83_TO_TYPE ==============================
+  id: 83176272785448158425
+  identification: 
+    name: P83_TO_TYPE
+    type: Select List
+
+  label: 
+    label: User Type
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 40
+    region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: SELECT ROLE_NAME AS D , ROLE_ID AS R FROM PMS_ROLES WHERE ROLE_ID IN (3,2);
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: '- select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    column: TO_TYPE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P83_TO_USER_ID ===========================
+  id: 83176273204165158426
+  identification: 
+    name: P83_TO_USER_ID
+    type: Select List
+
+  label: 
+    label: User Name
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 50
+    region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: 'select u.last_name as d, u.user_id as r from pms_users u , PMS_USER_ROLE_ACCESS_MASTER uram where uram.user_id = u.user_id and uram.role_id = :P83_TO_TYPE;'
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: '- select -'
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P83_TO_TYPE
+    items-to-submit: 
+    - P83_TO_USER_ID
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    column: TO_USER_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P83_APPOINTMENT_DATE =====================
+  id: 83176273610505158426
+  identification: 
+    name: P83_APPOINTMENT_DATE
+    type: Date Picker
+
+  label: 
+    label: Appointment Date
+    alignment: Left
+
+  settings: 
+    show-time: false
+    display-as: Popup
+    minimum-date: None
+    maximum-date: None
+    multiple-months: No
+    use-defaults: true
+
+  layout: 
+    sequence: 60
+    region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    format-mask: MM-DD-YYYY
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 400
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    column: APPOINTMENT_DATE
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P83_APPOINTMENT_TIME =====================
+  id: 83176273985324158427
+  identification: 
+    name: P83_APPOINTMENT_TIME
+    type: Select List
+
+  label: 
+    label: Appointment Time
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 70
+    region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Static Values
+    static-values: 'STATIC:10:00 AM;10:00 AM,11:00 AM;11:00 AM,12:00 PM;12:00 PM,01:00 PM;01:00 PM,02:00 PM;02:00 PM,03:00 PM;03:00 PM,04:00 PM;04:00 PM,05:00 PM;05:00 PM,06:00 PM;06:00 PM,07:00 PM;07:00 PM,08:00 PM;08:00 PM,09:00 PM;09:00 PM'
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: '- select time -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    column: APPOINTMENT_TIME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P83_LOCATION =============================
+  id: 83176274406395158427
+  identification: 
+    name: P83_LOCATION
+    type: Textarea
+
+  label: 
+    label: Address
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 80
+    region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    - t-Form-fieldContainer--stretchInputs
+    width: 60
+    height: 4
+
+  validation: 
+    value-required: false
+    maximum-length: 1020
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    column: LOCATION
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P83_STATUS ===============================
+  id: 83176274774122158428
+  identification: 
+    name: P83_STATUS
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 90
+    region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    column: STATUS
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Static
+    static-value: Pending
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P83_TO_USER_MAIL =========================
+  id: 83558018288940272460
+  identification: 
+    name: P83_TO_USER_MAIL
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 100
+    region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P83_TO_USER_NAME =========================
+  id: 83558018704347272464
+  identification: 
+    name: P83_TO_USER_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 110
+    region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P83_FROM_USER_NAME =======================
+  id: 83558018879158272466
+  identification: 
+    name: P83_FROM_USER_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 120
+    region: BUILDER APPOINTMENT FORM # 83176270722520158417
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: SQL Query (return single value)
+    sql-query-(return-single-value): 'select first_name from pms_users where email = :user_name'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 49702458094901037046
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 83176877537781158428
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: DELETE ======================================
+  id: 49702458472316037047
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 20
+    region: Buttons # 83176877537781158428
+    slot: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  confirmation: 
+    message: '&APP_TEXT$DELETE_MSG!RAW.'
+    style: Danger
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P83_APPOINTMENT_ID
+
+- # ====== Button: SAVE ========================================
+  id: 49702458883111037047
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 30
+    region: Buttons # 83176877537781158428
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P83_APPOINTMENT_ID
+
+- # ====== Button: CREATE ======================================
+  id: 49702459216145037047
+  identification: 
+    button-name: CREATE
+    label: Create
+
+  layout: 
+    sequence: 40
+    region: Buttons # 83176877537781158428
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P83_APPOINTMENT_ID
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel Dialog =======================
+  id: 49702461445365037051
+  identification: 
+    name: Cancel Dialog
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: CANCEL # 49702458094901037046
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 49702461926086037051
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel Dialog # 49702461445365037051
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: New =================================
+  id: 49702462356117037052
+  identification: 
+    name: New
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P83_TO_USER_ID
+
+  actions: 
+  - # ====== Action: Set Value ===================================
+    id: 49702462831256037052
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: SQL Statement
+      sql-statement: 'select first_name from pms_users where user_id = :P83_TO_USER_ID'
+      items-to-submit: 
+      - P83_TO_USER_ID
+      escape-special-characters: true
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P83_TO_USER_NAME
+
+    execution: 
+      sequence: 20
+      event: New # 49702462356117037052
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Set Value ===================================
+    id: 49702463349313037052
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: SQL Statement
+      sql-statement: 'select upper(email) from pms_users where user_id = :P83_TO_USER_ID'
+      items-to-submit: 
+      - P83_TO_USER_ID
+      escape-special-characters: true
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P83_TO_USER_MAIL
+
+    execution: 
+      sequence: 10
+      event: New # 49702462356117037052
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+validations: 
+- # ====== Validation: location ================================
+  id: 15037565922472801
+  identification: 
+    name: location
+
+  execution: 
+    sequence: 50
+
+  validation: 
+    type: Item is NOT NULL
+    item: P83_LOCATION
+    always-execute: false
+
+  error: 
+    error-message: Location must have some value.
+    display-location: Inline with Field
+    associated-item: P83_LOCATION # 83176274406395158427
+
+- # ====== Validation: Appointment time ========================
+  id: 15037572759472802
+  identification: 
+    name: Appointment time
+
+  execution: 
+    sequence: 40
+
+  validation: 
+    type: Item is NOT NULL
+    item: P83_APPOINTMENT_TIME
+    always-execute: false
+
+  error: 
+    error-message: Appointment time must have some value.
+    display-location: Inline with Field
+    associated-item: P83_APPOINTMENT_TIME # 83176273985324158427
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 49702459216145037047
+
+- # ====== Validation: date ====================================
+  id: 15037674439472803
+  identification: 
+    name: date
+
+  execution: 
+    sequence: 30
+
+  validation: 
+    type: Item is NOT NULL
+    item: P83_APPOINTMENT_DATE
+    always-execute: false
+
+  error: 
+    error-message: Appointment date must have some value.
+    display-location: Inline with Field
+    associated-item: P83_APPOINTMENT_DATE # 83176273610505158426
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 49702459216145037047
+
+- # ====== Validation: to user id ==============================
+  id: 15037798802472804
+  identification: 
+    name: to user id
+
+  execution: 
+    sequence: 20
+
+  validation: 
+    type: Item is NOT NULL
+    item: P83_TO_USER_ID
+    always-execute: false
+
+  error: 
+    error-message: user name must have some value.
+    display-location: Inline with Field
+    associated-item: P83_TO_USER_ID # 83176273204165158426
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 49702459216145037047
+
+- # ====== Validation: to type =================================
+  id: 15037882531472805
+  identification: 
+    name: to type
+
+  execution: 
+    sequence: 10
+
+  validation: 
+    type: Item is NOT NULL
+    item: P83_TO_TYPE
+    always-execute: false
+
+  error: 
+    error-message: User type must have some value.
+    display-location: Inline with Field
+    associated-item: P83_TO_TYPE # 83176272785448158425
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 49702459216145037047
+
+processes: 
+- # ====== Process: Email ======================================
+  id: 14593736976345103
+  identification: 
+    name: Email
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      Apex_Mail.send(
+          p_to => :user_name,
+          -- p_cc => 'Aryan.k.patel2802@gmail.com',
+          p_from => :P83_TO_USER_MAIL ,
+          p_subj => 'Request to Schedule an Appointment',
+          p_body => 'Dear' ||  :P83_TO_USER_NAME ||
+      
+      'I hope this message finds you well.
+      
+      I am' || :P83_FROM_USER_NAME || 'from my company, and I am interested in scheduling an appointment to discuss the property/listing located at [Property Address or Listing ID, if applicable]. Please let me know your availability so we can arrange a convenient time to meet.
+      
+      📅 Date:' || :P83_APPOINTMENT_DATE ||  
+      '⏰ Time:' || :P83_APPOINTMENT_TIME ||
+      '👤 &ROLE_NAME.:' || :P83_FROM_USER_NAME || 
+      '🏠 Property:' || :P83_LOCATION ||
+      
+      'Looking forward to your response.
+      
+      Best regards,'
+      || :P83_FROM_USER_NAME
+      );
+      
+      Apex_Mail.Push_queue;
+       
+
+  execution: 
+    sequence: 50
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: aefzsdgfs
+
+  error: 
+    display-location: Inline in Notification
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+- # ====== Process: Initialize form BUILDER APPOINTMENT FORM ===
+  id: 49702456953204037045
+  identification: 
+    name: Initialize form BUILDER APPOINTMENT FORM
+    type: Form - Initialization
+    execution-chain: None
+    form-region: BUILDER APPOINTMENT FORM # 83176270722520158417
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Process form BUILDER APPOINTMENT FORM ======
+  id: 49702457328992037045
+  identification: 
+    name: Process form BUILDER APPOINTMENT FORM
+    type: Form - Automatic Row Processing (DML)
+    execution-chain: None
+    form-region: BUILDER APPOINTMENT FORM # 83176270722520158417
+
+  settings: 
+    target-type: Region Source
+    prevent-lost-updates: true
+    lock-row: Yes
+    return-primary-key(s)-after-insert: true
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: Push Notification ==========================
+  id: 49702459902842037048
+  identification: 
+    name: Push Notification
+    type: Send Push Notification
+    execution-chain: None
+
+  settings: 
+    to: '&P83_TO_USER_MAIL.'
+    title: 'Property Appointment Schedule '
+    body: |
+      You have received a new appointment on &P83_APPOINTMENT_DATE..
+      TIME: &P83_APPOINTMENT_TIME. 
+      Location: &P83_LOCATION.
+      Please check your dashboard.
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 49702459216145037047
+
+- # ====== Process: Send Fast Notification =====================
+  id: 49702460294427037049
+  identification: 
+    name: Send Fast Notification
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: apex_pwa.push_queue;
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 49702459216145037047
+
+- # ====== Process: Close Dialog ===============================
+  id: 49702460667727037049
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+    execution-chain: None
+
+  settings: 
+    show-success-messages: true
+
+  execution: 
+    sequence: 60
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE,DELETE
+
+- # ====== Process: SEND MAIL ==================================
+  id: 49702461048502037050
+  identification: 
+    name: SEND MAIL
+    type: Send E-Mail
+    execution-chain: None
+
+  settings: 
+    from: ':user_name'
+    to: '&P83_TO_USER_MAIL.'
+    subject: Request to Schedule an Appointment
+    body-plain-text: |
+      Dear &P83_TO_USER_NAME.,
+      
+      I hope this message finds you well.
+      
+      I am &P83_FROM_USER_NAME. from my company, and I am interested in scheduling an appointment to discuss the property/listing located at [Property Address or Listing ID, if applicable]. Please let me know your availability so we can arrange a convenient time to meet.
+      
+      📅 Date: &P83_APPOINTMENT_DATE.  
+      ⏰ Time: &P83_APPOINTMENT_TIME. 
+      👤 &ROLE_NAME.: &P83_FROM_USER_NAME. 
+      🏠 Property: &P83_LOCATION.
+      
+      Looking forward to your response.
+      
+      Best regards,
+      &P83_FROM_USER_NAME.
+      &USER_NAME.
+    send-immediately: false
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 49702459216145037047
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+

@@ -1,0 +1,238 @@
+---
+# ====== Page: Redirect to Map Page ==========================
+id: 36
+identification: 
+  name: Redirect to Map Page
+  alias: REDIRECT-TO-MAP-PAGE
+  title: Redirect to Map Page
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Redirect to Map Page ========================
+  id: 36715239170685319116
+  identification: 
+    name: Redirect to Map Page
+    type: Map
+
+  source: 
+    location: None
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes (No Grid)
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: map_region
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 36715239550393319117
+    map: 
+      background: Built-In
+      standard: Oracle World Map
+      dark-mode: Oracle World Map
+      height: 640
+
+    controls: 
+      navigation-bar: Zoom and Compass
+      navigation-bar-position: End
+      options: 
+      - Mousewheel Zoom
+      - Rectangle Zoom
+      - Scale Bar
+      - Infinite Map
+      - Get Browser Location
+
+    initial-position-and-zoom: 
+      get-position-from-browser: true
+      type: Based on Spatial Results
+
+    legend: 
+      show: true
+      position: End
+
+    attributes: 
+      messages-position: Below
+      unit-system: Metric
+
+    performance: 
+      lazy-loading: true
+
+    layers: 
+    - # ====== Layer: Redirect to Map Page =========================
+      id: 36715240037833319118
+      identification: 
+        name: Redirect to Map Page
+        layer-type: Points
+
+      layout: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          SELECT
+              PT.PROPERTY_TYPE,
+              P.AREA,
+              P.PRICE,
+              P.ADDRESS,
+              P.PROPERTY_ID AS ID,
+              APEX_PAGE.GET_URL(
+                      p_page   => 33,  -- Replace with actual page ID of your modal
+                      p_items  => 'P33_PROPERTY_ID',
+                      p_values => PROPERTY_ID 
+                 ) AS PROPERTY_LINK,
+              P.PROPERTY_NAME AS NAME,
+              TO_NUMBER(SUBSTR(LAT_LONG, 1, INSTR(LAT_LONG, ',') - 1)) AS LATITUDE,
+              TO_NUMBER(SUBSTR(LAT_LONG, INSTR(LAT_LONG, ',') + 1)) AS LONGITUDE 
+          FROM PMS002_PROPERTY P, PMS002_PROPERTY_TYPES PT
+          WHERE LAT_LONG IS NOT NULL AND P.PROPERTY_TYPES_ID = PT.PROPERTY_TYPES_ID
+        use-spatial-index: false
+
+      column-mapping: 
+        geometry-column-data-type: Longitude/Latitude
+        longitude-column: LONGITUDE
+        latitude-column: LATITUDE
+
+      point-objects: 
+        style: SVG
+        shape: Triangle
+
+      point-clustering: 
+        enable: false
+
+      tooltip: 
+        advanced-formatting: true
+        html-expression: |
+          <div style="padding: 15px; max-width: 300px; font-family: Arial, sans-serif;">
+          <!-- <div style="text-align: center;">
+          <img src="&IMG_URL." style="width: 120px; height: 120px; border-radius: 8px; object-fit: cover; border: 2px solid #4CAF50; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
+          </div> -->
+          <div style="font-size: 16px; font-weight: bold; color: #2c3e50; text-align: center; margin-bottom: 8px;">
+          &CATEGORY_DESCRIPTION.
+          </div>
+           
+            <div style="font-size: 14px; color: #555; line-height: 1.6;text-align:centre;">
+          <b>Property Type:</b> &PROPERTY_TYPE.<br/>
+          <b>Area:</b> &AREA. Sqft<br/>
+          <b>Price:</b> &PRICE.<br/>
+          <b>Location:</b> &ADDRESS.
+          </div>
+          <div style="margin-top: 10px; text-align: center;">
+          <a href="&PROPERTY_LINK." target="_blank" style="display: inline-block; padding: 8px 12px; background-color: #4CAF50; color: white; border-radius: 4px; text-decoration: none; font-size: 14px;">
+                View Details
+          </a>
+          </div> 
+           
+          </div>
+
+      info-window: 
+        advanced-formatting: true
+        html-expression: |
+          <div style="padding: 15px; max-width: 300px; font-family: Arial, sans-serif;">
+          <!-- <div style="text-align: center;">
+          <img src="&IMG_URL." style="width: 120px; height: 120px; border-radius: 8px; object-fit: cover; border: 2px solid #4CAF50; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
+          </div> -->
+          <div style="font-size: 16px; font-weight: bold; color: #2c3e50; text-align: center; margin-bottom: 8px;">
+          &CATEGORY_DESCRIPTION.
+          </div>
+           
+            <div style="font-size: 14px; color: #555; line-height: 1.6;text-align:centre;">
+          <b>Property Type:</b> &PROPERTY_TYPE.<br/>
+          <b>Area:</b> &AREA. Sqft<br/>
+          <b>Price:</b> &PRICE.<br/>
+          <b>Location:</b> &ADDRESS.
+          </div>
+          <div style="margin-top: 10px; text-align: center;">
+          <a href="&PROPERTY_LINK." target="_blank" style="display: inline-block; padding: 8px 12px; background-color: #4CAF50; color: white; border-radius: 4px; text-decoration: none; font-size: 14px;">
+                View Details
+          </a>
+          </div>
+           
+          </div>
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+page-items: 
+- # ====== Page Item: P36_PROPERTY_ID ==========================
+  id: 36142582456044390139
+  identification: 
+    name: P36_PROPERTY_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+

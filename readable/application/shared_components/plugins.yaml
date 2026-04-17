@@ -1,0 +1,4568 @@
+---
+- # ====== Plugin: Heart Toggle ================================
+  id: 14695474073079280
+  identification: 
+    name: Heart Toggle
+    internal-name: HEART_TOGGLE
+    type: Template Component
+
+  advanced: 
+    quick-pick: false
+
+  subscription: 
+    version-number: 41145863468983
+
+  templates: 
+    available-as: 
+    - Single (Partial)
+    partial: |
+      <span class="heart-toggle" onclick="toggleHeart(this)">
+        <i class="fa fa-heart#ISFAVOURITE#"></i>
+      </span>
+      
+      <script>
+        function toggleHeart(el) {
+          const icon = el.querySelector('i');
+          const isLiked = icon.classList.contains('fa-heart');
+      
+          if (isLiked) {
+            icon.classList.remove('fa-heart');
+            icon.classList.add('fa-heart-o');
+            icon.style.color = '';
+          } else {
+            icon.classList.remove('fa-heart-o');
+            icon.classList.add('fa-heart');
+            icon.style.color = 'red';
+          }
+        }
+      </script>
+      
+      <style>
+        .heart-toggle {
+          cursor: pointer;
+          font-size: 24px;
+          transition: transform 0.2s ease;
+        }
+      
+        .heart-toggle:hover {
+          transform: scale(1.2);
+        }
+        .fa-heart {
+          color: red;
+        }
+      </style>
+      
+    translate-templates: false
+    default-escape-mode: HTML
+
+  callbacks: 
+    api-interface: Function
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  information: 
+    version: 1.0
+
+  custom-attributes: 
+  - # ====== Custom Attribute: IS_FAVOURITE ======================
+    id: 14695203692071015
+    identification: 
+      static-id: ISFAVOURITE
+      attribute: 1
+      name: IS_FAVOURITE
+      scope: Component
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+      escape-mode: HTML
+
+    default: 
+      value: N
+
+- # ====== Plugin: UC - Range Slider ===========================
+  id: 31344557994806074827
+  identification: 
+    name: UC - Range Slider
+    internal-name: UNITEDCODES_RANGE_SLIDER
+    type: Item
+
+  advanced: 
+    quick-pick: false
+
+  subscription: 
+    version-number: 15618792171034
+
+  source: 
+    pl/sql-code: |
+      function split_string_into_words
+        ( p_string          varchar2
+        , p_word_sep_arr    apex_t_varchar2
+        )
+      return apex_t_varchar2
+      as
+          l_char      varchar2(1);
+          l_word      varchar2(200);
+          l_result    apex_t_varchar2 := apex_t_varchar2();
+      
+          -- add the word to the result array and clear the variable(l_word)
+          procedure add_word
+              ( p_word in out varchar2
+              )
+          as
+          begin
+              if p_word is not null
+              then
+                  apex_string.push(l_result,p_word);
+                  p_word := null;
+              end if;
+          end add_word;
+      
+      begin
+          for idx in 1 .. length(p_string)
+          loop
+              l_char := substr(p_string,idx,1);
+      
+              if l_char member of p_word_sep_arr
+              then
+                  -- if it's a special character, add the word and the char to the result array
+                  add_word(l_word);
+                  add_word(l_char);
+              else
+                  l_word := l_word || l_char;
+              end if;
+      
+          end loop;
+      
+          add_word(l_word);
+      
+          return l_result;
+      end split_string_into_words;
+      
+      -- maps oracle date format to moment.js
+      function map_date_formats
+        ( p_format      varchar2
+        , p_date_format boolean default true
+        , p_time_format boolean default true
+        )
+      return varchar2
+      is
+          l_js_format varchar2(200);
+      begin
+          case upper(p_format)
+              when '-'       then l_js_format := p_format;
+              when ','       then l_js_format := p_format;
+              when '.'       then l_js_format := p_format;
+              when ';'       then l_js_format := p_format;
+              when ':'       then l_js_format := p_format;
+              when ' '       then l_js_format := p_format;
+              when '/'       then l_js_format := p_format;
+              when 'MI'      then l_js_format := case when p_time_format then 'm'    else '' end; -- minute 1,2,3,..., 60
+              when 'AM'      then l_js_format := case when p_time_format then 'A'    else '' end; -- AM,PM
+              when 'D'       then l_js_format := case when p_date_format then 'E'    else '' end; -- 1,2,3, ... ,7
+              when 'DY'      then l_js_format := case when p_date_format then 'ddd'  else '' end; -- Mon, Tue, Wed, ...
+              when 'DAY'     then l_js_format := case when p_date_format then 'dddd' else '' end; -- Monday, Tuesday, ...
+              when 'FMDAY'   then l_js_format := case when p_date_format then 'dddd' else '' end; -- Monday, Tuesday, ...
+              when 'DD'      then l_js_format := case when p_date_format then 'DD'   else '' end; -- 1,2,3, ...31
+              when 'FMDD'    then l_js_format := case when p_date_format then 'D'    else '' end; -- 1,2,3, ...31
+              when 'DDTH'    then l_js_format := case when p_date_format then 'DDDo' else '' end; -- 1st, 2nd, 3rd, ... ,31th
+              when 'DDD'     then l_js_format := case when p_date_format then 'DDD'  else '' end; -- 1,2,3, ... ,365
+              when 'HH'      then l_js_format := case when p_time_format then 'h'    else '' end; -- 1,2,3, ... ,12
+              when 'HH12'    then l_js_format := case when p_time_format then 'hh'   else '' end; -- 01,02,03, ... ,12
+              when 'HH24'    then l_js_format := case when p_time_format then 'HH'   else '' end; -- 01,02,03, ... ,24
+              when 'FMHH'    then l_js_format := case when p_time_format then 'H'    else '' end; -- 1,2,3, ... ,12
+              when 'FMHH12'  then l_js_format := case when p_time_format then 'h'    else '' end; -- 01,02,03, ... ,12
+              when 'FMHH24'  then l_js_format := case when p_time_format then 'H'    else '' end; -- 01,02,03, ... ,24
+              when 'IW'      then l_js_format := case when p_date_format then 'W'    else '' end; -- week of the year
+              when 'IYYY'    then l_js_format := case when p_time_format then 'Y'    else '' end; -- 2020,2021,2022...
+              when 'MI'      then l_js_format := case when p_time_format then 'm'    else '' end; -- minute 1,2,3,..., 60
+              when 'M'       then l_js_format := case when p_time_format then 'M'    else '' end; -- month 1,2,3,..,12
+              when 'MM'      then l_js_format := case when p_date_format then 'MM'   else '' end; -- month 01,02,03,..,12
+              when 'MON'     then l_js_format := case when p_date_format then 'MMM'  else '' end; -- Jan, Feb, ... ,Dec
+              when 'MONTH'   then l_js_format := case when p_date_format then 'MMMM' else '' end; -- January, February, ..., December
+              when 'FMMONTH' then l_js_format := case when p_date_format then 'MMMM' else '' end; -- January, February, ..., December
+              when 'PM'      then l_js_format := case when p_time_format then 'A'    else '' end; -- AM,PM
+              when 'RR'      then l_js_format := case when p_date_format then 'YY'   else '' end; -- last two digits of the year
+              when 'RRRR'    then l_js_format := case when p_date_format then 'YYYY' else '' end; -- 2020,2021,...
+              when 'SS'      then l_js_format := case when p_time_format then 's'    else '' end; -- seconds 1,2,3,...,59
+              when 'WW'      then l_js_format := case when p_date_format then 'w'    else '' end; -- week of the year (bit different than the iw)
+              when 'YY'      then l_js_format := case when p_date_format then 'YY'   else '' end; -- last two digits of the year
+              when 'YYYY'    then l_js_format := case when p_date_format then 'YYYY' else '' end;
+              when 'XFF'     then l_js_format := case when p_time_format then '.u'   else '' end;
+              when 'TZR'     then l_js_format := case when p_time_format then 'z'    else '' end; -- timezone
+              --
+              -- date format not found
+              -- should we do more guessing or raise an exception ???
+              else
+                  l_js_format := '';
+          end case;
+      
+          return l_js_format;
+      
+      end map_date_formats;
+      
+      -- calls the combination of the two functions above
+      function oracle_to_js_date_format
+        ( p_oracle_format varchar2
+        )
+      return varchar2
+      as
+          l_date_parts   apex_t_varchar2;
+          -- possible characters used in the date format as a separator
+          l_date_sep_arr apex_t_varchar2 := apex_t_varchar2('-',',','.',';',':',' ','/');
+          l_result       varchar2(400);
+          l_map          varchar2(10);
+          l_has_week     boolean := false;
+      begin
+          if p_oracle_format is null then
+              return null;
+          end if;
+          l_date_parts := split_string_into_words
+                            ( p_string       => p_oracle_format
+                            , p_word_sep_arr => l_date_sep_arr
+                            );
+          for i in 1 .. l_date_parts.count
+          loop
+              l_map := map_date_formats(l_date_parts(i));
+              l_result := l_result || l_map;
+      
+              if lower(l_map) = 'w' then
+                  l_has_week := true;
+              end if;
+          end loop;
+      
+          -- moment quirk
+          -- gggg is based on ISO 8601 week date standard
+          -- with weeks normal yy would result on 01/2024 for 30th december 2024
+          -- but gggg would result on 01/2025
+          if l_has_week then
+              -- check if year has four digits
+              if instr(l_result,'YYYY') > 0 then
+                  l_result := replace(l_result,'YYYY','GGGG');
+              elsif instr(l_result,'YY') > 0 then
+                  l_result := replace(l_result,'YY','GG');
+              elsif instr(l_result,'Y') > 0 then
+                  l_result := replace(l_result,'Y','GGGG');
+              end if;
+          end if;
+      
+          return l_result;
+      end oracle_to_js_date_format;
+      
+      procedure render
+        ( p_item   in            apex_plugin.t_item
+        , p_plugin in            apex_plugin.t_plugin
+        , p_param  in            apex_plugin.t_item_render_param
+        , p_result in out nocopy apex_plugin.t_item_render_result
+        )
+      as
+          l_item_id              p_item.id%type             := p_item.id;
+          l_item_name            p_item.name%type           := p_item.name;
+          l_item_value           p_param.value%type         := p_param.value;
+          l_item_value_arr       apex_t_varchar2            := apex_string.split(l_item_value, ':');
+          l_item_height          p_item.element_height%type := p_item.element_height;
+          l_init_js              varchar2(32767)            := nvl(apex_plugin_util.replace_substitutions(p_item.init_javascript_code), 'undefined');
+          l_date_format          p_item.format_mask%type    := nvl(p_item.format_mask, :APP_NLS_DATE_FORMAT);
+      
+          --attributes
+          l_type                 p_item.attribute_01%type   := p_item.attribute_01;
+          l_handles              p_item.attribute_02%type   := p_item.attribute_02;
+          l_min_range            p_item.attribute_03%type   := p_item.attribute_03;
+          l_max_range            p_item.attribute_04%type   := p_item.attribute_04;
+          l_min_date             p_item.attribute_05%type   := p_item.attribute_05;
+          l_max_date             p_item.attribute_06%type   := p_item.attribute_06;
+          l_date_steps           p_item.attribute_07%type   := p_item.attribute_07;
+          l_number_steps         p_item.attribute_08%type   := p_item.attribute_08;
+          l_orientation          p_item.attribute_09%type   := p_item.attribute_09;
+          l_options              p_item.attribute_10%type   := p_item.attribute_10;
+          l_enable_tooltips      boolean                    := instr(l_options, 'enable-tooltip'            ) > 0;
+          l_enable_ticks         boolean                    := instr(l_options, 'enable-ticks'              ) > 0;
+          l_return_value_item    boolean                    := instr(l_options, 'bind-value-to-item'        ) > 0;
+          l_connect_bar          boolean                    := instr(l_options, 'connects-bar'              ) > 0;
+          l_flip_range           boolean                    := instr(l_options, 'flip-range'                ) > 0;
+          l_use_display_fmt      boolean                    := instr(l_options, 'custom-display-format-mask') > 0;
+          l_ticks_num            p_item.attribute_11%type   := p_item.attribute_11;
+          l_return_item          p_item.attribute_12%type   := p_item.attribute_12;
+          l_range_color          p_item.attribute_13%type   := p_item.attribute_13;
+          l_custom_display_fmt   p_item.attribute_13%type   := oracle_to_js_date_format(p_item.attribute_14);
+          -- local variables
+          l_step                 varchar2(100);
+          l_min_value            varchar2(1000);
+          l_max_value            varchar2(1000);
+          l_number_separator     varchar2(10);
+          l_js_date_format       varchar2(1000);
+      begin
+          -- standard debugging
+          if apex_application.g_debug and substr(:DEBUG,6) >= 6
+          then
+              apex_plugin_util.debug_page_item
+                ( p_plugin    => p_plugin
+                , p_page_item => p_item
+                );
+          end if;
+      
+          if l_type = 'date'
+          then
+              -- transform the oracle date format into js specific (momentjs)
+              l_js_date_format := oracle_to_js_date_format(l_date_format);
+              -- set the date_steps to the step value
+              l_step := l_date_steps;
+              -- set the min and max values;
+              l_min_value := l_min_date;
+              l_max_value := l_max_date;
+          else
+              -- get the language dependent decimal separator
+              select substr(value,1,1)
+                into l_number_separator
+                from nls_session_parameters
+               where parameter = 'NLS_NUMERIC_CHARACTERS'
+              ;
+      
+              -- pass the number_steps as the step value
+              l_step := l_number_steps;
+              -- set the min and max values
+              l_min_value := l_min_range;
+              l_max_value := l_max_range;
+          end if;
+      
+          --set initial values for item
+          -- if there's no value provided, then we use the min - and - max values
+          if l_item_value is null
+          then
+              if l_type = 'number'
+              then
+                  apex_string.push(l_item_value_arr, l_min_range);
+                  apex_string.push(l_item_value_arr, l_max_range);
+              else
+                  apex_string.push(l_item_value_arr, l_min_date);
+                  apex_string.push(l_item_value_arr, l_max_date);
+              end if;
+          end if;
+      
+          --print container div
+          sys.htp.p('<div class="range-slider-'|| l_orientation ||'" id="'  || l_item_name || '"></div>');
+      
+          --creating json
+          apex_json.initialize_clob_output;
+          apex_json.open_object;
+      
+          apex_json.write('type'                  , l_type                            );
+          apex_json.write('handles'               , l_handles                         );
+          apex_json.write('minimumValue'          , l_min_value                       );
+          apex_json.write('maximumValue'          , l_max_value                       );
+          apex_json.write('itemHeight'            , l_item_height                     );
+          apex_json.write('rangeColor'            , l_range_color                     );
+          apex_json.write('showTicks'             , l_enable_ticks                    );
+          apex_json.write('ticks'                 , l_ticks_num                       );
+          apex_json.write('orientation'           , l_orientation                     );
+          apex_json.write('tooltip'               , l_enable_tooltips                 );
+          apex_json.write('returnValToItem'       , l_return_value_item               );
+          apex_json.write('step'                  , l_step                            );
+          apex_json.write('retItems'              , l_return_item                     );
+          apex_json.write('connectBar'            , l_connect_bar                     );
+          apex_json.write('flipRange'             , l_flip_range                      );
+          apex_json.write('useDisplayFormat'      , l_use_display_fmt                 );
+          if l_use_display_fmt then
+              apex_json.write('displayFormat'     , l_custom_display_fmt              );
+          end if;
+          apex_json.write('itemName'              , l_item_name                       );
+          apex_json.write('dateFormat'            , l_js_date_format                  );
+          apex_json.open_object('numberFormat');
+          apex_json.write('mark'                  , l_number_separator                );
+          apex_json.close_object;
+          apex_json.open_array('value');
+      
+          for i in 1 .. l_item_value_arr.count
+          loop
+              if l_type = 'number'
+              then
+                  apex_json.write(l_item_value_arr(i));
+              else
+                  if l_use_display_fmt then
+                      apex_json.write(l_item_value_arr(i));
+                  else
+                      apex_json.write(to_date(l_item_value_arr(i),l_date_format));
+                  end if;
+              end if;
+          end loop;
+      
+          apex_json.close_array;
+      
+          apex_json.close_object;
+      
+          apex_javascript.add_onload_code(p_code => 'uc.item.rangeSlider.init(' || apex_json.get_clob_output || ',' || l_init_js || ');');
+      
+          apex_json.free_output;
+      
+      end render;
+      
+      procedure validate
+        ( p_item   in             apex_plugin.t_item
+        , p_plugin in             apex_plugin.t_plugin
+        , p_param  in             apex_plugin.t_item_validation_param
+        , p_result in out nocopy  apex_plugin.t_item_validation_result
+        )
+      as
+          l_value          p_param.value%type       := p_param.value;
+          l_date_format    p_item.format_mask%type  := nvl(p_item.format_mask, :APP_NLS_DATE_FORMAT);
+          l_type           p_item.attribute_01%type := p_item.attribute_01;
+          l_min_range      p_item.attribute_03%type := p_item.attribute_03;
+          l_max_range      p_item.attribute_04%type := p_item.attribute_04;
+          l_min_date       p_item.attribute_05%type := p_item.attribute_05;
+          l_max_date       p_item.attribute_06%type := p_item.attribute_06;
+      
+          l_min_date_value date;
+          l_max_date_value date;
+      
+          l_values         apex_t_varchar2;
+          l_num_value      number;
+          l_date_value     date;
+      begin
+      
+          if l_type = 'date'
+          then
+              l_min_date_value := to_date(l_min_date, l_date_format);
+              l_max_date_value := to_date(l_max_date, l_date_format);
+          end if;
+      
+          l_values := apex_string.split(l_value, ':');
+      
+          for i in 1 .. l_values.count
+          loop
+              if l_type = 'number'
+              then
+                  l_num_value := to_number(l_values(i));
+                  if l_num_value < l_min_range or l_num_value > l_max_range
+                  then
+                      p_result.message := 'Number is not in range';
+                  end if;
+              elsif l_type = 'date'
+              then
+                  l_date_value := to_date(l_values(i),l_date_format);
+                  if l_date_value < l_min_date_value or l_date_value > l_max_date_value
+                  then
+                      p_result.message := 'Date is not in range';
+                  end if;
+              end if;
+          end loop;
+      
+      end validate;
+
+  callbacks: 
+    api-interface: Procedure with Legacy Attributes [deprecated]
+    render-procedure/function-name: render
+    validation-procedure-name: validate
+
+  supported-for: 
+    component-type: 
+    - Page Items
+
+  standard-attributes: 
+    attributes: 
+    - Is Visible Widget
+    - Standard Form Element
+    - Session State Changeable
+    - Has Read Only Attribute
+    - Has Source Attributes
+    - Format Mask Date Only
+    - Has Element Attributes
+    - Has Height Attribute
+    - Has Element Option Attribute
+    - Has Encrypt Session State Attribute
+    - Has "Initialization JavaScript Code" Attribute
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  css: 
+    file-urls: 
+    - '#PLUGIN_FILES#css/nouislider-core.css'
+    - '#PLUGIN_FILES#css/nouislider-pips.css'
+    - '#PLUGIN_FILES#css/nouislider-tooltips.css'
+    - '#PLUGIN_FILES#css/style.css'
+
+  javascript: 
+    file-urls: 
+    - '#PLUGIN_FILES#libraries/nouislider.js'
+    - '#PLUGIN_FILES#libraries/moment.js'
+    - '#PLUGIN_FILES#libraries/wNumb.js'
+    - '#PLUGIN_FILES#js/script.js'
+
+  information: 
+    version: 25.1.0
+    about-url: 'https://www.plug-ins-pro.com'
+    help-text: |
+      <p>The <strong>UC - Range Slider</strong> item plug-in is a lightweight range slider with multi-touch support and is packed with features. It supports numeric and date ranges, non-linear ranges, has keyboard support, and it works great in responsive designs. You can:</p>
+      <ul>
+      <li>Use it vertically or horizontally</li>
+      <li>Use either a single or multiple value range</li>
+      <li>Restrict the minimum/maximum range values</li>
+      <li>Set page items with the range values</li>
+      <li>Control the range colour</li>
+      <li>Control the step size</li>
+      </ul>
+      <p>It's the perfect page item filter for your reports and charts.</p>
+      <p>This item plug-in integrates the <strong>noUISlider</strong> JavaScript Range Slider (https://refreshless.com/nouislider/).</p>
+
+  standard-attributes: 
+  - # ====== Standard Attribute: INIT_JAVASCRIPT_CODE ============
+    id: 31344581418712074816
+    identification: 
+      name: INIT_JAVASCRIPT_CODE
+
+    value: 
+      required: false
+
+    help: 
+      help-text: You can use this attribute to define a function that will allow you to change/override the plugin settings. This gives you added flexibility of controlling the settings from a single Javascript function defined in a "Static Application File".
+
+    examples: 
+      examples: |
+        <pre>
+        function(config){
+        
+            // numberFormat = {}
+            // A wNumb format object (please see: https://refreshless.com/wnumb/ for details) to be used for number-formatting in the slider.
+            // Common properties are: { mark: '.', thousand: ',', prefix: '€ ', suffix: ' EUR', decimals: 2 }
+            // The default of this object is based on your locale (if you don't override anything).
+            config.numberFormat = { decimals: 0, mark: '.', thousand: ',' };
+        
+            // keyboardSupport = true/false
+            // Enables movement of the handles with the keyboard.
+            config.keyboardSupport = true;
+        
+            // direction = 'ltr'/'rtl'
+            // Sets the directionality of the slider, either left-to-right or right-to-left.
+            config.direction = 'ltr';
+        
+            // ticksStepped = true/false
+            // Specifies whether the ticks should only appear under the values which can be "stepped to" (i.e. set).
+            config.ticksStepped = true;
+        
+            // tickPercentages = []
+            // Define an array of values (from 0 to 100) for the positions of the ticks relatively to the slider's range (e.g. [0, 50, 100] would place a tick at the min value, max value and at the center).
+            config.tickPercentages = null;
+        
+            // tickValues = []
+            // Define an array of absolute values for the positions of the ticks (e.g. [0, 500, 1500, 1700]).
+            config.tickValues = null;
+        
+            // clickOnTicks = true/false
+            // Enables / disables clicking on the ticks to set values.
+            config.clickOnTicks = true;
+        
+            return config;
+        }
+        </pre>
+
+  custom-attributes: 
+  - # ====== Custom Attribute: Type ==============================
+    id: 31344558209157074826
+    identification: 
+      static-id: attribute_01
+      attribute: 1
+      name: Type
+      scope: Component
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: number
+
+    supported-for: 
+      component-type: 
+      - Page Items
+      - Interactive Grid Columns
+
+    help: 
+      help-text: The type of the slider - sets the data-type of the values the slider will be handling.
+
+    entries: 
+    - # ====== Entry: Number =======================================
+      id: 31344558622706074826
+      entry: 
+        sequence: 10
+        display: Number
+        return: number
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: The slider will represent <i>Number</i> values.
+
+    - # ====== Entry: Date =========================================
+      id: 31344559139982074826
+      entry: 
+        sequence: 20
+        display: Date
+        return: date
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: The slider will represent <i>Date</i> values.
+
+  - # ====== Custom Attribute: Handles ===========================
+    id: 31344559651118074826
+    identification: 
+      static-id: attribute_02
+      attribute: 2
+      name: Handles
+      scope: Component
+
+    layout: 
+      sequence: 20
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: 1
+
+    supported-for: 
+      component-type: 
+      - Page Items
+      - Interactive Grid Columns
+
+    help: 
+      help-text: The number of handles/knobs (draggable heads which indicate and change the value) of the slider.
+
+    entries: 
+    - # ====== Entry: Single =======================================
+      id: 31344560102048074825
+      entry: 
+        sequence: 10
+        display: Single
+        return: 1
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: The slider's <i>getValue()</i> will return only one value (string).
+
+    - # ====== Entry: Double =======================================
+      id: 31344560526277074825
+      entry: 
+        sequence: 20
+        display: Double
+        return: 2
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: The slider's <i>getValue()</i> will return a colon-separated string of two values.
+
+  - # ====== Custom Attribute: Minimum  Value ====================
+    id: 31344561089813074825
+    identification: 
+      static-id: attribute_03
+      attribute: 3
+      name: Minimum  Value
+      scope: Component
+
+    layout: 
+      sequence: 30
+
+    settings: 
+      type: Number
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Type # 31344558209157074826
+      depending-on-condition-type: equal to
+      expression: number
+      always-evaluate: true
+
+    supported-for: 
+      component-type: 
+      - Page Items
+      - Interactive Grid Columns
+
+    help: 
+      help-text: The minimum value of the slider.
+
+  - # ====== Custom Attribute: Maximum Value =====================
+    id: 31344561483949074825
+    identification: 
+      static-id: attribute_04
+      attribute: 4
+      name: Maximum Value
+      scope: Component
+
+    layout: 
+      sequence: 40
+
+    settings: 
+      type: Number
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Type # 31344558209157074826
+      depending-on-condition-type: equal to
+      expression: number
+      always-evaluate: true
+
+    supported-for: 
+      component-type: 
+      - Page Items
+      - Interactive Grid Columns
+
+    help: 
+      help-text: The maximum value of the slider.
+
+  - # ====== Custom Attribute: Minimum Date ======================
+    id: 31344561900043074825
+    identification: 
+      static-id: attribute_05
+      attribute: 5
+      name: Minimum Date
+      scope: Component
+
+    layout: 
+      sequence: 50
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: true
+
+    condition: 
+      depending-on-custom-attribute: Type # 31344558209157074826
+      depending-on-condition-type: equal to
+      expression: date
+      always-evaluate: true
+
+    supported-for: 
+      component-type: 
+      - Page Items
+      - Interactive Grid Columns
+
+    help: 
+      help-text: The minimum date of the slider. Substitutions strings are supported. Please be aware that the specified date has to match the format mask of the item, or the display value format override, or if not set, the your application format mask (defined under Globalization) EXACTLY.
+
+  - # ====== Custom Attribute: Maximum Date ======================
+    id: 31344562264280074825
+    identification: 
+      static-id: attribute_06
+      attribute: 6
+      name: Maximum Date
+      scope: Component
+
+    layout: 
+      sequence: 60
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: true
+
+    condition: 
+      depending-on-custom-attribute: Type # 31344558209157074826
+      depending-on-condition-type: equal to
+      expression: date
+      always-evaluate: true
+
+    supported-for: 
+      component-type: 
+      - Page Items
+      - Interactive Grid Columns
+
+    help: 
+      help-text: The maximum date of the slider. Substitutions strings are supported. Please be aware that the specified date has to match the format mask of the item, or the display value format override, or if not set, the your application format mask (defined under Globalization) EXACTLY.
+
+  - # ====== Custom Attribute: Date steps ========================
+    id: 31344562674009074824
+    identification: 
+      static-id: attribute_07
+      attribute: 7
+      name: Date steps
+      scope: Component
+
+    layout: 
+      sequence: 70
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: daily
+
+    condition: 
+      depending-on-custom-attribute: Type # 31344558209157074826
+      depending-on-condition-type: equal to
+      expression: date
+      always-evaluate: true
+
+    supported-for: 
+      component-type: 
+      - Page Items
+      - Interactive Grid Columns
+
+    help: 
+      help-text: |
+        Specifies the steps the handle(s) can be moved from one value to another.<br>
+        <br>
+        E.g. if this option is set to "weekly", dragging the handle will change the slider's value in weekly intervals. The user will be unable to set the value of the slider in-between these steps by dragging the handle(s):<br>
+        Current value: 2021.02.05 (yyyy.mm.dd)
+        Next possible value: 2021.02.12 (yyyy.mm.dd)
+
+    entries: 
+    - # ====== Entry: Daily ========================================
+      id: 31344563045971074824
+      entry: 
+        sequence: 10
+        display: Daily
+        return: daily
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: The interval you can move the <i>Handle(s)</i> will be <i>1 day</i>.
+
+    - # ====== Entry: Weekly =======================================
+      id: 31344563605755074824
+      entry: 
+        sequence: 20
+        display: Weekly
+        return: weekly
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: The interval you can move the <i>Handle(s)</i> will be <i>1 week(7 days)</i>.
+
+    - # ====== Entry: Monthly ======================================
+      id: 31344564039013074824
+      entry: 
+        sequence: 30
+        display: Monthly
+        return: monthly
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: The interval you can move the <i>Handle(s)</i> will be <i>1 Month</i>.
+
+    - # ====== Entry: Yearly =======================================
+      id: 31344564589610074824
+      entry: 
+        sequence: 40
+        display: Yearly
+        return: yearly
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: The interval you can move the <i>Handle(s)</i> will be <i>1 Year</i>.
+
+  - # ====== Custom Attribute: Number Steps ======================
+    id: 31344565014846074824
+    identification: 
+      static-id: attribute_08
+      attribute: 8
+      name: Number Steps
+      scope: Component
+
+    layout: 
+      sequence: 80
+
+    settings: 
+      type: Number
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: 1
+
+    condition: 
+      depending-on-custom-attribute: Type # 31344558209157074826
+      depending-on-condition-type: equal to
+      expression: number
+      always-evaluate: true
+
+    supported-for: 
+      component-type: 
+      - Page Items
+      - Interactive Grid Columns
+
+    help: 
+      help-text: |
+        Specifies the steps the handles(s) can be moved from one value to another.<br>
+        <br>
+        The user will be unable to set the value of the slider in-between these steps by dragging the handle(s).
+
+  - # ====== Custom Attribute: Orientation =======================
+    id: 31344565473694074824
+    identification: 
+      static-id: attribute_09
+      attribute: 9
+      name: Orientation
+      scope: Component
+
+    layout: 
+      sequence: 90
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: horizontal
+
+    supported-for: 
+      component-type: 
+      - Page Items
+      - Interactive Grid Columns
+
+    help: 
+      help-text: The orientation of the range slider.
+
+    entries: 
+    - # ====== Entry: Horizontal ===================================
+      id: 31344565875050074823
+      entry: 
+        sequence: 10
+        display: Horizontal
+        return: horizontal
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: The item will be rendered horizontally, the <i>Handle(s)</i> can be moved sideway, left-and-right.
+
+    - # ====== Entry: Vertical =====================================
+      id: 31344566319690074823
+      entry: 
+        sequence: 20
+        display: Vertical
+        return: vertical
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: The item will be rendered vertically, the <i>Handle(s)</i> can be moved up-and-down.
+
+  - # ====== Custom Attribute: Options ===========================
+    id: 31344566807828074823
+    identification: 
+      static-id: attribute_10
+      attribute: 10
+      name: Options
+      scope: Component
+
+    layout: 
+      sequence: 100
+
+    settings: 
+      type: Checkboxes
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: enable-ticks
+
+    supported-for: 
+      component-type: 
+      - Page Items
+      - Interactive Grid Columns
+
+    help: 
+      help-text: A list of options you can apply on the item.
+
+    entries: 
+    - # ====== Entry: Enable Ticks =================================
+      id: 31344567208538074823
+      entry: 
+        sequence: 10
+        display: Enable Ticks
+        return: enable-ticks
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: Shows the tick-markers and their values below (or on the side - in case of vertical orientation) the slider.
+
+    - # ====== Entry: Enable Tooltips ==============================
+      id: 31344567748494074823
+      entry: 
+        sequence: 20
+        display: Enable Tooltips
+        return: enable-tooltip
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: Displays a tooltip above the handle with its value.
+
+    - # ====== Entry: Bind Value to Item(s) ========================
+      id: 31344568299381074823
+      entry: 
+        sequence: 30
+        display: Bind Value to Item(s)
+        return: bind-value-to-item
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: One or two page items can be bound to the slider's value (based on the handle-count set). Whenever the page item value changes, the page item values will be updated automatically.
+
+    - # ====== Entry: Connect Handles ==============================
+      id: 31344568799507074822
+      entry: 
+        sequence: 40
+        display: Connect Handles
+        return: connects-bar
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: Connect the handles so both can be moved at the same time by dragging the bar between them. This will move both of them the same distance, changing their values but keeping the range between them.
+
+    - # ====== Entry: Flip Range ===================================
+      id: 31344569237673074822
+      entry: 
+        sequence: 50
+        display: Flip Range
+        return: flip-range
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: It doesn't constrain/limit the position of a handle based on the other handle. In other words, it allows moving handle 1 beyond handle 2 and/or handle 2 before handle 1.
+
+    - # ====== Entry: Custom Display Format Mask ===================
+      id: 31344569715628074822
+      entry: 
+        sequence: 60
+        display: Custom Display Format Mask
+        return: custom-display-format-mask
+
+      advanced: 
+        quick-pick: false
+
+      help: 
+        help-text: You can enter a display format that is different from the value format. This is so you can support displaying week numbers using the WW/IW format and still have an actual "to_date" formattable value returned.
+
+  - # ====== Custom Attribute: Ticks =============================
+    id: 31344570255133074822
+    identification: 
+      static-id: attribute_11
+      attribute: 11
+      name: Ticks
+      scope: Component
+
+    layout: 
+      sequence: 110
+
+    settings: 
+      type: Number
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: 5
+
+    condition: 
+      depending-on-custom-attribute: Options # 31344566807828074823
+      depending-on-condition-type: in list
+      expression: enable-ticks
+      always-evaluate: true
+
+    supported-for: 
+      component-type: 
+      - Page Items
+      - Interactive Grid Columns
+
+    help: 
+      help-text: |
+        The distribution of the value-indicating markers below (or next to, in case of vertical) the range slider.<br>
+        <br>
+        E.g. if the slider's minimum value is 0, maximum value is 100 and the number of ticks is 5 then the displayed markers are at values: 0, 25, 50, 75, 100
+
+  - # ====== Custom Attribute: Set Item(s) =======================
+    id: 31344570691232074822
+    identification: 
+      static-id: attribute_12
+      attribute: 12
+      name: Set Item(s)
+      scope: Component
+
+    layout: 
+      sequence: 120
+
+    settings: 
+      type: Page Items
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Options # 31344566807828074823
+      depending-on-condition-type: in list
+      expression: bind-value-to-item
+      always-evaluate: true
+
+    supported-for: 
+      component-type: 
+      - Page Items
+      - Interactive Grid Columns
+
+    help: 
+      help-text: Specify the page items to bind their value to the slider's value. If you are using multiple handles then 2 page items are required. The first item will receive the lower range value and the second item will receive the upper range value.
+
+  - # ====== Custom Attribute: Range Color =======================
+    id: 31344571063829074821
+    identification: 
+      static-id: attribute_13
+      attribute: 13
+      name: Range Color
+      scope: Component
+
+    layout: 
+      sequence: 130
+
+    settings: 
+      type: Color
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: '#0076df'
+
+    condition: 
+      depending-on-custom-attribute: Options # 31344566807828074823
+      depending-on-condition-type: in list
+      expression: connects-bar
+      always-evaluate: true
+
+    supported-for: 
+      component-type: 
+      - Page Items
+      - Interactive Grid Columns
+
+    help: 
+      help-text: Sets the color of the range, i.e. the background-color between the two handles.
+
+  - # ====== Custom Attribute: Display Format Mask ===============
+    id: 31344571491324074821
+    identification: 
+      static-id: attribute_14
+      attribute: 14
+      name: Display Format Mask
+      scope: Component
+
+    layout: 
+      sequence: 140
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Options # 31344566807828074823
+      depending-on-condition-type: in list
+      expression: custom-display-format-mask
+      always-evaluate: true
+
+    help: 
+      help-text: <p>Enter the format mask you would like to display on the range slider, the actual values will be returned in the format mask defined for the item.</p>
+
+  events: 
+  - # ====== Event: uc-rangeslider-change ========================
+    id: 31344581836544074816
+    identification: 
+      name: UC - Range Slider - Change
+      internal-name: uc-rangeslider-change
+
+  files: 
+  - # ====== File: css/nouislider-core.css =======================
+    id: 31345820823311585999
+    identification: 
+      file-name: css/nouislider-core.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: css/nouislider-core.min.css ===================
+    id: 31345821134288585995
+    identification: 
+      file-name: css/nouislider-core.min.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: css/nouislider-pips.css =======================
+    id: 31345821573313585991
+    identification: 
+      file-name: css/nouislider-pips.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: css/nouislider-pips.min.css ===================
+    id: 31345821994043585986
+    identification: 
+      file-name: css/nouislider-pips.min.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: css/nouislider-tooltips.css ===================
+    id: 31345822366499585982
+    identification: 
+      file-name: css/nouislider-tooltips.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: css/nouislider-tooltips.min.css ===============
+    id: 31345822750011585978
+    identification: 
+      file-name: css/nouislider-tooltips.min.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: css/style.css =================================
+    id: 31345823141955585974
+    identification: 
+      file-name: css/style.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: css/style.min.css =============================
+    id: 31345823601534585970
+    identification: 
+      file-name: css/style.min.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: js/script.js ==================================
+    id: 31345824196138585147
+    identification: 
+      file-name: js/script.js
+
+    attributes: 
+      mime-type: text/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: js/script.min.js ==============================
+    id: 31345824420331585143
+    identification: 
+      file-name: js/script.min.js
+
+    attributes: 
+      mime-type: text/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: libraries/moment.js ===========================
+    id: 31345825449490584250
+    identification: 
+      file-name: libraries/moment.js
+
+    attributes: 
+      mime-type: text/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: libraries/moment.min.js =======================
+    id: 31345825713935584245
+    identification: 
+      file-name: libraries/moment.min.js
+
+    attributes: 
+      mime-type: text/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: libraries/nouislider.js =======================
+    id: 31345826186525584241
+    identification: 
+      file-name: libraries/nouislider.js
+
+    attributes: 
+      mime-type: text/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: libraries/nouislider.min.js ===================
+    id: 31345826533086584237
+    identification: 
+      file-name: libraries/nouislider.min.js
+
+    attributes: 
+      mime-type: text/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: libraries/wNumb.js ============================
+    id: 31345826991180584232
+    identification: 
+      file-name: libraries/wNumb.js
+
+    attributes: 
+      mime-type: text/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: libraries/wNumb.min.js ========================
+    id: 31345827336239584228
+    identification: 
+      file-name: libraries/wNumb.min.js
+
+    attributes: 
+      mime-type: text/javascript
+      file-character-set: Unicode UTF-8
+
+- # ====== Plugin: Dropzone 2 ==================================
+  id: 42489219381646740481
+  identification: 
+    name: Dropzone 2
+    internal-name: DE.DANIELH.DROPZONE2
+    type: Region
+
+  advanced: 
+    quick-pick: false
+
+  subscription: 
+    version-number: 15624126405110
+
+  source: 
+    pl/sql-code: |
+      /*-------------------------------------
+       * Dropzone APEX Plugin
+       * Version: 2.4.1 (01.08.2018)
+       * Author:  Daniel Hochleitner
+       *-------------------------------------
+      */
+      FUNCTION render_dropzone(p_region              IN apex_plugin.t_region,
+                               p_plugin              IN apex_plugin.t_plugin,
+                               p_is_printer_friendly IN BOOLEAN)
+        RETURN apex_plugin.t_region_render_result IS
+        --
+        l_result apex_plugin.t_region_render_result;
+        -- region attributes
+        l_dz_style              p_region.attribute_07%TYPE := p_region.attribute_07;
+        l_width                 p_region.attribute_08%TYPE := p_region.attribute_08;
+        l_height                p_region.attribute_09%TYPE := p_region.attribute_09;
+        l_max_filesize          NUMBER := p_region.attribute_10;
+        l_max_files             NUMBER := p_region.attribute_11;
+        l_accepted_files        p_region.attribute_13%TYPE := p_region.attribute_13;
+        l_upload_mechanism      p_region.attribute_15%TYPE := p_region.attribute_15;
+        l_dz_clickable          p_region.attribute_16%TYPE := p_region.attribute_16;
+        l_show_file_preview     p_region.attribute_17%TYPE := p_region.attribute_17;
+        l_copy_paste_support    p_region.attribute_18%TYPE := p_region.attribute_18;
+        l_remove_uploaded_files p_region.attribute_19%TYPE := p_region.attribute_19;
+        l_delete_files          p_region.attribute_20%TYPE := p_region.attribute_20;
+        l_resize_images         p_region.attribute_22%TYPE := p_region.attribute_22;
+        l_resize_width          p_region.attribute_23%TYPE := p_region.attribute_23;
+        l_resize_height         p_region.attribute_24%TYPE := p_region.attribute_24;
+        -- plugin attributes
+        l_display_message            p_plugin.attribute_01%TYPE := p_plugin.attribute_01;
+        l_fallback_message           p_plugin.attribute_02%TYPE := p_plugin.attribute_02;
+        l_filetoobig_message         p_plugin.attribute_03%TYPE := p_plugin.attribute_03;
+        l_maxfiles_message           p_plugin.attribute_04%TYPE := p_plugin.attribute_04;
+        l_remove_file_message        p_plugin.attribute_05%TYPE := p_plugin.attribute_05;
+        l_cancel_upload_message      p_plugin.attribute_06%TYPE := p_plugin.attribute_06;
+        l_cancel_upl_confirm_message p_plugin.attribute_07%TYPE := p_plugin.attribute_07;
+        l_invalid_filetype_message   p_plugin.attribute_08%TYPE := p_plugin.attribute_08;
+        l_chunk_size                 p_plugin.attribute_09%TYPE := p_plugin.attribute_09;
+        -- other variables
+        l_region_id VARCHAR2(200);
+        l_dz_class  VARCHAR2(50);
+        -- js/css file vars
+        l_filereader_js VARCHAR2(50);
+        --
+      BEGIN
+        -- Debug
+        IF apex_application.g_debug THEN
+          apex_plugin_util.debug_region(p_plugin => p_plugin,
+                                        p_region => p_region);
+          -- set js/css filenames
+          l_filereader_js := 'filereader';
+        ELSE
+          l_filereader_js := 'filereader.min';
+        END IF;
+        -- set variables and defaults
+        l_region_id  := apex_escape.html_attribute(p_region.static_id ||
+                                                   '_dropzone');
+        l_max_files  := nvl(l_max_files,
+                            256);
+        l_chunk_size := nvl(l_chunk_size,
+                            1048576);
+        -- escape input
+        l_width                      := apex_escape.html(l_width);
+        l_height                     := apex_escape.html(l_height);
+        l_display_message            := apex_escape.html(l_display_message);
+        l_fallback_message           := apex_escape.html(l_fallback_message);
+        l_filetoobig_message         := apex_escape.html(l_filetoobig_message);
+        l_maxfiles_message           := apex_escape.html(l_maxfiles_message);
+        l_remove_file_message        := apex_escape.html(l_remove_file_message);
+        l_cancel_upload_message      := apex_escape.html(l_cancel_upload_message);
+        l_cancel_upl_confirm_message := apex_escape.html(l_cancel_upl_confirm_message);
+        l_invalid_filetype_message   := apex_escape.html(l_invalid_filetype_message);
+        --
+        -- add div for dropzone
+        -- style 1 (grey border)
+        -- style 2 (blue dashed border)
+        -- style 3 (red dashed border)
+        -- style 4 (grey background and grey dashed border)
+        l_dz_class := 'dz-' || lower(l_dz_style);
+        --
+        htp.p('<div id="' || l_region_id || '" class="dropzone ' || l_dz_class ||
+              '" style="width:' || l_width || ';height:' || l_height ||
+              ';"></div>');
+        --
+        -- filereader lib for Copy&Paste support
+        IF l_copy_paste_support = 'true' THEN
+          apex_javascript.add_library(p_name           => l_filereader_js,
+                                      p_directory      => p_plugin.file_prefix ||
+                                                          'js/',
+                                      p_version        => NULL,
+                                      p_skip_extension => FALSE);
+        END IF;
+        --
+        -- onload code
+        apex_javascript.add_onload_code(p_code => 'apexDropzone.pluginHandler(' ||
+                                                  apex_javascript.add_value(p_region.static_id) || '{' ||
+                                                  apex_javascript.add_attribute('ajaxIdentifier',
+                                                                                apex_plugin.get_ajax_identifier) ||
+                                                  apex_javascript.add_attribute('maxFilesize',
+                                                                                l_max_filesize) ||
+                                                  apex_javascript.add_attribute('maxFiles',
+                                                                                l_max_files) ||
+                                                  apex_javascript.add_attribute('acceptedFiles',
+                                                                                l_accepted_files) ||
+                                                  apex_javascript.add_attribute('uploadMechanism',
+                                                                                l_upload_mechanism) ||
+                                                  apex_javascript.add_attribute('clickable',
+                                                                                l_dz_clickable) ||
+                                                  apex_javascript.add_attribute('showFilePreview',
+                                                                                l_show_file_preview) ||
+                                                  apex_javascript.add_attribute('supportCopyPaste',
+                                                                                l_copy_paste_support) ||
+                                                  apex_javascript.add_attribute('removeAfterUpload',
+                                                                                l_remove_uploaded_files) ||
+                                                  apex_javascript.add_attribute('deleteFiles',
+                                                                                l_delete_files) ||
+                                                  apex_javascript.add_attribute('resizeImages',
+                                                                                l_resize_images) ||
+                                                  apex_javascript.add_attribute('resizeWidth',
+                                                                                l_resize_width) ||
+                                                  apex_javascript.add_attribute('resizeHeight',
+                                                                                l_resize_height) ||
+                                                  apex_javascript.add_attribute('pluginPrefix',
+                                                                                p_plugin.file_prefix) ||
+                                                  apex_javascript.add_attribute('chunkSize',
+                                                                                l_chunk_size) ||
+                                                  apex_javascript.add_attribute('displayMessage',
+                                                                                l_display_message) ||
+                                                  apex_javascript.add_attribute('fallbackMessage',
+                                                                                l_fallback_message) ||
+                                                  apex_javascript.add_attribute('fileTooBigMessage',
+                                                                                l_filetoobig_message) ||
+                                                  apex_javascript.add_attribute('maxFilesMessage',
+                                                                                l_maxfiles_message) ||
+                                                  apex_javascript.add_attribute('removeFileMessage',
+                                                                                l_remove_file_message) ||
+                                                  apex_javascript.add_attribute('cancelUploadMessage',
+                                                                                l_cancel_upload_message) ||
+                                                  apex_javascript.add_attribute('cancelUploadConfirmMessage',
+                                                                                l_cancel_upl_confirm_message) ||
+                                                  apex_javascript.add_attribute('invalidFileTypeMessage',
+                                                                                l_invalid_filetype_message,
+                                                                                FALSE,
+                                                                                FALSE) ||
+                                                  '});');
+        --
+        RETURN l_result;
+        --
+      END render_dropzone;
+      --
+      --
+      -- AJAX function
+      --
+      --
+      FUNCTION ajax_dropzone(p_region IN apex_plugin.t_region,
+                             p_plugin IN apex_plugin.t_plugin)
+        RETURN apex_plugin.t_region_ajax_result IS
+        --
+        l_result apex_plugin.t_region_ajax_result;
+        -- region attributes
+        l_storage_type     p_region.attribute_01%TYPE := p_region.attribute_01;
+        l_table_coll_name  p_region.attribute_02%TYPE := p_region.attribute_02;
+        l_filename_column  p_region.attribute_03%TYPE := p_region.attribute_03;
+        l_mimetype_column  p_region.attribute_04%TYPE := p_region.attribute_04;
+        l_blob_column      p_region.attribute_05%TYPE := p_region.attribute_05;
+        l_date_column      p_region.attribute_06%TYPE := p_region.attribute_06;
+        l_pk_column        p_region.attribute_21%TYPE := p_region.attribute_21;
+        l_upload_mechanism p_region.attribute_15%TYPE := p_region.attribute_15;
+        l_delete_files     p_region.attribute_20%TYPE := p_region.attribute_20;
+        -- other variables
+        l_type                VARCHAR2(50);
+        l_chunked_temp_coll   VARCHAR2(100);
+        l_blob                BLOB := empty_blob();
+        l_filename            VARCHAR2(200);
+        l_mime_type           VARCHAR2(100);
+        l_delete_id           NUMBER;
+        l_current_chunk_count NUMBER;
+        l_total_chunk_count   NUMBER;
+        --
+        -- Helper Functions
+        --
+      
+        --
+        -- Write Error JSON
+        PROCEDURE write_htp_error(p_message IN VARCHAR2,
+                                  p_id      IN VARCHAR2 := NULL) IS
+        BEGIN
+          htp.init;
+          htp.p('{ "status": "error", "message": "' ||
+                apex_escape.json(p_message) || '", "code": "' ||
+                apex_escape.json(SQLERRM) || '", "id": "' ||
+                apex_escape.json(p_id) || '" }');
+        END write_htp_error;
+        --
+        -- Write Success JSON
+        PROCEDURE write_htp_success(p_message IN VARCHAR2,
+                                    p_id      IN VARCHAR2 := NULL) IS
+        BEGIN
+          htp.init;
+          htp.p('{ "status": "success", "message": "' ||
+                apex_escape.json(p_message) || '", "code": "", "id": "' ||
+                apex_escape.json(p_id) || '" }');
+        END write_htp_success;
+        --
+        -- Sleep/Pause for given seconds
+        PROCEDURE sleep(p_seconds IN NUMBER) AS
+          l_now      TIMESTAMP := systimestamp;
+          l_end_time TIMESTAMP;
+        BEGIN
+          l_end_time := l_now + numtodsinterval(p_seconds,
+                                                'second');
+        
+          WHILE (l_end_time > l_now) LOOP
+            l_now := systimestamp;
+          END LOOP;
+        END sleep;
+        --
+        -- base64 array (f01 30k) to blob
+        FUNCTION base64array_to_blob(p_f01_array IN apex_application.g_f01%TYPE)
+          RETURN BLOB IS
+          l_token VARCHAR2(32000);
+          l_blob  BLOB := empty_blob();
+        BEGIN
+          -- build BLOB from f01 30k Array (base64 encoded)
+          dbms_lob.createtemporary(l_blob,
+                                   FALSE,
+                                   dbms_lob.session);
+          FOR i IN 1 .. p_f01_array.count LOOP
+            l_token := p_f01_array(i);
+            IF length(l_token) > 0 THEN
+              dbms_lob.append(l_blob,
+                              to_blob(utl_encode.base64_decode(utl_raw.cast_to_raw(l_token))));
+            END IF;
+          END LOOP;
+          --
+          RETURN l_blob;
+          --
+        END;
+        --
+        -- Chunked File Processing
+        FUNCTION process_chunked_file(p_table_coll_name     IN VARCHAR2,
+                                      p_filename            IN VARCHAR2,
+                                      p_mime_type           IN VARCHAR2,
+                                      p_current_chunk_count IN NUMBER,
+                                      p_total_chunk_count   IN NUMBER,
+                                      p_chunk_f01_array     IN apex_application.g_f01%TYPE)
+          RETURN BLOB IS
+          --
+          l_chunked_temp_coll VARCHAR2(100);
+          l_chunk_blob        BLOB := empty_blob();
+          l_blob              BLOB := empty_blob();
+          l_chunk_length      NUMBER := 0;
+          -- cursor for file chunks
+          CURSOR l_cur_chunk_files IS
+            SELECT apex_collections.blob001 AS chunk_blob,
+                   apex_collections.n003    AS blob_size
+              FROM apex_collections
+             WHERE apex_collections.collection_name = l_chunked_temp_coll
+               AND apex_collections.c001 = p_filename
+               AND apex_collections.n002 = p_total_chunk_count
+             ORDER BY apex_collections.n001;
+          --
+        BEGIN
+          l_chunked_temp_coll := upper(p_table_coll_name) || '_TEMP';
+          -- create chunk collection
+          IF NOT
+              apex_collection.collection_exists(p_collection_name => l_chunked_temp_coll) THEN
+            apex_collection.create_collection(p_collection_name => l_chunked_temp_coll);
+          END IF;
+          -- build BLOB from f01 30k Array (base64 encoded chunk)
+          l_chunk_blob   := base64array_to_blob(p_f01_array => p_chunk_f01_array);
+          l_chunk_length := dbms_lob.getlength(l_chunk_blob);
+          --
+          IF p_total_chunk_count > 1 THEN
+            --
+            apex_collection.add_member(p_collection_name => l_chunked_temp_coll,
+                                       p_c001            => p_filename, -- filename
+                                       p_c002            => p_mime_type, -- mime_type
+                                       p_n001            => p_current_chunk_count, -- current count from JS loop
+                                       p_n002            => p_total_chunk_count, -- total count of all chunks
+                                       p_n003            => l_chunk_length, -- size of base64 BLOB file chunk
+                                       p_blob001         => l_chunk_blob); -- BLOB base64 file chunk content
+          ELSE
+            l_blob := l_chunk_blob;
+          END IF;
+          -- last file chunk peace + chunk count > 1
+          IF p_current_chunk_count = p_total_chunk_count AND
+             p_total_chunk_count > 1 THEN
+            --
+            dbms_lob.createtemporary(l_blob,
+                                     FALSE,
+                                     dbms_lob.session);
+            -- loop over all file chunks and build final file
+            FOR l_rec_chunk_files IN l_cur_chunk_files LOOP
+              IF l_rec_chunk_files.blob_size IS NOT NULL THEN
+                dbms_lob.append(l_blob,
+                                l_rec_chunk_files.chunk_blob);
+              END IF;
+            END LOOP;
+            -- delete all chunks for specific file from collection
+            FOR l_rec_del_coll IN (SELECT seq_id
+                                     FROM apex_collections
+                                    WHERE apex_collections.collection_name =
+                                          l_chunked_temp_coll
+                                      AND apex_collections.c001 = p_filename
+                                      AND apex_collections.n002 =
+                                          p_total_chunk_count) LOOP
+              apex_collection.delete_member(p_collection_name => l_chunked_temp_coll,
+                                            p_seq             => l_rec_del_coll.seq_id);
+            END LOOP;
+            --
+          END IF;
+          -- status return json
+          write_htp_success('File Chunk ' || p_current_chunk_count || ' of ' ||
+                            p_total_chunk_count || ' for ' || p_filename ||
+                            ' successfully saved to Temp. APEX Collection ' ||
+                            l_chunked_temp_coll);
+          --
+          RETURN l_blob;
+          --
+        EXCEPTION
+          WHEN OTHERS THEN
+            -- status return json
+            write_htp_error('File Chunk ' || p_current_chunk_count || ' of ' ||
+                            p_total_chunk_count || ' for ' || p_filename ||
+                            ' NOT saved to Temp. APEX Collection ' ||
+                            l_chunked_temp_coll);
+            RAISE;
+        END process_chunked_file;
+        --
+        -- FormData File Processing
+        FUNCTION process_normal_file(p_filename       IN VARCHAR2,
+                                     p_apex_file_name IN VARCHAR2) RETURN BLOB IS
+          l_blob BLOB := empty_blob();
+          CURSOR l_cur_file IS
+            SELECT aaf.blob_content
+              FROM apex_application_files aaf
+             WHERE aaf.name = p_apex_file_name;
+        BEGIN
+          OPEN l_cur_file;
+          FETCH l_cur_file
+            INTO l_blob;
+          CLOSE l_cur_file;
+          --
+          DELETE FROM apex_application_files aaf
+           WHERE aaf.name = p_apex_file_name;
+          --
+          RETURN l_blob;
+        EXCEPTION
+          WHEN OTHERS THEN
+            -- status return json
+            write_htp_error('File Upload could not be processed for ' ||
+                            p_filename);
+            RAISE;
+        END process_normal_file;
+        --
+        -- Save File to Collection / Table
+        PROCEDURE save_file(p_storage_type    IN VARCHAR2,
+                            p_table_coll_name IN VARCHAR2,
+                            p_filename        IN VARCHAR2,
+                            p_mime_type       IN VARCHAR2,
+                            p_blob            IN OUT NOCOPY BLOB,
+                            p_pk_column       IN VARCHAR2 := NULL,
+                            p_filename_column IN VARCHAR2 := NULL,
+                            p_mimetype_column IN VARCHAR2 := NULL,
+                            p_blob_column     IN VARCHAR2 := NULL,
+                            p_date_column     IN VARCHAR2 := NULL) IS
+          --
+          l_random_file_id NUMBER;
+          l_insert_sql     VARCHAR2(32767);
+          l_insert_id      NUMBER;
+          l_blob_length    NUMBER := 0;
+          --
+        BEGIN
+          --
+          l_blob_length := nvl(dbms_lob.getlength(p_blob),
+                               0);
+          -- only process if BLOB has data
+          IF l_blob_length > 0 THEN
+            -- Save to APEX Collection
+            IF p_storage_type = 'COLLECTION' THEN
+              BEGIN
+                -- random file id
+                l_random_file_id := round(dbms_random.value(100000,
+                                                            99999999));
+                -- check if collection exist
+                IF NOT
+                    apex_collection.collection_exists(p_collection_name => p_table_coll_name) THEN
+                  apex_collection.create_collection(p_table_coll_name);
+                END IF;
+                -- add collection member
+                l_insert_id := apex_collection.add_member(p_collection_name => p_table_coll_name,
+                                                          p_c001            => p_filename, -- filename
+                                                          p_c002            => p_mime_type, -- mime_type
+                                                          p_d001            => SYSDATE, -- date created
+                                                          p_n001            => l_random_file_id, -- random file id
+                                                          p_blob001         => p_blob); -- BLOB file content
+                -- status return json
+                write_htp_success(p_message => 'File ' || p_filename ||
+                                               ' successfully saved to APEX Collection ' ||
+                                               p_table_coll_name,
+                                  p_id      => l_insert_id);
+                --
+              EXCEPTION
+                WHEN OTHERS THEN
+                  -- status return json
+                  write_htp_error('File ' || p_filename ||
+                                  ' NOT saved to APEX Collection ' ||
+                                  p_table_coll_name);
+                  RAISE;
+              END;
+              --
+              -- Save to custom Table
+            ELSIF p_storage_type = 'TABLE' THEN
+              BEGIN
+                -- dynamic insert statement
+                -- without optional date column
+                IF p_date_column IS NULL THEN
+                  l_insert_sql := 'INSERT INTO ' ||
+                                  dbms_assert.sql_object_name(p_table_coll_name) || '( ' ||
+                                  dbms_assert.simple_sql_name(p_filename_column) || ', ' ||
+                                  dbms_assert.simple_sql_name(p_mimetype_column) || ', ' ||
+                                  dbms_assert.simple_sql_name(p_blob_column) ||
+                                  ') VALUES (:filename_value,:mimetype_value,:blob_value) RETURNING ' ||
+                                  dbms_assert.simple_sql_name(p_pk_column) ||
+                                  ' INTO :pk_value';
+                  -- execute insert
+                  EXECUTE IMMEDIATE l_insert_sql
+                    USING p_filename, p_mime_type, p_blob
+                    RETURNING INTO l_insert_id;
+                  -- with optional date column
+                ELSE
+                  l_insert_sql := 'INSERT INTO ' ||
+                                  dbms_assert.sql_object_name(p_table_coll_name) || '( ' ||
+                                  dbms_assert.simple_sql_name(p_filename_column) || ', ' ||
+                                  dbms_assert.simple_sql_name(p_mimetype_column) || ', ' ||
+                                  dbms_assert.simple_sql_name(p_blob_column) || ', ' ||
+                                  dbms_assert.simple_sql_name(p_date_column) ||
+                                  ') VALUES (:filename_value,:mimetype_value,:blob_value,:date_value) RETURNING ' ||
+                                  dbms_assert.simple_sql_name(p_pk_column) ||
+                                  ' INTO :pk_value';
+                  -- execute insert
+                  EXECUTE IMMEDIATE l_insert_sql
+                    USING p_filename, p_mime_type, p_blob, SYSDATE
+                    RETURNING INTO l_insert_id;
+                END IF;
+                -- status return json
+                write_htp_success(p_message => 'File ' || p_filename ||
+                                               ' successfully saved to Custom Table ' ||
+                                               p_table_coll_name,
+                                  p_id      => l_insert_id);
+                --
+              EXCEPTION
+                WHEN OTHERS THEN
+                  -- status return json
+                  write_htp_error('File ' || p_filename ||
+                                  ' NOT saved to Custom Table ' ||
+                                  p_table_coll_name);
+                  RAISE;
+              END;
+              --
+            END IF;
+            -- sleep 0.75 sec
+            sleep(p_seconds => 75 / 100);
+            --
+          END IF;
+          --
+        EXCEPTION
+          WHEN OTHERS THEN
+            -- sleep 0.75 sec
+            sleep(p_seconds => 75 / 100);
+            RAISE;
+        END save_file;
+        --
+        -- Delete File from Collection / Table
+        PROCEDURE delete_file(p_storage_type    IN VARCHAR2,
+                              p_table_coll_name IN VARCHAR2,
+                              p_delete_id       IN NUMBER,
+                              p_filename        IN VARCHAR2,
+                              p_pk_column       IN VARCHAR2 := NULL) IS
+          --
+          l_delete_sql VARCHAR2(32767);
+          --
+        BEGIN
+          -- Delete from APEX Collection
+          IF p_storage_type = 'COLLECTION' THEN
+            --
+            BEGIN
+              -- check if collection exist
+              IF apex_collection.collection_exists(p_collection_name => p_table_coll_name) THEN
+                -- delete collection member (only if Seq-ID not null)
+                IF p_delete_id IS NOT NULL THEN
+                  apex_collection.delete_member(p_collection_name => p_table_coll_name,
+                                                p_seq             => p_delete_id);
+                  -- status return json
+                  write_htp_success('File ' || p_filename ||
+                                    ' successfully deleted from APEX Collection ' ||
+                                    p_table_coll_name);
+                ELSE
+                  -- status return json
+                  write_htp_error('File-ID missing for File ' || p_filename ||
+                                  '. NOT deleted from APEX Collection ' ||
+                                  p_table_coll_name);
+                END IF;
+              ELSE
+                -- status return json
+                write_htp_error('APEX Collection ' || p_table_coll_name ||
+                                ' missing for File ' || p_filename);
+              END IF;
+              --
+            EXCEPTION
+              WHEN OTHERS THEN
+                -- status return json
+                write_htp_error('File ' || p_filename ||
+                                ' NOT deleted from APEX Collection ' ||
+                                p_table_coll_name);
+                RAISE;
+            END;
+            --
+            -- Delete from custom Table
+          ELSIF p_storage_type = 'TABLE' THEN
+            BEGIN
+              -- dynamic delete statement
+              IF p_delete_id IS NOT NULL THEN
+                l_delete_sql := 'DELETE FROM ' ||
+                                dbms_assert.sql_object_name(p_table_coll_name) ||
+                                ' WHERE ' ||
+                                dbms_assert.simple_sql_name(p_pk_column) ||
+                                ' = :pk_value';
+                -- execute delete
+                EXECUTE IMMEDIATE l_delete_sql
+                  USING p_delete_id;
+                -- status return json
+                write_htp_success('File ' || p_filename ||
+                                  ' successfully deleted from Custom Table ' ||
+                                  p_table_coll_name);
+              ELSE
+                -- status return json
+                write_htp_error('File-ID missing for File ' || p_filename ||
+                                '. NOT deleted from Custom Table ' ||
+                                p_table_coll_name);
+              END IF;
+              --
+            EXCEPTION
+              WHEN OTHERS THEN
+                -- status return json
+                write_htp_error('File ' || p_filename ||
+                                ' NOT deleted from Custom Table ' ||
+                                p_table_coll_name);
+                RAISE;
+            END;
+          END IF;
+        END delete_file;
+        --
+      BEGIN
+        --
+        -- Debug Info
+        apex_debug.info('Dropzone AJAX Parameter x01: ' ||
+                        apex_application.g_x01);
+        apex_debug.info('Dropzone AJAX Parameter x02: ' ||
+                        apex_application.g_x02);
+        apex_debug.info('Dropzone AJAX Parameter x03: ' ||
+                        apex_application.g_x03);
+        apex_debug.info('Dropzone AJAX Parameter x04: ' ||
+                        apex_application.g_x04);
+        apex_debug.info('Dropzone AJAX Parameter x05: ' ||
+                        apex_application.g_x05);
+        --
+        -- replace substitution strings
+        l_table_coll_name := apex_plugin_util.replace_substitutions(p_value => l_table_coll_name);
+        l_filename_column := apex_plugin_util.replace_substitutions(p_value => l_filename_column);
+        l_mimetype_column := apex_plugin_util.replace_substitutions(p_value => l_mimetype_column);
+        l_blob_column     := apex_plugin_util.replace_substitutions(p_value => l_blob_column);
+        l_date_column     := apex_plugin_util.replace_substitutions(p_value => l_date_column);
+        l_pk_column       := apex_plugin_util.replace_substitutions(p_value => l_pk_column);
+        -- set general vars
+        l_type            := nvl(apex_application.g_x01,
+                                 'UPLOAD');
+        l_table_coll_name := upper(l_table_coll_name);
+        --
+        --
+        -- Upload
+        --
+        IF l_type = 'UPLOAD' THEN
+          -- get defaults from AJAX Process
+          l_filename  := apex_application.g_x02;
+          l_mime_type := nvl(apex_application.g_x03,
+                             'application/octet-stream');
+          --
+          -- Chunked 1MB file upload / chunks in temp collection (multiple server requests (per file chunk))
+          IF l_upload_mechanism = 'CHUNKED' THEN
+            BEGIN
+              -- get defaults from AJAX Process
+              l_current_chunk_count := to_number(apex_application.g_x04);
+              l_total_chunk_count   := to_number(apex_application.g_x05);
+              --
+              l_blob := process_chunked_file(p_table_coll_name     => l_table_coll_name,
+                                             p_filename            => l_filename,
+                                             p_mime_type           => l_mime_type,
+                                             p_current_chunk_count => l_current_chunk_count,
+                                             p_total_chunk_count   => l_total_chunk_count,
+                                             p_chunk_f01_array     => apex_application.g_f01);
+            EXCEPTION
+              WHEN OTHERS THEN
+                RETURN NULL;
+            END;
+            --
+            -- formdata file upload
+          ELSIF l_upload_mechanism = 'NORMAL' THEN
+            BEGIN
+              l_blob := process_normal_file(p_filename       => l_filename,
+                                            p_apex_file_name => apex_application.g_f01(1));
+            EXCEPTION
+              WHEN OTHERS THEN
+                RETURN NULL;
+            END;
+          END IF;
+          --
+          -- Save final File
+          BEGIN
+            save_file(p_storage_type    => l_storage_type,
+                      p_table_coll_name => l_table_coll_name,
+                      p_filename        => l_filename,
+                      p_mime_type       => l_mime_type,
+                      p_blob            => l_blob,
+                      p_pk_column       => l_pk_column,
+                      p_filename_column => l_filename_column,
+                      p_mimetype_column => l_mimetype_column,
+                      p_blob_column     => l_blob_column,
+                      p_date_column     => l_date_column);
+          EXCEPTION
+            WHEN OTHERS THEN
+              RETURN NULL;
+          END;
+        END IF;
+        --
+        -- Delete File
+        --
+        IF l_type = 'DELETE' AND l_delete_files = 'true' THEN
+          l_filename  := apex_application.g_x02;
+          l_delete_id := to_number(apex_application.g_x03);
+          --
+          BEGIN
+            delete_file(p_storage_type    => l_storage_type,
+                        p_table_coll_name => l_table_coll_name,
+                        p_delete_id       => l_delete_id,
+                        p_filename        => l_filename,
+                        p_pk_column       => l_pk_column);
+          EXCEPTION
+            WHEN OTHERS THEN
+              RETURN NULL;
+          END;
+        END IF;
+        --
+        RETURN l_result;
+        --
+      EXCEPTION
+        WHEN OTHERS THEN
+          -- status return json
+          write_htp_error('General Error occured in Dropzone AJAX Function');
+          RETURN NULL;
+      END ajax_dropzone;
+
+  callbacks: 
+    api-interface: Function
+    render-procedure/function-name: render_dropzone
+    ajax-procedure/function-name: ajax_dropzone
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  css: 
+    file-urls: 
+    - '#PLUGIN_FILES#css/dropzone#MIN#.css'
+    - '#PLUGIN_FILES#css/apexdropzone#MIN#.css'
+
+  javascript: 
+    file-urls: 
+    - '#PLUGIN_FILES#js/dropzone#MIN#.js'
+    - '#PLUGIN_FILES#js/apexdropzone#MIN#.js'
+
+  information: 
+    version: 2.4.1
+    about-url: 'https://github.com/Dani3lSun/apex-plugin-dropzone'
+    help-text: Dropzone is a region type plugin that allows you to provide nice looking drag’n’drop file uploads. It is based on JS Framework dropzone.js.
+
+  custom-attributes: 
+  - # ====== Custom Attribute: Image Resizing ====================
+    id: 42434142747860747613
+    identification: 
+      static-id: attribute_22
+      attribute: 22
+      name: Image Resizing
+      scope: Component
+
+    layout: 
+      sequence: 200
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: false
+
+    help: 
+      help-text: |
+        If true, images are resized to a specified size. This happens on client side before uploading the file to server. Saving upload bandwidth and reducing upload time.<br>
+        Please set at least one resize attribute, e.g. Resize Width or Resize Height.
+
+    entries: 
+    - # ====== Entry: True =========================================
+      id: 42434143563539748130
+      entry: 
+        sequence: 10
+        display: True
+        return: true
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: False ========================================
+      id: 42434143977778748779
+      entry: 
+        sequence: 20
+        display: False
+        return: false
+
+      advanced: 
+        quick-pick: false
+
+  - # ====== Custom Attribute: Resize Width ======================
+    id: 42434144755579754034
+    identification: 
+      static-id: attribute_23
+      attribute: 23
+      name: Resize Width
+      scope: Component
+
+    layout: 
+      sequence: 230
+
+    settings: 
+      type: Number
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Image Resizing # 42434142747860747613
+      depending-on-condition-type: equal to
+      expression: true
+      always-evaluate: true
+
+    help: 
+      help-text: |
+        If set, images will be resized to these dimensions before being uploaded. If only one, resize Width or resize Height is provided, the original aspect ratio of the file will be preserved.<br>
+        Please provide a width in pixels.
+
+  - # ====== Custom Attribute: Resize Height =====================
+    id: 42434145499872756235
+    identification: 
+      static-id: attribute_24
+      attribute: 24
+      name: Resize Height
+      scope: Component
+
+    layout: 
+      sequence: 240
+
+    settings: 
+      type: Number
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Image Resizing # 42434142747860747613
+      depending-on-condition-type: equal to
+      expression: true
+      always-evaluate: true
+
+    help: 
+      help-text: |
+        If set, images will be resized to these dimensions before being uploaded. If only one, resize Width or resize Height is provided, the original aspect ratio of the file will be preserved.<br>
+        Please provide a height in pixels.
+
+  - # ====== Custom Attribute: Chunk Size (in KB) ================
+    id: 42434174707342018853
+    identification: 
+      static-id: attribute_09
+      attribute: 9
+      name: Chunk Size (in KB)
+      scope: Application
+
+    layout: 
+      sequence: 90
+
+    settings: 
+      type: Number
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: 1048576
+
+    help: 
+      help-text: |
+        This is the default chunk size if you choose the Chunked upload mechanism. The file is split into pieces of that size. Each piece is sent to the server separately.<br>
+        Thus the files are base64 encoded, there is a little overhead in the file size, so please consider a plus of about 10-15% in file size.<br>
+        Default is 1MB = 1048576 KB.
+
+  - # ====== Custom Attribute: Width =============================
+    id: 42489219549059740483
+    identification: 
+      static-id: attribute_08
+      attribute: 8
+      name: Width
+      scope: Component
+
+    layout: 
+      sequence: 80
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: 700px
+
+    help: 
+      help-text: Enter the default width of your Dropzone Region. Valid values are px and % data.
+
+    examples: 
+      examples: |
+        700px<br>
+        100%
+
+  - # ====== Custom Attribute: Height ============================
+    id: 42489220006939740483
+    identification: 
+      static-id: attribute_09
+      attribute: 9
+      name: Height
+      scope: Component
+
+    layout: 
+      sequence: 90
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: 400px
+
+    help: 
+      help-text: Enter the default height of Dropzone Region. Valid values in px.
+
+    examples: 
+      examples: |
+        400px<br>
+        500px
+
+  - # ====== Custom Attribute: max. Filesize in MB ===============
+    id: 42489220760047740483
+    identification: 
+      static-id: attribute_10
+      attribute: 10
+      name: max. Filesize in MB
+      scope: Component
+
+    layout: 
+      sequence: 100
+
+    settings: 
+      type: Number
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: 2
+
+    help: 
+      help-text: max. File Size (Float Number) that is allowed per file. If a file is larger, it will be removed.
+
+    examples: 
+      examples: |
+        1<br>
+        2<br>
+        3.5
+
+  - # ====== Custom Attribute: Clickable =========================
+    id: 42489221177240740483
+    identification: 
+      static-id: attribute_16
+      attribute: 16
+      name: Clickable
+      scope: Component
+
+    layout: 
+      sequence: 160
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: true
+
+    help: 
+      help-text: If true, the Dropzone Region will be clickable, if false nothing will be clickable and only Drag & Drop is possible.
+
+    entries: 
+    - # ====== Entry: True =========================================
+      id: 42489221562718740483
+      entry: 
+        sequence: 10
+        display: True
+        return: true
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: False ========================================
+      id: 42489222101703740483
+      entry: 
+        sequence: 20
+        display: False
+        return: false
+
+      advanced: 
+        quick-pick: false
+
+  - # ====== Custom Attribute: Remove Files after Upload =========
+    id: 42489224743649740484
+    identification: 
+      static-id: attribute_19
+      attribute: 19
+      name: Remove Files after Upload
+      scope: Component
+
+    layout: 
+      sequence: 190
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: false
+
+    help: 
+      help-text: If true, clears all Files from Dropzone Region after uploading has finished.
+
+    entries: 
+    - # ====== Entry: True =========================================
+      id: 42489225153014740484
+      entry: 
+        sequence: 10
+        display: True
+        return: true
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: False ========================================
+      id: 42489225699558740484
+      entry: 
+        sequence: 20
+        display: False
+        return: false
+
+      advanced: 
+        quick-pick: false
+
+  - # ====== Custom Attribute: Accepted File Types ===============
+    id: 42489226161729740484
+    identification: 
+      static-id: attribute_13
+      attribute: 13
+      name: Accepted File Types
+      scope: Component
+
+    layout: 
+      sequence: 130
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    help: 
+      help-text: |
+        If you only want that users can upload Files of declared types.<br>
+        Default: all file types are allowed<br>
+        Valid values: comma separated list of Mime-Types (with Wildcard support) or File endings: image/*,application/pdf,.psd
+
+    examples: 
+      examples: image/*,application/pdf,.psd
+
+  - # ====== Custom Attribute: max. Files ========================
+    id: 42489227334671740484
+    identification: 
+      static-id: attribute_11
+      attribute: 11
+      name: max. Files
+      scope: Component
+
+    layout: 
+      sequence: 110
+
+    settings: 
+      type: Number
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    help: 
+      help-text: Maximum number of allowed files that can be uploaded at once.
+
+  - # ====== Custom Attribute: Copy & Paste Support ==============
+    id: 42489228142816740485
+    identification: 
+      static-id: attribute_18
+      attribute: 18
+      name: Copy & Paste Support
+      scope: Component
+
+    layout: 
+      sequence: 180
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: false
+
+    help: 
+      help-text: Adds support for Copy & Paste of Images in modern Browsers (like Chrome or Firefox > 50).<br>
+
+    examples: 
+      examples: |
+        1) Open Image File<br>
+        2) Copy File (Strg+C or Cmd+C)<br>
+        3) Paste it to the page which contains the Dropzone Region in your Browser (Strg+V or Cmd+V)
+
+    entries: 
+    - # ====== Entry: True =========================================
+      id: 42489228571505740485
+      entry: 
+        sequence: 10
+        display: True
+        return: true
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: False ========================================
+      id: 42489229122148740485
+      entry: 
+        sequence: 20
+        display: False
+        return: false
+
+      advanced: 
+        quick-pick: false
+
+  - # ====== Custom Attribute: Wait Time (ms) [NOT USED] =========
+    id: 42489229525565740485
+    identification: 
+      static-id: attribute_14
+      attribute: 14
+      name: Wait Time (ms) [NOT USED]
+      scope: Component
+
+    layout: 
+      sequence: 140
+
+    settings: 
+      type: Number
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: 700
+
+    condition: 
+      depending-on-custom-attribute: Storage Type # 42489286525220803432
+      depending-on-condition-type: equal to
+      expression: NEVER
+      always-evaluate: true
+
+    help: 
+      help-text: |
+        Wait time between several uploaded files in milliseconds.<br>
+        In some environments Dropzone is faster than storing files in Database.<br>
+        Default: 700ms
+
+  - # ====== Custom Attribute: Parallel Uploads [NOT USED] =======
+    id: 42489229974520740486
+    identification: 
+      static-id: attribute_12
+      attribute: 12
+      name: Parallel Uploads [NOT USED]
+      scope: Component
+
+    layout: 
+      sequence: 120
+
+    settings: 
+      type: Number
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+      maximum-length: 1
+
+    default: 
+      value: 1
+
+    condition: 
+      depending-on-custom-attribute: Storage Type # 42489286525220803432
+      depending-on-condition-type: equal to
+      expression: NEVER
+      always-evaluate: true
+
+    help: 
+      help-text: |
+        Number of parallel Upload Streams to the server.<br>
+        Choose a value between 1 and 2. 1 works most reliable!
+
+  - # ====== Custom Attribute: Show File Previews ================
+    id: 42489230410114740486
+    identification: 
+      static-id: attribute_17
+      attribute: 17
+      name: Show File Previews
+      scope: Component
+
+    layout: 
+      sequence: 170
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: true
+
+    help: 
+      help-text: |
+        Show Preview Images for common File types when adding files.<br>
+        Images got displayed with real content.<br>
+        If you want to add more images or others just Copy/Upload the PNG Files to "img" directory. Naming: <file-extension>.png
+
+    entries: 
+    - # ====== Entry: True =========================================
+      id: 42489230785532740486
+      entry: 
+        sequence: 10
+        display: True
+        return: true
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: False ========================================
+      id: 42489231240744740486
+      entry: 
+        sequence: 20
+        display: False
+        return: false
+
+      advanced: 
+        quick-pick: false
+
+  - # ====== Custom Attribute: Dropzone Style ====================
+    id: 42489231808212740486
+    identification: 
+      static-id: attribute_07
+      attribute: 7
+      name: Dropzone Style
+      scope: Component
+
+    layout: 
+      sequence: 70
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: STYLE1
+
+    help: 
+      help-text: |
+        UI Style of your Dropzone Region<br>
+        - Grey Border<br>
+        - Blue Dashed Border<br>
+        - Red Dashed Border<br>
+        - Grey Dashed Border/Background
+
+    entries: 
+    - # ====== Entry: Grey Border ==================================
+      id: 42489232206854740486
+      entry: 
+        sequence: 10
+        display: Grey Border
+        return: STYLE1
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: Blue Dashed Border ===========================
+      id: 42489232722024740486
+      entry: 
+        sequence: 20
+        display: Blue Dashed Border
+        return: STYLE2
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: Red Dashed Border ============================
+      id: 42489420203901565650
+      entry: 
+        sequence: 30
+        display: Red Dashed Border
+        return: STYLE3
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: Grey Dashed Border/Background ================
+      id: 42489637053232737330
+      entry: 
+        sequence: 40
+        display: Grey Dashed Border/Background
+        return: STYLE4
+
+      advanced: 
+        quick-pick: false
+
+  - # ====== Custom Attribute: Delete Files ======================
+    id: 42489234928202740487
+    identification: 
+      static-id: attribute_20
+      attribute: 20
+      name: Delete Files
+      scope: Component
+
+    layout: 
+      sequence: 67
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: false
+
+    help: 
+      help-text: |
+        Possibility for end users to delete each file that was uploaded to the server.<br>
+        Only if no Page Refresh has occurred.
+
+    entries: 
+    - # ====== Entry: True =========================================
+      id: 42489235383874740487
+      entry: 
+        sequence: 10
+        display: True
+        return: true
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: False ========================================
+      id: 42489235898527740487
+      entry: 
+        sequence: 20
+        display: False
+        return: false
+
+      advanced: 
+        quick-pick: false
+
+  - # ====== Custom Attribute: Collection / Table Name ===========
+    id: 42489280873855685821
+    identification: 
+      static-id: attribute_02
+      attribute: 2
+      name: Collection / Table Name
+      scope: Component
+
+    layout: 
+      sequence: 20
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: DROPZONE_UPLOAD
+
+    condition: 
+      depending-on-custom-attribute: Storage Type # 42489286525220803432
+      depending-on-condition-type: in list
+      expression: COLLECTION,TABLE
+      always-evaluate: true
+
+    help: 
+      help-text: Name of the APEX Collection or of your Custom Table
+
+  - # ====== Custom Attribute: Display Message ===================
+    id: 42489281451348703518
+    identification: 
+      static-id: attribute_01
+      attribute: 1
+      name: Display Message
+      scope: Application
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: true
+
+    default: 
+      value: Drop files here or click to upload.
+
+    help: 
+      help-text: Message that is displayed inside of the Dropzone Region
+
+  - # ====== Custom Attribute: Fallback Message ==================
+    id: 42489282285157707443
+    identification: 
+      static-id: attribute_02
+      attribute: 2
+      name: Fallback Message
+      scope: Application
+
+    layout: 
+      sequence: 20
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: true
+
+    default: 
+      value: Your browser does not support drag'n'drop file uploads.
+
+    help: 
+      help-text: Message that is displayed when your Browser doesn´t support HTML5 Drag & Drop File Uploads
+
+  - # ====== Custom Attribute: File too Big Message ==============
+    id: 42489282740643712722
+    identification: 
+      static-id: attribute_03
+      attribute: 3
+      name: File too Big Message
+      scope: Application
+
+    layout: 
+      sequence: 30
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: true
+
+    default: 
+      value: 'File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.'
+
+    help: 
+      help-text: |
+        Message that is displayed per File, if the File is bigger than you allowed in the settings.<br>
+        You can use Placeholders like:<br>
+        {{filesize}} for the Filesize<br>
+        {{maxFilesize}} for the max. allowed Filesize
+
+  - # ====== Custom Attribute: max. Files Message ================
+    id: 42489283246685715132
+    identification: 
+      static-id: attribute_04
+      attribute: 4
+      name: max. Files Message
+      scope: Application
+
+    layout: 
+      sequence: 40
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: true
+
+    default: 
+      value: You can not upload more than {{maxFiles}} files.
+
+    help: 
+      help-text: |
+        Message that is displayed per File, if the uploaded Files exceed the max. Files settings.<br>
+        You can use Placeholders like:<br>
+        {{maxFiles}} for the max. allowed Files
+
+  - # ====== Custom Attribute: Remove File Message ===============
+    id: 42489283766787717424
+    identification: 
+      static-id: attribute_05
+      attribute: 5
+      name: Remove File Message
+      scope: Application
+
+    layout: 
+      sequence: 50
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: true
+
+    default: 
+      value: Remove file
+
+    help: 
+      help-text: |
+        Message that is displayed below a single File to remove the File.<br>
+        Only possible if "Delete Files" is set.
+
+  - # ====== Custom Attribute: Cancel Upload Message =============
+    id: 42489284296010720226
+    identification: 
+      static-id: attribute_06
+      attribute: 6
+      name: Cancel Upload Message
+      scope: Application
+
+    layout: 
+      sequence: 60
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: true
+
+    default: 
+      value: Cancel upload
+
+    help: 
+      help-text: |
+        Message that is displayed below a single File to Cancel Uploading during the actual Upload Process.<br>
+        Only possible if "Delete Files" is set.
+
+  - # ====== Custom Attribute: Cancel Upload Confirm Message =====
+    id: 42489284729891723193
+    identification: 
+      static-id: attribute_07
+      attribute: 7
+      name: Cancel Upload Confirm Message
+      scope: Application
+
+    layout: 
+      sequence: 70
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: true
+
+    default: 
+      value: Are you sure you want to cancel this upload?
+
+    help: 
+      help-text: |
+        Message that is displayed in the Confirm Dialog if you clicked the Upload Cancel Link.<br>
+        Only possible if "Delete Files" is set.
+
+  - # ====== Custom Attribute: Invalid File Type Message =========
+    id: 42489285309690726913
+    identification: 
+      static-id: attribute_08
+      attribute: 8
+      name: Invalid File Type Message
+      scope: Application
+
+    layout: 
+      sequence: 80
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: true
+
+    default: 
+      value: You can not upload files of this type.
+
+    help: 
+      help-text: Message that is displayed per File, if the File´s Mime-Type is in the Exclude List.
+
+  - # ====== Custom Attribute: Storage Type ======================
+    id: 42489286525220803432
+    identification: 
+      static-id: attribute_01
+      attribute: 1
+      name: Storage Type
+      scope: Component
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: COLLECTION
+
+    help: 
+      help-text: |
+        Choose where the uploaded files are saved.<br>
+        You can either save your files to a APEX Collection or to a Custom Table.<br><br>
+        <strong>APEX Collection</strong><br>
+        The APEX collection way should be the easiest. You only have to enter a Collection Name. After that you can Select the files from APEX_COLLECTIONS View.<br><br>
+        Default Collection "DROPZONE_UPLOAD".<br>
+        Column c001 => filename<br>
+        Column c002 => mime_type<br>
+        Column d001 => date created<br>
+        Column n001 => random file id<br>
+        Column blob001 => BLOB of file<br><br>
+        <strong>Custom Table</strong><br>
+        A Table must have Columns for Filename, Mime Type and the File Content (BLOB). The Primary Key (PK) must be processed with a Before Insert Trigger. Optionally the table can have a date column to save the upload date.<br>
+        If your table has other required columns you have to insert these values via Database Trigger or something like that.
+
+    examples: 
+      examples: |
+        <pre>
+        SELECT c001    AS filename,
+               c002    AS mime_type,
+               d001    AS date_created,
+               n001    AS file_id,
+               blob001 AS file_content
+          FROM apex_collections
+         WHERE collection_name = 'DROPZONE_UPLOAD';
+        </pre>
+
+    entries: 
+    - # ====== Entry: APEX Collection ==============================
+      id: 42489287030133804472
+      entry: 
+        sequence: 10
+        display: APEX Collection
+        return: COLLECTION
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: Custom Table =================================
+      id: 42489287492848805771
+      entry: 
+        sequence: 20
+        display: Custom Table
+        return: TABLE
+
+      advanced: 
+        quick-pick: false
+
+  - # ====== Custom Attribute: Filename Column ===================
+    id: 42489290689500823887
+    identification: 
+      static-id: attribute_03
+      attribute: 3
+      name: Filename Column
+      scope: Component
+
+    layout: 
+      sequence: 30
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Storage Type # 42489286525220803432
+      depending-on-condition-type: equal to
+      expression: TABLE
+      always-evaluate: true
+
+    help: 
+      help-text: Column of your custom Table which holds the information for the Filename
+
+  - # ====== Custom Attribute: Mime Type Column ==================
+    id: 42489291174005827590
+    identification: 
+      static-id: attribute_04
+      attribute: 4
+      name: Mime Type Column
+      scope: Component
+
+    layout: 
+      sequence: 40
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Storage Type # 42489286525220803432
+      depending-on-condition-type: equal to
+      expression: TABLE
+      always-evaluate: true
+
+    help: 
+      help-text: Column of your custom Table which holds the information for the File Mime-Type
+
+  - # ====== Custom Attribute: BLOB Column =======================
+    id: 42489291701797837375
+    identification: 
+      static-id: attribute_05
+      attribute: 5
+      name: BLOB Column
+      scope: Component
+
+    layout: 
+      sequence: 50
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Storage Type # 42489286525220803432
+      depending-on-condition-type: equal to
+      expression: TABLE
+      always-evaluate: true
+
+    help: 
+      help-text: Column of your custom Table which holds the information for the File Content (BLOB)
+
+  - # ====== Custom Attribute: Date Column =======================
+    id: 42489292190104840863
+    identification: 
+      static-id: attribute_06
+      attribute: 6
+      name: Date Column
+      scope: Component
+
+    layout: 
+      sequence: 60
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Storage Type # 42489286525220803432
+      depending-on-condition-type: equal to
+      expression: TABLE
+      always-evaluate: true
+
+    help: 
+      help-text: Column of your custom Table which holds the information for the File Upload Date
+
+  - # ====== Custom Attribute: Upload Mechanism ==================
+    id: 42489305150198919837
+    identification: 
+      static-id: attribute_15
+      attribute: 15
+      name: Upload Mechanism
+      scope: Component
+
+    layout: 
+      sequence: 65
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: NORMAL
+
+    help: 
+      help-text: |
+        <p><strong>Normal:</strong> Files are directly uploaded to the DB using a multipart/form-data POST (FormData) request. This method needs no conversion (decode, encode) of strings, thus the final BLOB is already there and can be used.</p>
+        <p><strong>Chunked:</strong> Files are split into chunks (default: 1MB), then each chunk is encoded into base64. This encoded string is then uploaded to the DB, the DB decodes the encoded chunks and builds a final BLOB out of it.</p>
+        <p>Both methods should work with all web server combinations. Thus no conversion is needed for "normal" uploads, this method is 2x as fast as "chunked". If, somehow, your web server configuration allows no large multipart/form-data requests, go with the "chunked" method.<p>
+
+    entries: 
+    - # ====== Entry: Normal =======================================
+      id: 42489305686728931993
+      entry: 
+        sequence: 10
+        display: Normal
+        return: NORMAL
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: Chunked ======================================
+      id: 42489306073170933270
+      entry: 
+        sequence: 20
+        display: Chunked
+        return: CHUNKED
+
+      advanced: 
+        quick-pick: false
+
+  - # ====== Custom Attribute: PK Column =========================
+    id: 42489644571706013764
+    identification: 
+      static-id: attribute_21
+      attribute: 21
+      name: PK Column
+      scope: Component
+
+    layout: 
+      sequence: 55
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Storage Type # 42489286525220803432
+      depending-on-condition-type: equal to
+      expression: TABLE
+      always-evaluate: true
+
+    help: 
+      help-text: Primary Key (PK) Column of your custom file Table
+
+  events: 
+  - # ====== Event: dropzone-added-file ==========================
+    id: 42489239355284740488
+    identification: 
+      name: Dropzone File added
+      internal-name: dropzone-added-file
+
+  - # ====== Event: dropzone-delete-error ========================
+    id: 42489239793319740488
+    identification: 
+      name: Dropzone File Delete Error (AJAX)
+      internal-name: dropzone-delete-error
+
+  - # ====== Event: dropzone-delete-success ======================
+    id: 42489240155468740488
+    identification: 
+      name: Dropzone File Delete Success (AJAX)
+      internal-name: dropzone-delete-success
+
+  - # ====== Event: dropzone-maxfiles-exceeded ===================
+    id: 42489240573665740489
+    identification: 
+      name: Dropzone max Files exceeded
+      internal-name: dropzone-maxfiles-exceeded
+
+  - # ====== Event: dropzone-upload-complete =====================
+    id: 42489241020001740489
+    identification: 
+      name: Dropzone Upload completed
+      internal-name: dropzone-upload-complete
+
+  - # ====== Event: dropzone-upload-error ========================
+    id: 42489241344391740490
+    identification: 
+      name: Dropzone File Upload Error (AJAX)
+      internal-name: dropzone-upload-error
+
+  - # ====== Event: dropzone-upload-success ======================
+    id: 42489241801513740490
+    identification: 
+      name: Dropzone File Upload Success (AJAX)
+      internal-name: dropzone-upload-success
+
+  - # ====== Event: dropzone-deleted-file ========================
+    id: 42489385087604422545
+    identification: 
+      name: Dropzone File deleted
+      internal-name: dropzone-deleted-file
+
+  - # ====== Event: dropzone-totalupload-progress ================
+    id: 42489385372752422546
+    identification: 
+      name: Dropzone Total Upload Progress
+      internal-name: dropzone-totalupload-progress
+
+  - # ====== Event: dropzone-upload-chunk-success ================
+    id: 42489385780828422546
+    identification: 
+      name: Dropzone Chunked File Upload Success (AJAX)
+      internal-name: dropzone-upload-chunk-success
+
+  - # ====== Event: dropzone-upload-chunk-error ==================
+    id: 42489386209281422546
+    identification: 
+      name: Dropzone Chunked File Upload Error (AJAX)
+      internal-name: dropzone-upload-chunk-error
+
+  - # ====== Event: dropzone-file-error ==========================
+    id: 42489641693211781692
+    identification: 
+      name: Dropzone File Error
+      internal-name: dropzone-file-error
+
+  - # ====== Event: dropzone-drag-over ===========================
+    id: 42489642038467781692
+    identification: 
+      name: Dropzone Dragging File over Region
+      internal-name: dropzone-drag-over
+
+  files: 
+  - # ====== File: css/apexdropzone.css ==========================
+    id: 42425246619044677820
+    identification: 
+      file-name: css/apexdropzone.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: css/apexdropzone.min.css ======================
+    id: 42425246955174677821
+    identification: 
+      file-name: css/apexdropzone.min.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: css/dropzone.css ==============================
+    id: 42425247289569677822
+    identification: 
+      file-name: css/dropzone.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: css/dropzone.min.css ==========================
+    id: 42425247713246677825
+    identification: 
+      file-name: css/dropzone.min.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/3gp.png ===================================
+    id: 42425248185754677825
+    identification: 
+      file-name: img/3gp.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/7z.png ====================================
+    id: 42425248489269677826
+    identification: 
+      file-name: img/7z.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/ae.png ====================================
+    id: 42425248904259677827
+    identification: 
+      file-name: img/ae.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/ai.png ====================================
+    id: 42425249363114677829
+    identification: 
+      file-name: img/ai.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/apk.png ===================================
+    id: 42425249780237677830
+    identification: 
+      file-name: img/apk.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/asf.png ===================================
+    id: 42425250118881677831
+    identification: 
+      file-name: img/asf.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/avi.png ===================================
+    id: 42425250516566677832
+    identification: 
+      file-name: img/avi.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/bak.png ===================================
+    id: 42425250977813677838
+    identification: 
+      file-name: img/bak.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/bmp.png ===================================
+    id: 42425251380697677839
+    identification: 
+      file-name: img/bmp.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/cdr.png ===================================
+    id: 42425251733974677841
+    identification: 
+      file-name: img/cdr.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/css.png ===================================
+    id: 42425252180310677842
+    identification: 
+      file-name: img/css.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/csv.png ===================================
+    id: 42425252520655677843
+    identification: 
+      file-name: img/csv.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/divx.png ==================================
+    id: 42425252923907677844
+    identification: 
+      file-name: img/divx.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/dll.png ===================================
+    id: 42425253336456677846
+    identification: 
+      file-name: img/dll.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/doc.png ===================================
+    id: 42425253774404677847
+    identification: 
+      file-name: img/doc.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/docx.png ==================================
+    id: 42425254185625677849
+    identification: 
+      file-name: img/docx.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/dw.png ====================================
+    id: 42425254491465677850
+    identification: 
+      file-name: img/dw.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/dwg.png ===================================
+    id: 42425254900810677852
+    identification: 
+      file-name: img/dwg.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/eps.png ===================================
+    id: 42425255330785677855
+    identification: 
+      file-name: img/eps.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/exe.png ===================================
+    id: 42425255781973677857
+    identification: 
+      file-name: img/exe.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/flv.png ===================================
+    id: 42425256103725677858
+    identification: 
+      file-name: img/flv.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/fw.png ====================================
+    id: 42425256516889677860
+    identification: 
+      file-name: img/fw.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/gif.png ===================================
+    id: 42425256904294677862
+    identification: 
+      file-name: img/gif.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/gz.png ====================================
+    id: 42425257291983677863
+    identification: 
+      file-name: img/gz.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/gz2.png ===================================
+    id: 42425257720012677865
+    identification: 
+      file-name: img/gz2.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/html.png ==================================
+    id: 42425258099391677867
+    identification: 
+      file-name: img/html.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/ico.png ===================================
+    id: 42425258530881677869
+    identification: 
+      file-name: img/ico.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/iso.png ===================================
+    id: 42425258890240677871
+    identification: 
+      file-name: img/iso.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/jar.png ===================================
+    id: 42425259306541677873
+    identification: 
+      file-name: img/jar.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/jpg.png ===================================
+    id: 42425259736224677875
+    identification: 
+      file-name: img/jpg.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/js.png ====================================
+    id: 42425260127100677877
+    identification: 
+      file-name: img/js.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/mov.png ===================================
+    id: 42425260518659677879
+    identification: 
+      file-name: img/mov.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/mp3.png ===================================
+    id: 42425260970665677881
+    identification: 
+      file-name: img/mp3.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/mp4.png ===================================
+    id: 42425261322555677883
+    identification: 
+      file-name: img/mp4.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/mpeg.png ==================================
+    id: 42425261763179677886
+    identification: 
+      file-name: img/mpeg.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/odp.png ===================================
+    id: 42425262119886677888
+    identification: 
+      file-name: img/odp.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/ods.png ===================================
+    id: 42425262490780677890
+    identification: 
+      file-name: img/ods.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/odt.png ===================================
+    id: 42425262971035677893
+    identification: 
+      file-name: img/odt.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/other.png =================================
+    id: 42425263367244677895
+    identification: 
+      file-name: img/other.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/pdf.png ===================================
+    id: 42425263743824677897
+    identification: 
+      file-name: img/pdf.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/php.png ===================================
+    id: 42425264087702677900
+    identification: 
+      file-name: img/php.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/png.png ===================================
+    id: 42425264463782677902
+    identification: 
+      file-name: img/png.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/ppt.png ===================================
+    id: 42425264813764677905
+    identification: 
+      file-name: img/ppt.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/pptx.png ==================================
+    id: 42425265261419677908
+    identification: 
+      file-name: img/pptx.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/ps.png ====================================
+    id: 42425265659681677910
+    identification: 
+      file-name: img/ps.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/psd.png ===================================
+    id: 42425266068795677914
+    identification: 
+      file-name: img/psd.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/rar.png ===================================
+    id: 42425266428938677917
+    identification: 
+      file-name: img/rar.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/svg.png ===================================
+    id: 42425266838761677920
+    identification: 
+      file-name: img/svg.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/swf.png ===================================
+    id: 42425267219124677923
+    identification: 
+      file-name: img/swf.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/sys.png ===================================
+    id: 42425267674961677926
+    identification: 
+      file-name: img/sys.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/tar.png ===================================
+    id: 42425267987434677929
+    identification: 
+      file-name: img/tar.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/tiff.png ==================================
+    id: 42425268478593677932
+    identification: 
+      file-name: img/tiff.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/txt.png ===================================
+    id: 42425268816880677935
+    identification: 
+      file-name: img/txt.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/wav.png ===================================
+    id: 42425269189338677938
+    identification: 
+      file-name: img/wav.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/xls.png ===================================
+    id: 42425269680496677941
+    identification: 
+      file-name: img/xls.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/xlsx.png ==================================
+    id: 42425270016676677944
+    identification: 
+      file-name: img/xlsx.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: img/zip.png ===================================
+    id: 42425270438446677947
+    identification: 
+      file-name: img/zip.png
+
+    attributes: 
+      mime-type: image/png
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: js/apexdropzone.js ============================
+    id: 42425270790829677951
+    identification: 
+      file-name: js/apexdropzone.js
+
+    attributes: 
+      mime-type: application/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: js/apexdropzone.min.js ========================
+    id: 42425271236169677954
+    identification: 
+      file-name: js/apexdropzone.min.js
+
+    attributes: 
+      mime-type: application/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: js/dropzone.js ================================
+    id: 42425271681732677958
+    identification: 
+      file-name: js/dropzone.js
+
+    attributes: 
+      mime-type: application/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: js/dropzone.min.js ============================
+    id: 42425272031231677961
+    identification: 
+      file-name: js/dropzone.min.js
+
+    attributes: 
+      mime-type: application/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: js/filereader.js ==============================
+    id: 42425272484012677965
+    identification: 
+      file-name: js/filereader.js
+
+    attributes: 
+      mime-type: application/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: js/filereader.min.js ==========================
+    id: 42425272845399677969
+    identification: 
+      file-name: js/filereader.min.js
+
+    attributes: 
+      mime-type: application/javascript
+      file-character-set: Unicode UTF-8
+
+- # ====== Plugin: APEX Lazy Image Swiper ======================
+  id: 80730285646416822738
+  identification: 
+    name: APEX Lazy Image Swiper
+    internal-name: APEX.LAZY.IMAGE.SWIPER
+    type: Region
+
+  advanced: 
+    quick-pick: false
+
+  subscription: 
+    version-number: 15624779868508
+
+  source: 
+    pl/sql-code: |
+      procedure download_file (
+          p_in_blob      blob,
+          p_in_file_name varchar2,
+          p_in_mime_type varchar2
+      ) as
+          l_blob blob := p_in_blob;
+      begin
+          htp.init;
+          owa_util.mime_header(coalesce(p_in_mime_type, 'application/octet'), false, 'UTF-8');
+          htp.p('Content-length: ' || dbms_lob.getlength(p_in_blob));
+          htp.p('Content-Disposition: attachment; filename="' || p_in_file_name || '"');
+          owa_util.http_header_close;
+          wpg_docload.download_file(l_blob);
+      end;
+      
+      function sql_to_sys_refcursor (
+          p_in_sql_statement clob,
+          p_in_binds         sys.dbms_sql.varchar2_table
+      ) return sys_refcursor as
+          l_curs       binary_integer;
+          l_ref_cursor sys_refcursor;
+          l_exec       binary_integer;
+          /* TODO make size dynamic */
+          l_binds      varchar(32767);
+      begin
+          l_curs       := sys.dbms_sql.open_cursor;
+          sys.dbms_sql.parse(l_curs, p_in_sql_statement, sys.dbms_sql.native);
+          if p_in_binds.count > 0 then
+              for i in 1..p_in_binds.count loop
+                  /* TODO find out how to prevent ltrim */
+                  l_binds := ltrim(p_in_binds(i), ':');
+                  sys.dbms_sql.bind_variable(l_curs, l_binds, v(l_binds));
+              end loop;
+          end if;
+      
+          l_exec       := sys.dbms_sql.execute(l_curs);
+          l_ref_cursor := sys.dbms_sql.to_refcursor(l_curs);
+          return l_ref_cursor;
+      exception
+          when others then
+              if sys.dbms_sql.is_open(l_curs) then
+                  sys.dbms_sql.close_cursor(l_curs);
+              end if;
+              raise;
+      end;
+      
+      function f_ajax (
+          p_region in apex_plugin.t_region,
+          p_plugin in apex_plugin.t_plugin
+      ) return apex_plugin.t_region_ajax_result is
+      
+          l_result     apex_plugin.t_region_ajax_result;
+          l_cur        sys_refcursor;
+          l_bind_names sys.dbms_sql.varchar2_table;
+          l_pk         varchar2(32767) := apex_application.g_x02;
+          l_file_name  varchar2(200);
+          l_blob       blob;
+          l_mime_type  varchar2(200);
+      begin
+          if
+              apex_application.g_x01 = 'GET_IMAGE' and p_region.attribute_02 = 'Y'
+          then
+              declare
+                  c_plsql constant varchar2(32767) := p_region.attribute_03;
+                  l_curs       binary_integer;
+                  l_exec       binary_integer;
+                  l_binds      varchar2(32767);
+              begin
+                  /* undocumented function of APEX for get all bindings */
+                  l_bind_names := wwv_flow_utilities.get_binds(c_plsql);
+      
+                  /* execute binding*/
+                  l_curs := sys.dbms_sql.open_cursor;
+                  sys.dbms_sql.parse(l_curs, c_plsql, sys.dbms_sql.native);
+      
+                  for i in 1..l_bind_names.count loop
+                      /* TODO find out how to prevent ltrim */
+                      l_binds := ltrim(l_bind_names(i), ':');
+                      case l_binds
+                          when 'PK' then
+                              sys.dbms_sql.bind_variable(l_curs, l_binds, l_pk);
+                          when 'FILE_NAME' then
+                              sys.dbms_sql.bind_variable(l_curs, l_binds, l_file_name, 4000);
+                          when 'MIME_TYPE' then
+                              sys.dbms_sql.bind_variable(l_curs, l_binds, l_mime_type, 4000);
+                          when 'BINARY_FILE' then
+                              sys.dbms_sql.bind_variable(l_curs, l_binds, l_blob);
+                          else
+                              /* get values for APEX items */
+                              sys.dbms_sql.bind_variable(l_curs, l_binds, v(l_binds));
+                      end case;
+      
+                  end loop;
+      
+                  l_exec := sys.dbms_sql.execute(l_curs);
+                  sys.dbms_sql.variable_value(l_curs, 'FILE_NAME', l_file_name);
+                  sys.dbms_sql.variable_value(l_curs, 'MIME_TYPE', l_mime_type);
+                  sys.dbms_sql.variable_value(l_curs, 'BINARY_FILE', l_blob);
+      
+              exception
+                  when others then
+                      if sys.dbms_sql.is_open(l_curs) then
+                          sys.dbms_sql.close_cursor(l_curs);
+                      end if;
+                      apex_debug.error('APEX Image Slider - Error while executing dynamic PL/SQL Block to get Blob Source for Image Download.');
+                      apex_debug.error(sqlerrm);
+                      apex_debug.error(dbms_utility.format_error_backtrace);
+                      raise;
+              end;
+      
+              if l_file_name is not null then
+                  download_file(
+                      p_in_blob => l_blob,
+                      p_in_file_name => l_file_name,
+                      p_in_mime_type => l_mime_type
+                  );
+              end if;
+      
+          elsif apex_application.g_x01 = 'GET_SQL_SOURCE' then
+              begin
+                  /* undocumented function of APEX for get all bindings */
+                  l_bind_names := wwv_flow_utilities.get_binds(p_region.source);
+      
+                  /* execute binding*/
+                  l_cur        := sql_to_sys_refcursor(rtrim(p_region.source, ';'), l_bind_names);
+      
+                  /* create json */
+                  apex_json.open_object;
+                  apex_json.write('row', l_cur);
+                  apex_json.close_object;
+      
+              exception when others then
+                  if l_cur%isopen then
+                      close l_cur;
+                  end if;
+                  apex_debug.error('APEX Image Slider - Error while executing SQL Source.');
+                  apex_debug.error(sqlerrm);
+                  apex_debug.error(dbms_utility.format_error_backtrace);
+              end;
+          else
+              apex_debug.error('APEX Image Slider - Function Type does not exists');
+          end if;
+      
+          return l_result;
+      end;
+      
+      function f_render (
+          p_region              in apex_plugin.t_region,
+          p_plugin              in apex_plugin.t_plugin,
+          p_is_printer_friendly in boolean
+      ) return apex_plugin.t_region_render_result is
+      
+          l_result            apex_plugin.t_region_render_result;
+          c_img_height        constant apex_application_page_regions.attribute_04%type := p_region.attribute_04;
+          c_img_size          constant apex_application_page_regions.attribute_05%type := p_region.attribute_05;
+          c_bg_color          constant apex_application_page_regions.attribute_06%type := p_region.attribute_06;
+          c_controls          constant apex_application_page_regions.attribute_07%type := p_region.attribute_07;
+          c_first_image_item  constant apex_application_page_regions.attribute_08%type := p_region.attribute_08;
+          c_items2submit      constant apex_application_page_regions.ajax_items_to_submit%type := apex_plugin_util.page_item_names_to_jquery(p_region.ajax_items_to_submit);
+          c_items2submitblob  constant apex_application_page_regions.ajax_items_to_submit%type := apex_plugin_util.page_item_names_to_jquery(p_region.attribute_01);
+      begin
+      
+          sys.htp.p('<div id="' || apex_escape.html_attribute(p_region.static_id) || '-is"></div>');
+      
+          apex_javascript.add_onload_code('apexImageSlider(apex, $).initialize(' ||
+              apex_javascript.add_value(p_region.static_id, true) ||
+              apex_javascript.add_value(apex_plugin.get_ajax_identifier, true) ||
+              apex_javascript.add_value(p_region.no_data_found_message, true) ||
+              apex_javascript.add_value(c_img_height, true) ||
+              apex_javascript.add_value(c_img_size, true) ||
+              apex_javascript.add_value(c_bg_color, true) ||
+              apex_javascript.add_value(c_controls, true) ||
+              apex_javascript.add_value(c_items2submit, true) ||
+              apex_javascript.add_value(c_items2submitblob, true) ||
+              apex_javascript.add_value(c_first_image_item, true) ||
+              apex_javascript.add_value(p_region.escape_output, false) ||
+          ');');
+      
+          return l_result;
+      end;
+
+  callbacks: 
+    api-interface: Function
+    render-procedure/function-name: f_render
+    ajax-procedure/function-name: f_ajax
+
+  standard-attributes: 
+    attributes: 
+    - Region Source is SQL Statement [Deprecated]
+    - Has "Page Items to Submit" Attribute
+    - Has "No Data Found Message" Attribute
+    - Has "Escape Special Characters" Region Attribute
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  css: 
+    file-urls: 
+    - '#PLUGIN_FILES#style#MIN#.css'
+
+  javascript: 
+    file-urls: 
+    - '#PLUGIN_FILES#script#MIN#.js'
+
+  information: 
+    version: 25.01.05
+    about-url: 'https://github.com/RonnyWeiss/APEX-Lazy-Image-Swiper'
+    help-text: This plug-in is a cool image slider for Oracle APEX. It loads the images only when they are needed (Lazy Load) and can load images from a BLOB table or from a URL. The list of images is passed by SQL statement. URL and download of blob tables can be mixed. In addition, a link URL can be passed, which is called if you double click on the displayed image.
+
+  standard-attributes: 
+  - # ====== Standard Attribute: SOURCE_SQL ======================
+    id: 80906159085131244207
+    identification: 
+      name: SOURCE_SQL
+
+    value: 
+      required: true
+
+    settings: 
+      minimum-columns: 2
+
+    default: 
+      value: |
+        SELECT
+            /* Required Source Type
+               When SRC_TYPE is static string: 'blob' and "Use Image source from BLOB Column" in Attributes is activated then you can show images directly from a table
+               When SRC_TYPE is static string: 'url' then SRC_VALUE should be a url to the image in web or e.g. static files */
+            'url' AS SRC_TYPE,
+            /* Required Source Value
+               When SRC_TYPE is 'blob' then the SRC_VALUE should be the Primary Key for the blob file. 
+               This is not the blob file column. This Key is needed in "Use Image source from BLOB Column" in Attributes to get the image blob when needed
+               When SRC_TYPE is 'url' then add here the url of the image */
+            'https://github.com/RonnyWeiss/Apex-Advent-Calendar/raw/master/img/full/0' || ROWNUM || '.jpg' AS SRC_VALUE,
+            /* Optional Title of the image */
+            'Image Title ' || ROWNUM AS SRC_TITLE,
+            /* Optinoal add link for click on images */
+            'https://github.com/RonnyWeiss' AS LINK,
+            /* Optional set time span when next img should be loaded, if 0, null or column is missing then autoslide it's disabled */
+            10 AS DURATION
+        FROM
+            DUAL
+        CONNECT BY
+            ROWNUM <= 9
+
+    help: 
+      help-text: |
+        <pre>
+        SELECT
+            /* Required Source Type
+               When SRC_TYPE is static string: 'blob' and "Use Image source from BLOB Column" in Attributes is activated then you can show images directly from a table
+               When SRC_TYPE is static string: 'url' then SRC_VALUE should be a url to the image in web or e.g. static files */
+            'url' AS SRC_TYPE,
+            /* Required Source Value
+               When SRC_TYPE is 'blob' then the SRC_VALUE should be the Primary Key for the blob file. 
+               This is not the blob file column. This Key is needed in "Use Image source from BLOB Column" in Attributes to get the image blob when needed
+               When SRC_TYPE is 'url' then add here the url of the image */
+            'https://github.com/RonnyWeiss/Apex-Advent-Calendar/raw/master/img/full/0' || ROWNUM || '.jpg' AS SRC_VALUE,
+            /* Optional Title of the image */
+            'Image Title ' || ROWNUM AS SRC_TITLE,
+            /* Optinoal add link for click on images */
+            'https://github.com/RonnyWeiss' AS LINK,
+            /* Optional set time span when next img should be loaded, if 0, null or column is missing then autoslide it's disabled */
+            10 AS DURATION
+        FROM
+            DUAL
+        CONNECT BY
+            ROWNUM <= 9
+        </pre>
+
+    examples: 
+      examples: |
+        <pre>
+        SELECT
+            /* Required Source Type
+               When SRC_TYPE is static string: 'blob' and "Use Image source from BLOB Column" in Attributes is activated then you can show images directly from a table
+               When SRC_TYPE is static string: 'url' then SRC_VALUE should be a url to the image in web or e.g. static files */
+            'blob' AS SRC_TYPE,
+            /* Required Source Value
+               When SRC_TYPE is 'blob' then the SRC_VALUE should be the Primary Key for the blob file. 
+               This is not the blob file column. This Key is needed in "Use Image source from BLOB Column" in Attributes to get the image blob when needed
+               When SRC_TYPE is 'url' then add here the url of the image */
+             #PRIMARY_KEY_COLUMN# AS SRC_VALUE
+        FROM 
+          #YOUR_TABLE#
+        </pre>
+
+  custom-attributes: 
+  - # ====== Custom Attribute: Item to Submit ====================
+    id: 43956414644403235512
+    identification: 
+      static-id: attribute_01
+      attribute: 1
+      name: Item to Submit
+      scope: Component
+
+    layout: 
+      sequence: 31
+
+    settings: 
+      type: Page Items
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+  - # ====== Custom Attribute: First Image ID ====================
+    id: 43956436972834565775
+    identification: 
+      static-id: attribute_08
+      attribute: 8
+      name: First Image ID
+      scope: Component
+
+    layout: 
+      sequence: 80
+
+    settings: 
+      type: Page Item
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+  - # ====== Custom Attribute: Image Height ======================
+    id: 56009331229839504754
+    identification: 
+      static-id: attribute_04
+      attribute: 4
+      name: Image Height
+      scope: Component
+
+    layout: 
+      sequence: 40
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: 480px
+
+    help: 
+      help-text: Set the height of the images e.g. 480px oder 50vh
+
+  - # ====== Custom Attribute: Image Sizing ======================
+    id: 56010220901232045736
+    identification: 
+      static-id: attribute_05
+      attribute: 5
+      name: Image Sizing
+      scope: Component
+
+    layout: 
+      sequence: 50
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: cover
+
+    help: 
+      help-text: Set sizing of the images
+
+    entries: 
+    - # ====== Entry: Contain ======================================
+      id: 56008866641862078744
+      entry: 
+        sequence: 20
+        display: Contain
+        return: contain
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: Cover ========================================
+      id: 56010223652335046882
+      entry: 
+        sequence: 10
+        display: Cover
+        return: cover
+
+      advanced: 
+        quick-pick: false
+
+  - # ====== Custom Attribute: Background Color ==================
+    id: 56019601224738504100
+    identification: 
+      static-id: attribute_06
+      attribute: 6
+      name: Background Color
+      scope: Component
+
+    layout: 
+      sequence: 60
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: black
+
+    help: 
+      help-text: Set background color of image swiper
+
+  - # ====== Custom Attribute: Set Controls ======================
+    id: 56021674166595669643
+    identification: 
+      static-id: attribute_07
+      attribute: 7
+      name: Set Controls
+      scope: Component
+
+    layout: 
+      sequence: 70
+
+    settings: 
+      type: Checkboxes
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: 'keyboard:mousewheel:arrows'
+
+    entries: 
+    - # ====== Entry: Keyboard Navigation Keys (Left/Right) ========
+      id: 56021739425439702375
+      entry: 
+        sequence: 10
+        display: Keyboard Navigation Keys (Left/Right)
+        return: keyboard
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: Mousewheel ===================================
+      id: 56021884959333673007
+      entry: 
+        sequence: 20
+        display: Mousewheel
+        return: mousewheel
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: Visual Next and Previous Buttons =============
+      id: 56021905302927676471
+      entry: 
+        sequence: 30
+        display: Visual Next and Previous Buttons
+        return: arrows
+
+      advanced: 
+        quick-pick: false
+
+  - # ====== Custom Attribute: Use Image source from BLOB Column (
+    id: 80920649008654669196
+    identification: 
+      static-id: attribute_02
+      attribute: 2
+      name: Use Image source from BLOB Column (PLEASE Check Help)
+      scope: Component
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Yes/No
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: N
+
+    help: 
+      help-text: Choose 'No' if in your SQL Source are only SRC_TYPE with 'url' or 'Yes' when in your SQL Source is also SRC_TYPE with 'blob'. When use SRC_TYPE = 'blob' then SRC_VALUE is the primary key from the PL/SQL block. Please do not load BLOB Column in SQL Region. The BLOB will be downloaded in PL/SQL block below!
+
+  - # ====== Custom Attribute: Execute to get Image Sources ======
+    id: 80920721964987672380
+    identification: 
+      static-id: attribute_03
+      attribute: 3
+      name: Execute to get Image Sources
+      scope: Component
+
+    layout: 
+      sequence: 30
+
+    settings: 
+      type: PL/SQL Code
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: |
+        /* This PL/SQL block is called when SRC_TYPE in SQL Source is 'blob' */
+        /* The SRC_VALUE is the Key for calling this PL/SQL Block. So this PL/SQL downloads image when required by the plug-in */
+        /* Please check help for more information */
+        /* When Plug-in is not working then check APEX Debug */
+        declare
+            l_file_name   varchar2(255);
+            l_mime_type   varchar2(255);
+            l_binary_file blob;
+            l_pk          varchar2(32767) := :PK; /* :PK is the SRC_VALUE from SQL Source, if it's a number change L_PK to number */
+        begin
+            select
+                #your_file_name_col#,
+                #your_mime_type_col#,
+                #your_blob_col#
+            into
+                l_file_name,
+                l_mime_type,
+                l_binary_file
+            from
+                #your_table#
+            where
+                #your_primary_key_column# = l_pk;
+        
+            :FILE_NAME   := l_file_name;
+            :MIME_TYPE   := l_mime_type;
+             /* Please ignore PLS-00382: expression is of wrong type
+               because binding of :BLOB is not supported by current
+               APEX PL/SQL Validator 
+             */
+            :BINARY_FILE := l_binary_file;
+        exception
+            when others then
+                apex_debug.error(sqlerrm);
+                apex_debug.error(dbms_utility.format_error_stack);
+        end;
+
+    condition: 
+      depending-on-custom-attribute: Use Image source from BLOB Column (PLEASE Check Help) # 80920649008654669196
+      depending-on-condition-type: equal to
+      expression: Y
+      always-evaluate: true
+
+    help: 
+      help-text: |
+        <pre>
+        /* This PL/SQL block is called when SRC_TYPE in SQL Source is 'blob' */
+        /* The SRC_VALUE is the Key for calling this PL/SQL Block. So this PL/SQL downloads image when required by the plug-in */
+        /* Please check help for more information */
+        /* When Plug-in is not working then check APEX Debug */
+        declare
+            l_file_name   varchar2(255);
+            l_mime_type   varchar2(255);
+            l_binary_file blob;
+            l_pk          varchar2(32767) := :PK; /* :PK is the SRC_VALUE from SQL Source, if it's a number change L_PK to number */
+        begin
+            select
+                #your_file_name_col#,
+                #your_mime_type_col#,
+                #your_blob_col#
+            into
+                l_file_name,
+                l_mime_type,
+                l_binary_file
+            from
+                #your_table#
+            where
+                #your_primary_key_column# = l_pk;
+        
+            :FILE_NAME   := l_file_name;
+            :MIME_TYPE   := l_mime_type;
+             /* Please ignore PLS-00382: expression is of wrong type
+               because binding of :BLOB is not supported by current
+               APEX PL/SQL Validator 
+             */
+            :BINARY_FILE := l_binary_file;
+        exception
+            when others then
+                apex_debug.error(sqlerrm);
+                apex_debug.error(dbms_utility.format_error_stack);
+        end;
+        </pre>
+
+  files: 
+  - # ====== File: LICENSE =======================================
+    id: 43956427611316460782
+    identification: 
+      file-name: LICENSE
+
+    attributes: 
+      mime-type: application/octet-stream
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: script.js =====================================
+    id: 43956427953604460783
+    identification: 
+      file-name: script.js
+
+    attributes: 
+      mime-type: text/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: style.css =====================================
+    id: 43956428677481460784
+    identification: 
+      file-name: style.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: style.min.css =================================
+    id: 43956429088017460785
+    identification: 
+      file-name: style.min.css
+
+    attributes: 
+      mime-type: text/css
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: script.min.js =================================
+    id: 43956613885095720980
+    identification: 
+      file-name: script.min.js
+
+    attributes: 
+      mime-type: text/javascript
+      file-character-set: Unicode UTF-8
+

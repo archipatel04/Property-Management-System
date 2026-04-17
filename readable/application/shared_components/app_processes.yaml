@@ -1,0 +1,127 @@
+---
+- # ====== Application Process: GET_PROFILE_IMAGE ==============
+  id: 14988187322556128
+  identification: 
+    name: GET_PROFILE_IMAGE
+    type: NATIVE_PLSQL
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      -- begin
+       
+      -- for c1 in (select * from PRMS_USER_MASTER
+       
+      --                 where USER_ID = :APP_USER_ID) loop
+       
+      --         sys.htp.init;
+      
+      --         sys.owa_util.mime_header( c1.MIME_TYPE, FALSE );
+      
+      --         sys.htp.p('Content-length: ' || sys.dbms_lob.getlength( c1.PICTURE));
+      
+      --         sys.htp.p('Content-Disposition: attachment; filename="' || c1.FILENAME || '"' );
+      
+      --         sys.htp.p('Cache-Control: max-age=3600'); 
+      
+      --         sys.owa_util.http_header_close;
+      
+      --         sys.wpg_docload.download_file( c1.PICTURE);
+       
+      --         apex_application.stop_apex_engine;
+      
+      --     end loop;
+       
+       
+      -- end;
+       
+       
+      DECLARE
+      
+          l_length NUMBER;
+      
+      BEGIN
+      
+          FOR c1 IN (
+      
+              SELECT * 
+      
+              FROM PMS_USERS
+      
+              WHERE USER_ID = :USER_ID
+      
+          ) LOOP
+      
+              BEGIN
+      
+                  l_length := dbms_lob.getlength(c1.USER_BLOB);
+      
+              EXCEPTION
+      
+                  WHEN OTHERS THEN
+      
+                      l_length := 0; -- If it's NULL or inaccessible
+      
+              END;
+       
+              IF l_length > 0 THEN
+      
+                  -- Picture exists, download it
+      
+                  sys.htp.init;
+      
+                  sys.owa_util.mime_header(c1.MIME_TYPE, FALSE);
+      
+                  sys.htp.p('Content-length: ' || l_length);
+      
+                  sys.htp.p('Content-Disposition: attachment; filename="' || c1.FILE_TYPE || '"');
+      
+                  sys.htp.p('Cache-Control: max-age=3600'); 
+      
+                  sys.owa_util.http_header_close;
+      
+                  sys.wpg_docload.download_file(c1.USER_BLOB);
+      
+              ELSE
+      
+                  -- No picture: Show initials
+      
+                  sys.htp.init;
+      
+                  sys.owa_util.mime_header('text/plain', FALSE);
+      
+                  sys.htp.p('Content-Disposition: inline');
+      
+                  sys.htp.p('Cache-Control: no-cache'); 
+      
+                  sys.owa_util.http_header_close;
+       
+                  -- Print initials
+      
+                  sys.htp.p(
+      
+                      NVL(SUBSTR(c1.FIRST_NAME, 1, 1), '?') || 
+      
+                      NVL(SUBSTR(c1.LAST_NAME, 1, 1), '?')
+      
+                  );
+      
+              END IF;
+       
+              apex_application.stop_apex_engine;
+      
+          END LOOP;
+      
+      END;
+
+  execution: 
+    sequence: 1
+    point: Ajax Callback
+
+  security: 
+    authorization-scheme: Must Not Be Public User
+
+  subscription: 
+    version-number: 41145904649304
+

@@ -1,0 +1,1207 @@
+---
+# ====== Page: Accept & Reject ===============================
+id: 32
+identification: 
+  name: Accept & Reject
+  alias: ACCEPT-REJECT
+  title: Accept & Reject
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+css: 
+  inline: |
+    /*////////////////////////////////// Calender Cell /////////////////////////////////////////////*/
+    /* 
+    .fc-event-main {
+            background-color: transparent !important;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 18px;
+    } */
+    
+    .fc-event.fc-apex-events-default {
+        background-color: transparent !important;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 18px;
+    
+    }
+    
+    a.fc-event {
+        background-color: transparent;
+        border: none;
+    }
+    
+    .fc-event-main {
+        display: flex  !important;
+        justify-content: center  !important;
+        align-items: center  !important;
+        margin-bottom: 5px;
+        margin: 0 auto;
+    }
+    
+    /*//////////////////////// Background Color Of Cell /////////////////////////////////////////*/
+    /* 👇 Light Green */
+    .fc-daygrid-event.low-load {
+      background-color: #d4edda !important;
+      color: #155724 !important;
+      border: none;
+    }
+    
+    /* 👇 Yellow */
+    .fc-daygrid-event.medium-load {
+      background-color: #fff3cd !important;
+      color: #856404 !important;
+      border: none;
+    }
+    
+    /* 👇 Light Red */
+    .fc-daygrid-event.high-load {
+      background-color: #f8d7da !important;
+      color: #721c24 !important;
+      border: none;
+    }
+    
+    th i {
+      margin-right: 5px;
+      color: #444;
+    }
+    
+    /*==================================grid-list====*/
+    
+    .apex-item-grid.radio_group label {
+      border-radius: 8px;  
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      display: inline-block;
+      margin: 4px;
+      background-color: #f9f9f9;
+      cursor: pointer;
+    }
+    /* 
+    .apex-item-grid.radio_group input[type="radio"] {
+      display: none;
+    } */
+    
+    .apex-item-grid.radio_group input[type="radio"]:checked + label {
+      background-color: #EEEEEE; 
+      border-color: #007b8f;
+      color: #000000;
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Calendar ====================================
+  id: 15102336560921533
+  identification: 
+    name: Calendar
+    type: Calendar
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          AP.APPOINTMENT_DATE,
+      
+          -- ✅ Stylized Total Appointment with approved & pending counts
+          '<div style="text-align:center; font-size:14px; color:#000080;">
+              <span aria-hidden="true" class="fa fa-file-text-o"></span> Total Appointments: <b>' || COUNT(*) || '</b>
+              <div style="
+                  background-color: #f9f9f9;
+                  border: 1px solid #ddd;
+                  border-radius: 8px;
+                  padding: 4px;
+                  text-align: center;
+                  font-size: 13px;
+                  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                  margin-top: 3px;">
+      
+                  <div style="color: green;">
+                      ✅ Approved: <strong>' || COUNT(CASE WHEN AP.STATUS = 'Approved' THEN 1 END) || '</strong>
+                  </div>
+      
+                  <div style="color: orange;">
+                      🕒 Pending: <strong>' || COUNT(CASE WHEN AP.STATUS = 'Pending' THEN 1 END) || '</strong>
+                  </div>
+      
+              </div>
+           </div>' AS TOTAL_COUNT,
+            -- 🟦 Color Logic
+           CASE 
+              WHEN COUNT(*) <= 2 THEN 'low-load'
+              WHEN COUNT(*) BETWEEN 3 AND 5 THEN 'medium-load'
+              ELSE 'high-load'
+          END AS CSS_CLASS
+      
+      FROM PMS_APPOINTMENT AP
+      WHERE AP.TO_USER_ID = :user_id
+      GROUP BY AP.APPOINTMENT_DATE
+      ORDER BY AP.APPOINTMENT_DATE;
+      
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--textContent
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: myCalendar
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      display-column: TOTAL_COUNT
+      start-date-column: APPOINTMENT_DATE
+      event-sorting: Automatic
+      show-time: false
+      multiple-line-events: true
+      show-tooltip: true
+      additional-calendar-views: 'list:navigation'
+      view-/-edit-link: 
+        url: 'f?p=&APP_ID.:61:&SESSION.::&DEBUG.:61:P61_SELECTED_DATE:&APPOINTMENT_DATE.'
+        page: 61 # APPOINTMNET Calendar  REPORT
+        clear-cache: 61
+        values: 
+          p61_selected_date: '&APPOINTMENT_DATE.'
+
+      maximum-events-/-day: 10
+      show-weekend: true
+
+    performance: 
+      lazy-loading: false
+
+    advanced: 
+      initialization-javascript-function: |
+        function(options) {
+          // disable past dates using validRange option
+          options.validRange = {
+            start: new Date()  // means today se pehle ke dates disable ho jayenge
+          };
+          
+          return options;
+        }
+        
+
+- # ====== Region: Appointment Accept & Reject =================
+  id: 34273847147107725222
+  identification: 
+    name: Appointment Accept & Reject
+    type: Content Row
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select a.APPOINTMENT_ID,
+             a.FROM_TYPE,
+             a.FROM_USER_ID,
+             a.TO_TYPE,
+             a.TO_USER_ID,
+             a.APPOINTMENT_DATE,
+             a.APPOINTMENT_TIME,
+             a.LOCATION,
+             a.STATUS,
+             u.last_name,
+             r.role_name
+        from PMS_APPOINTMENT a 
+        join pms_users u on a.FROM_USER_ID = u.user_id 
+        join pms_roles r on a.FROM_type = r.role_id
+        where  a.to_user_id = :user_id and a.status = 'Pending'
+      
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes (No Grid)
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      display: Multiple (Report)
+
+    settings: 
+      overline: '&ROLE_NAME.'
+      title: '&LAST_NAME.'
+      description: |
+        &APPOINTMENT_DATE.
+        &APPOINTMENT_TIME.
+        &LOCATION.
+      miscellaneous: '&STATUS.'
+      display-avatar: false
+      display-badge: false
+
+    appearance: 
+      apply-theme-colors: true
+      style: Default
+      hide-borders: false
+      remove-padding: false
+
+    row-selection: 
+      type: None
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Page
+      entities-per-page: 15
+      show-total-count: false
+
+    messages: 
+      when-no-data-found: No Pending Appointment
+      no-data-found-icon: fa-lg fa-clipboard-list
+
+  columns: 
+  - # ====== Column: LAST_NAME ===================================
+    id: 96088293428303
+    identification: 
+      name: LAST_NAME
+
+    layout: 
+      sequence: 120
+
+    source: 
+      type: Database Column
+      database-column: LAST_NAME
+      data-type: VARCHAR2
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: APPOINTMENT_ID ==============================
+    id: 34273847234550725223
+    identification: 
+      name: APPOINTMENT_ID
+
+    layout: 
+      sequence: 10
+
+    source: 
+      type: Database Column
+      database-column: APPOINTMENT_ID
+      data-type: NUMBER
+      primary-key: true
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: FROM_TYPE ===================================
+    id: 34273847385581725224
+    identification: 
+      name: FROM_TYPE
+
+    layout: 
+      sequence: 20
+
+    source: 
+      type: Database Column
+      database-column: FROM_TYPE
+      data-type: VARCHAR2
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: FROM_USER_ID ================================
+    id: 34273847466025725225
+    identification: 
+      name: FROM_USER_ID
+
+    layout: 
+      sequence: 30
+
+    source: 
+      type: Database Column
+      database-column: FROM_USER_ID
+      data-type: NUMBER
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: TO_TYPE =====================================
+    id: 34273847521088725226
+    identification: 
+      name: TO_TYPE
+
+    layout: 
+      sequence: 40
+
+    source: 
+      type: Database Column
+      database-column: TO_TYPE
+      data-type: VARCHAR2
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: TO_USER_ID ==================================
+    id: 34273847631871725227
+    identification: 
+      name: TO_USER_ID
+
+    layout: 
+      sequence: 50
+
+    source: 
+      type: Database Column
+      database-column: TO_USER_ID
+      data-type: NUMBER
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: APPOINTMENT_DATE ============================
+    id: 34273847723236725228
+    identification: 
+      name: APPOINTMENT_DATE
+
+    layout: 
+      sequence: 60
+
+    source: 
+      type: Database Column
+      database-column: APPOINTMENT_DATE
+      data-type: DATE
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: APPOINTMENT_TIME ============================
+    id: 34273847851217725229
+    identification: 
+      name: APPOINTMENT_TIME
+
+    layout: 
+      sequence: 70
+
+    source: 
+      type: Database Column
+      database-column: APPOINTMENT_TIME
+      data-type: VARCHAR2
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: LOCATION ====================================
+    id: 34273847939371725230
+    identification: 
+      name: LOCATION
+
+    layout: 
+      sequence: 80
+
+    source: 
+      type: Database Column
+      database-column: LOCATION
+      data-type: VARCHAR2
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: STATUS ======================================
+    id: 34273848094158725231
+    identification: 
+      name: STATUS
+
+    layout: 
+      sequence: 90
+
+    source: 
+      type: Database Column
+      database-column: STATUS
+      data-type: VARCHAR2
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: ROLE_NAME ===================================
+    id: 34273849030937725241
+    identification: 
+      name: ROLE_NAME
+
+    layout: 
+      sequence: 110
+
+    source: 
+      type: Database Column
+      database-column: ROLE_NAME
+      data-type: VARCHAR2
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  actions: 
+  - # ====== Action: Actions =====================================
+    id: 34273848548621725236
+    identification: 
+      position: Primary Actions # 362316004162771045
+      template: Button # 362316605839802174
+      label: Actions
+
+    layout: 
+      sequence: 10
+
+    link: 
+      type: Redirect to Page in this Application
+      target: 
+        url: 'f?p=&APP_ID.:62:&SESSION.::&DEBUG.:62:P62_APPOINTMENT_ID1:&APPOINTMENT_ID.'
+        page: 62 # Appointment Reviewer Form
+        clear-cache: 62
+        values: 
+          p62_appointment_id1: '&APPOINTMENT_ID.'
+
+    appearance: 
+      display-type: Icon
+      icon: fa-person-running-fast
+      hot: false
+      show-as-disabled: false
+
+- # ====== Region: Appointment Status ==========================
+  id: 34273849199528725242
+  identification: 
+    name: Appointment Status
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      -- select a.APPOINTMENT_ID,
+      --        a.FROM_TYPE,
+      --        a.FROM_USER_ID,
+      --        a.TO_TYPE,
+      --        a.TO_USER_ID,
+      --        a.APPOINTMENT_DATE,
+      --        a.APPOINTMENT_TIME,
+      --        a.LOCATION,
+      --        a.STATUS,
+      --        u.last_name as Name,
+      --        r.role_name
+      --   from PMS_APPOINTMENT a 
+      --   join pms_users u on a.FROM_USER_ID = u.user_id 
+      --   join pms_roles r on a.FROM_type = r.role_id
+      --   where  a.to_user_id = :user_id and a.status not in ('Pending')
+      --   order by a.appointment_date desc, a.appointment_time
+      
+      
+      
+      SELECT 
+          a.APPOINTMENT_ID,
+          a.FROM_TYPE,
+          a.FROM_USER_ID,
+          a.TO_TYPE,
+          a.TO_USER_ID,
+          a.APPOINTMENT_DATE,
+          a.APPOINTMENT_TIME,
+          a.LOCATION,
+          a.STATUS,
+          u.last_name AS Name,
+          r.role_name,
+          CASE 
+              WHEN a.STATUS = 'Approved' THEN 
+                  '<span class="t-Badge t-Badge--success">Approved</span>'
+              WHEN a.STATUS = 'Rejected' THEN 
+                  '<span class="t-Badge t-Badge--danger">Rejected</span>'
+              ELSE 
+                  '<span class="t-Badge t-Badge--neutral">' || a.STATUS || '</span>'
+          END AS STATUS_BADGE
+      FROM PMS_APPOINTMENT a 
+      JOIN pms_users u ON a.FROM_USER_ID = u.user_id 
+      JOIN pms_roles r ON a.FROM_type = r.role_id
+      WHERE a.to_user_id = :user_id 
+        AND a.status NOT IN ('Pending')
+      ORDER BY a.appointment_date DESC, a.appointment_time
+      
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: NAME ========================================
+    id: 96005982428302
+    identification: 
+      column-name: NAME
+      type: Plain Text
+
+    heading: 
+      heading: <i class="fa fa-user"></i> Name
+      alignment: start
+
+    layout: 
+      sequence: 120
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STATUS_BADGE ================================
+    id: 15115849449463604
+    identification: 
+      column-name: STATUS_BADGE
+      type: Rich Text
+
+    heading: 
+      heading: <i class="fa fa-check-circle-o"></i> Status
+      alignment: center
+
+    layout: 
+      sequence: 130
+      column-alignment: center
+
+    settings: 
+      format: HTML
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+  - # ====== Column: APPOINTMENT_ID ==============================
+    id: 34273849297043725243
+    identification: 
+      column-name: APPOINTMENT_ID
+      type: Hidden
+
+    layout: 
+      sequence: 10
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FROM_TYPE ===================================
+    id: 34273849354809725244
+    identification: 
+      column-name: FROM_TYPE
+      type: Hidden
+
+    layout: 
+      sequence: 20
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FROM_USER_ID ================================
+    id: 34273849490167725245
+    identification: 
+      column-name: FROM_USER_ID
+      type: Hidden
+
+    layout: 
+      sequence: 30
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TO_TYPE =====================================
+    id: 34273849532393725246
+    identification: 
+      column-name: TO_TYPE
+      type: Hidden
+
+    layout: 
+      sequence: 40
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TO_USER_ID ==================================
+    id: 34273849603814725247
+    identification: 
+      column-name: TO_USER_ID
+      type: Hidden
+
+    layout: 
+      sequence: 50
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: APPOINTMENT_DATE ============================
+    id: 34273849782509725248
+    identification: 
+      column-name: APPOINTMENT_DATE
+      type: Plain Text
+
+    heading: 
+      heading: <i class="fa fa-calendar"></i> Visit Date
+      alignment: start
+
+    layout: 
+      sequence: 60
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: APPOINTMENT_TIME ============================
+    id: 34273849867644725249
+    identification: 
+      column-name: APPOINTMENT_TIME
+      type: Plain Text
+
+    heading: 
+      heading: <i class="fa fa-clock-o"></i> Visit Time
+      alignment: start
+
+    layout: 
+      sequence: 70
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LOCATION ====================================
+    id: 34273849972459725250
+    identification: 
+      column-name: LOCATION
+      type: Plain Text
+
+    heading: 
+      heading: <i class="fa fa-map-marker-o"></i> Location
+      alignment: start
+
+    layout: 
+      sequence: 80
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STATUS ======================================
+    id: 35148798509181005501
+    identification: 
+      column-name: STATUS
+      type: Hidden
+
+    layout: 
+      sequence: 90
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ROLE_NAME ===================================
+    id: 35148798779421005503
+    identification: 
+      column-name: ROLE_NAME
+      type: Plain Text
+
+    heading: 
+      heading: <i class="fa fa-user"></i> Role
+      alignment: start
+
+    layout: 
+      sequence: 110
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+page-items: 
+- # ====== Page Item: P32_CHANGE_LIST_CALENDAR =================
+  id: 15044358785476367
+  identification: 
+    name: P32_CHANGE_LIST_CALENDAR
+    type: Radio Group
+
+  label: 
+    alignment: Left
+
+  settings: 
+    number-of-columns: 2
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 10
+    region: No Parent
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    - js-hidePasswordVisibility
+    - t-Form-fieldContainer--xlarge
+    - margin-bottom-lg
+    - t-Form-fieldContainer--radioButtonGroup
+    - t-Form-fieldContainer--boldDisplay
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Static Values
+    static-values: 'STATIC:📅 Calendar;Calendar,📜 List;List'
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Static
+    static-value: Calendar
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+dynamic-actions: 
+- # ====== Dynamic Action: Hide ================================
+  id: 15044455206476368
+  identification: 
+    name: Hide
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+
+  when: 
+    event: Page Load
+
+  actions: 
+  - # ====== Action: Hide ========================================
+    id: 15044598822476369
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: Appointment Status # 34273849199528725242
+
+    execution: 
+      sequence: 10
+      event: Hide # 15044455206476368
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: Hide ========================================
+    id: 15098499923120303
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: Appointment Accept & Reject # 34273847147107725222
+
+    execution: 
+      sequence: 20
+      event: Hide # 15044455206476368
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: Show-Hide ===========================
+  id: 15044671814476370
+  identification: 
+    name: Show-Hide
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P32_CHANGE_LIST_CALENDAR
+
+  client-side-condition: 
+    type: Item = Value
+    item: P32_CHANGE_LIST_CALENDAR
+    value: List
+
+  actions: 
+  - # ====== Action: Show ========================================
+    id: 15044792578476371
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Region
+      region: Appointment Status # 34273849199528725242
+
+    execution: 
+      sequence: 10
+      event: Show-Hide # 15044671814476370
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: Hide ========================================
+    id: 15044882635476372
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: Calendar # 15102336560921533
+
+    execution: 
+      sequence: 30
+      event: Show-Hide # 15044671814476370
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: Hide ========================================
+    id: 15098272516120301
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: Appointment Accept & Reject # 34273847147107725222
+
+    execution: 
+      sequence: 30
+      event: Show-Hide # 15044671814476370
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+
+  - # ====== Action: Show ========================================
+    id: 15098405473120302
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Region
+      region: Appointment Accept & Reject # 34273847147107725222
+
+    execution: 
+      sequence: 20
+      event: Show-Hide # 15044671814476370
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: Show ========================================
+    id: 15098582707120304
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Region
+      region: Calendar # 15102336560921533
+
+    execution: 
+      sequence: 20
+      event: Show-Hide # 15044671814476370
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+
+  - # ====== Action: Hide ========================================
+    id: 15098730965120305
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Region
+      region: Appointment Status # 34273849199528725242
+
+    execution: 
+      sequence: 40
+      event: Show-Hide # 15044671814476370
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+

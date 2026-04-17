@@ -1,0 +1,1643 @@
+---
+# ====== Page: APPOINTMNET Calendar  REPORT ==================
+id: 61
+identification: 
+  name: APPOINTMNET Calendar  REPORT
+  alias: APPOINTMNET-CALENDAR-REPORT
+  title: APPOINTMNET Calendar  REPORT
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+css: 
+  inline: |2
+     .action-button {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #007bff; /* Blue color */
+        color: white;
+        font-size: 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        border: none;
+      }
+    
+      .action-button:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+      }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: APPROVAL REPORT =============================
+  id: 14607614457836709
+  identification: 
+    name: APPROVAL REPORT
+    type: Interactive Grid
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select a.APPOINTMENT_ID,
+             a.FROM_TYPE,
+             a.FROM_USER_ID,
+             a.TO_TYPE,
+             a.TO_USER_ID,
+             a.APPOINTMENT_DATE,
+             a.APPOINTMENT_TIME,
+             a.LOCATION,
+             a.STATUS,
+             CASE 
+              WHEN a.STATUS = 'Approved' THEN 
+                  '<span class="t-Badge t-Badge--success">Approved</span>'
+              ELSE 
+                  '<span class="t-Badge t-Badge--neutral">' || a.STATUS || '</span>'
+              END AS STATUS_BADGE,
+             u.last_name,
+             r.role_name
+          --       -- Button Link Column
+          -- '<a class="action-button" ' ||
+          -- 'href="' || 
+          --   APEX_UTIL.PREPARE_URL(
+          --      'f?p=&APP_ID.:62:&APP_SESSION.::NO::P62_APPOINTMENT_ID1:' || a.APPOINTMENT_ID
+          --   ) ||
+          -- '">Action</a>' AS ACTION_BUTTON
+        from PMS_APPOINTMENT a 
+        join pms_users u on a.FROM_USER_ID = u.user_id 
+        join pms_roles r on a.FROM_type = r.role_id
+        where  a.to_user_id = :user_id and a.status = 'Approved' and a.APPOINTMENT_DATE = :P61_SELECTED_DATE;
+      
+      
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--noBorders
+    - t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 14607718733836710
+    edit: 
+      enabled: false
+
+    performance: 
+      lazy-loading: false
+
+    appearance: 
+      select-first-row: true
+      fixed-row-height: true
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+    messages: 
+      when-no-data-found: There are currently no approved appointments.
+
+    toolbar: 
+      show: true
+      controls: 
+      - Search Column Selection
+      - Search Field
+      - Actions Menu
+      - Reset Button
+      - Save Button
+
+    enable-users-to: 
+      save-public-report: false
+      flashback: true
+      define-chart-view: true
+      download: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 15096900142151625
+      identification: 
+        name: Primary Report
+        alias: 166548
+
+  columns: 
+  - # ====== Column: APPOINTMENT_ID ==============================
+    id: 14607840263836711
+    identification: 
+      column-name: APPOINTMENT_ID
+      type: Hidden
+
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 10
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: APPOINTMENT_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: FROM_TYPE ===================================
+    id: 14607863372836712
+    identification: 
+      column-name: FROM_TYPE
+      type: Hidden
+
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 20
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: FROM_TYPE
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: FROM_USER_ID ================================
+    id: 14608006293836713
+    identification: 
+      column-name: FROM_USER_ID
+      type: Hidden
+
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 30
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: FROM_USER_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: TO_TYPE =====================================
+    id: 14608089242836714
+    identification: 
+      column-name: TO_TYPE
+      type: Hidden
+
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 40
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: TO_TYPE
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: TO_USER_ID ==================================
+    id: 14608215362836715
+    identification: 
+      column-name: TO_USER_ID
+      type: Hidden
+
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 50
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: TO_USER_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: APPOINTMENT_DATE ============================
+    id: 14608328576836716
+    identification: 
+      column-name: APPOINTMENT_DATE
+      type: Date Picker
+
+    heading: 
+      heading: Appointment Date
+      alignment: center
+
+    settings: 
+      show-time: false
+      display-as: Popup
+      minimum-date: None
+      maximum-date: None
+      multiple-months: No
+      use-defaults: true
+
+    layout: 
+      sequence: 60
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    source: 
+      type: Database Column
+      database-column: APPOINTMENT_DATE
+      data-type: DATE
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      lov-type: Distinct Column
+      date-ranges: All
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  - # ====== Column: APPOINTMENT_TIME ============================
+    id: 14608384723836717
+    identification: 
+      column-name: APPOINTMENT_TIME
+      type: Text Field
+
+    heading: 
+      heading: Appointment Time
+      alignment: center
+
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
+    layout: 
+      sequence: 70
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+      maximum-length: 80
+
+    source: 
+      type: Database Column
+      database-column: APPOINTMENT_TIME
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  - # ====== Column: LOCATION ====================================
+    id: 14608524945836718
+    identification: 
+      column-name: LOCATION
+      type: Textarea
+
+    heading: 
+      heading: Location
+      alignment: center
+
+    settings: 
+      resizable: true
+      auto-height: false
+      character-counter: false
+      trim-spaces: Leading and Trailing
+
+    layout: 
+      sequence: 80
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+      maximum-length: 1020
+
+    source: 
+      type: Database Column
+      database-column: LOCATION
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: None
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: false
+      hide: true
+
+  - # ====== Column: STATUS ======================================
+    id: 14608638969836719
+    identification: 
+      column-name: STATUS
+      type: Hidden
+
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 90
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: STATUS
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: LAST_NAME ===================================
+    id: 14608731416836720
+    identification: 
+      column-name: LAST_NAME
+      type: Text Field
+
+    heading: 
+      heading: Appointment Requester
+      alignment: center
+
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
+    layout: 
+      sequence: 100
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: true
+      maximum-length: 100
+
+    source: 
+      type: Database Column
+      database-column: LAST_NAME
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  - # ====== Column: ROLE_NAME ===================================
+    id: 14608754931836721
+    identification: 
+      column-name: ROLE_NAME
+      type: Hidden
+
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 110
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: ROLE_NAME
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: STATUS_BADGE ================================
+    id: 14609022471836723
+    identification: 
+      column-name: STATUS_BADGE
+      type: Rich Text Editor
+
+    heading: 
+      heading: Appointment Status
+      alignment: center
+
+    settings: 
+      format: HTML
+      toolbar: Intermediate
+      toolbar-style: Overflow Menu
+      minimum-height: 180
+      display-rich-text: true
+      allow-custom-html: false
+
+    layout: 
+      sequence: 120
+      column-alignment: center
+      stretch: Use Report Setting
+
+    validation: 
+      value-required: false
+
+    source: 
+      type: Database Column
+      database-column: STATUS_BADGE
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  printing: 
+    page: 
+      size: Letter
+      orientation: Landscape
+      units: Inches
+      width: 11
+      height: 8.5
+      border-width: 0.5
+      border-color: '#666666'
+
+    page-header: 
+      font: Helvetica
+      font-weight: Normal
+      font-size: 12
+      font-color: '#000000'
+      alignment: center
+
+    column-headings: 
+      font: Helvetica
+      font-weight: Bold
+      font-size: 10
+      font-color: '#000000'
+      background-color: '#EEEEEE'
+
+    columns: 
+      font: Helvetica
+      font-weight: Normal
+      font-size: 10
+      font-color: '#000000'
+      background-color: '#FFFFFF'
+
+    page-footer: 
+      font: Helvetica
+      font-weight: Normal
+      font-size: 12
+      font-color: '#000000'
+      alignment: center
+
+- # ====== Region: APPOINTMNET REPORT ==========================
+  id: 3692459463531753504
+  identification: 
+    name: APPOINTMNET REPORT
+    type: Interactive Grid
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      -- SELECT 
+      --     a.APPOINTMENT_ID,
+      --     a.FROM_TYPE,
+      --     a.FROM_USER_ID,
+      --     a.TO_TYPE,
+      --     a.TO_USER_ID,
+      --     a.APPOINTMENT_DATE,
+      --     a.APPOINTMENT_TIME,
+      --     a.LOCATION,
+      --     a.STATUS,
+      --     a.CREATED_AT,
+      --     a.CREATED_BY,
+      --     -- APPROVER_REASON,
+      --     -- EMAIL,
+      --     a.PROPERTY_ID,
+      --     u.last_name,
+          
+      --     -- Button Link Column
+      --     '<a class="action-button" target="_blank" ' ||
+      --     'href="' || 
+      --       APEX_UTIL.PREPARE_URL(
+      --          'f?p=&APP_ID.:50:&APP_SESSION.::NO::P50_APPOINTMENT_ID:' || a.APPOINTMENT_ID
+      --       ) ||
+      --     '">Action</a>' AS ACTION_BUTTON
+      
+      -- FROM PMS_APPOINTMENT a , pms_users u
+      -- where a.from_user_id = u.user_id and a.STATUS= 'Pending' AND 
+      -- a.APPOINTMENT_DATE = :P61_SELECTED_DATE;
+      
+      
+      
+      select a.APPOINTMENT_ID,
+             a.FROM_TYPE,
+             a.FROM_USER_ID,
+             a.TO_TYPE,
+             a.TO_USER_ID,
+             a.APPOINTMENT_DATE,
+             a.APPOINTMENT_TIME,
+             a.LOCATION,
+             a.STATUS,
+             u.last_name,
+             r.role_name,
+                -- Button Link Column
+          '<a class="action-button" ' ||
+          'href="' || 
+            APEX_UTIL.PREPARE_URL(
+               'f?p=&APP_ID.:62:&APP_SESSION.::NO::P62_APPOINTMENT_ID1:' || a.APPOINTMENT_ID
+            ) ||
+          '">Action</a>' AS ACTION_BUTTON
+        from PMS_APPOINTMENT a 
+        join pms_users u on a.FROM_USER_ID = u.user_id 
+        join pms_roles r on a.FROM_type = r.role_id
+        where  a.to_user_id = :user_id and a.status = 'Pending' and a.APPOINTMENT_DATE = :P61_SELECTED_DATE;
+      
+      
+    page-items-to-submit: 
+    - P61_SELECTED_DATE
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--noBorders
+    - t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: my_ig
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 3692459958011753505
+    edit: 
+      enabled: false
+
+    performance: 
+      lazy-loading: false
+
+    appearance: 
+      select-first-row: true
+      fixed-row-height: true
+
+    pagination: 
+      type: Scroll
+      show-total-count: true
+
+    messages: 
+      when-no-data-found: No appointments have been scheduled at this time.
+
+    toolbar: 
+      show: true
+      controls: 
+      - Search Column Selection
+      - Search Field
+      - Actions Menu
+      - Reset Button
+      - Save Button
+
+    enable-users-to: 
+      save-public-report: false
+      flashback: true
+      define-chart-view: true
+      download: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - PDF
+      - Excel
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 3692460280857753505
+      identification: 
+        name: Primary Report
+        alias: 455346942
+
+  columns: 
+  - # ====== Column: LAST_NAME ===================================
+    id: 15102464582921534
+    identification: 
+      column-name: LAST_NAME
+      type: Text Field
+
+    heading: 
+      heading: Appointment Requester
+      alignment: start
+
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
+    layout: 
+      sequence: 60
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: true
+      maximum-length: 100
+
+    source: 
+      type: Database Column
+      database-column: LAST_NAME
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  - # ====== Column: ROLE_NAME ===================================
+    id: 15102619308921535
+    identification: 
+      column-name: ROLE_NAME
+      type: Hidden
+
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 130
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: ROLE_NAME
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: ACTION_BUTTON ===============================
+    id: 15102707377921536
+    identification: 
+      column-name: ACTION_BUTTON
+      type: Rich Text Editor
+
+    heading: 
+      heading: Action Button
+      alignment: center
+
+    settings: 
+      format: HTML
+      toolbar: Intermediate
+      toolbar-style: Overflow Menu
+      minimum-height: 180
+      display-rich-text: true
+      allow-custom-html: false
+
+    layout: 
+      sequence: 140
+      column-alignment: center
+      stretch: Use Report Setting
+
+    validation: 
+      value-required: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:62:&SESSION.::&DEBUG.:62:P62_APPOINTMENT_ID1:&APPOINTMENT_ID.'
+        page: 62 # Appointment Reviewer Form
+        clear-cache: 62
+        values: 
+          p62_appointment_id1: '&APPOINTMENT_ID.'
+
+      link-text: '&ACTION_BUTTON.'
+
+    source: 
+      type: Database Column
+      database-column: ACTION_BUTTON
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: None
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: false
+      hide: true
+
+  - # ====== Column: APPOINTMENT_ID ==============================
+    id: 3692460739410753507
+    identification: 
+      column-name: APPOINTMENT_ID
+      type: Hidden
+
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 30
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: APPOINTMENT_ID
+      data-type: NUMBER
+      query-only: true
+      primary-key: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: FROM_TYPE ===================================
+    id: 3692461813166753509
+    identification: 
+      column-name: FROM_TYPE
+      type: Hidden
+
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 40
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: FROM_TYPE
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: FROM_USER_ID ================================
+    id: 3692462932159753510
+    identification: 
+      column-name: FROM_USER_ID
+      type: Hidden
+
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 50
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: FROM_USER_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: TO_TYPE =====================================
+    id: 3692463971881753511
+    identification: 
+      column-name: TO_TYPE
+      type: Hidden
+
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 70
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: TO_TYPE
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: TO_USER_ID ==================================
+    id: 3692465008300753511
+    identification: 
+      column-name: TO_USER_ID
+      type: Hidden
+
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 80
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: TO_USER_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: APPOINTMENT_DATE ============================
+    id: 3692466042980753512
+    identification: 
+      column-name: APPOINTMENT_DATE
+      type: Date Picker
+
+    heading: 
+      heading: Appointment Date
+      alignment: center
+
+    settings: 
+      show-time: false
+      display-as: Popup
+      minimum-date: None
+      maximum-date: None
+      multiple-months: No
+      use-defaults: true
+
+    layout: 
+      sequence: 90
+      column-alignment: center
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: DD-MM-YY
+
+    validation: 
+      value-required: true
+
+    source: 
+      type: Database Column
+      database-column: APPOINTMENT_DATE
+      data-type: DATE
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      lov-type: Distinct Column
+      date-ranges: All
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  - # ====== Column: APPOINTMENT_TIME ============================
+    id: 3692467149300753513
+    identification: 
+      column-name: APPOINTMENT_TIME
+      type: Text Field
+
+    heading: 
+      heading: Appointment Time
+      alignment: center
+
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
+    layout: 
+      sequence: 100
+      column-alignment: center
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: 'HH:MI AM TZD'
+
+    validation: 
+      value-required: true
+      maximum-length: 50
+
+    source: 
+      type: Database Column
+      database-column: APPOINTMENT_TIME
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  - # ====== Column: LOCATION ====================================
+    id: 3692468331669753514
+    identification: 
+      column-name: LOCATION
+      type: Text Field
+
+    heading: 
+      heading: Location
+      alignment: start
+
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
+    layout: 
+      sequence: 110
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    source: 
+      type: Database Column
+      database-column: LOCATION
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+      hide: true
+
+  - # ====== Column: STATUS ======================================
+    id: 3692469353261753514
+    identification: 
+      column-name: STATUS
+      type: Text Field
+
+    heading: 
+      heading: Status
+      alignment: center
+
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
+    layout: 
+      sequence: 120
+      column-alignment: center
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: true
+      maximum-length: 100
+
+    source: 
+      type: Database Column
+      database-column: STATUS
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  printing: 
+    page: 
+      size: Letter
+      orientation: Landscape
+      units: Inches
+      width: 11
+      height: 8.5
+      border-width: 0.5
+      border-color: '#666666'
+
+    page-header: 
+      font: Helvetica
+      font-weight: Normal
+      font-size: 12
+      font-color: '#000000'
+      alignment: center
+      page-header-text: APPOINTMNET REPORT
+
+    column-headings: 
+      font: Helvetica
+      font-weight: Bold
+      font-size: 10
+      font-color: '#000000'
+      background-color: '#EEEEEE'
+
+    columns: 
+      font: Helvetica
+      font-weight: Normal
+      font-size: 10
+      font-color: '#000000'
+      background-color: '#FFFFFF'
+
+    page-footer: 
+      font: Helvetica
+      font-weight: Normal
+      font-size: 12
+      font-color: '#000000'
+      alignment: center
+
+- # ====== Region: Breadcrumb ==================================
+  id: 4362931720476846654
+  identification: 
+    name: Breadcrumb
+    title: Breadcrumb
+    type: Static Content
+
+  source: 
+    html-code: |
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+      
+      <nav aria-label="breadcrumb">
+          <h4 style="padding-left:30px;">Property Management System</h4>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="f?p=&APP_ID.:32:&SESSION.">Appointment Calendar</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Appointment Report</li>
+        </ol>
+        
+      </nav>
+      
+      
+      
+      
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P61_SELECTED_DATE ========================
+  id: 4362939457573846686
+  identification: 
+    name: P61_SELECTED_DATE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+dynamic-actions: 
+- # ====== Dynamic Action: Edit Report - Dialog Closed =========
+  id: 15110564184409905
+  identification: 
+    name: Edit Report - Dialog Closed
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Dialog Closed
+    selection-type: JavaScript Expression
+    javascript-expression: window
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 15110100105409903
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: APPOINTMNET REPORT # 3692459463531753504
+
+    execution: 
+      sequence: 10
+      event: Edit Report - Dialog Closed # 15110564184409905
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: New =================================
+  id: 15111538950409907
+  identification: 
+    name: New
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: jQuery Selector
+    jquery-selector: .action-button
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 15111024112409905
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        // var purl = "f?p=&APP_ID.:50:&APP_SESSION.";   
+        // apex.navigation.redirect (purl);
+        
+        var appointmentId = AppoitmentId; // यहाँ dynamic value लाओ जैसे IG row से
+        
+        var url = "f?p=" + $v("pFlowId") + ":50:" + $v("pInstance") + "::::P50_APPOINTMENT_ID:" + appointmentId;
+        
+        apex.navigation.redirect(url);
+        
+
+    execution: 
+      sequence: 10
+      event: New # 15111538950409907
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+

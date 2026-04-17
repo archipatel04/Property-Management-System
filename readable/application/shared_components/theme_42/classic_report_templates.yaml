@@ -1,0 +1,1131 @@
+---
+- # ====== Classic Report Template: PMS CARDS ==================
+  id: 3736374797997190
+  identification: 
+    name: PMS CARDS
+    identifier: PMS_CARDS
+    class: Custom 1
+
+  advanced: 
+    translatable: false
+
+  template-options: 
+    preset: 
+    - t-Cards--basic
+    - t-Cards--3cols
+    - t-Cards--animColorFill
+
+  attributes: 
+    type: Named Column (row template)
+
+  report-template: 
+    top: ' '
+    bottom: |
+      <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+       
+      
+      
+      <style>
+      .property-card {
+        position: relative;
+        width: 470px;
+        height: 430px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin: 10px;
+        font-family: 'Segoe UI', sans-serif;
+        display: inline-block;
+        vertical-align: top;
+      }
+       
+      .property-card:hover {
+        transform: translateY(-6px) scale(1.015);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+      }
+       
+      /* Image Section */
+      .property-image img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+       
+      .property-card:hover .property-image img {
+        transform: scale(1.05);
+      }
+       
+      /* Details Section */
+      .property-details {
+        padding: 16px;
+      }
+       
+      .property-title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #000000;
+        margin-bottom: 6px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top: -15px;
+      }
+       
+      .property-subtitle,
+      .property-location,
+      .property-status,
+      .property-size {
+        font-size: 0.92rem;
+        color: #555;
+        margin: 4px 0;
+      }
+       
+      .property-price {
+        color: #2e7d32;
+        font-weight: 600;
+        font-size: 1.05rem;
+        margin-top: 8px;
+      }
+       
+      /* Status Badge */
+      .property-status {
+        display: inline-block;
+        padding: 4px 10px;
+        /* background : #FFF0F5 */
+        background: linear-gradient(to right, #FFF0F5, #FFF0F5);
+        color: black;
+        font-size: 0.8rem;
+        font-weight: 500;
+        border-radius: 12px;
+        margin-bottom: 6px;
+      }
+       
+      /* Card Buttons */
+      .card-actions {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        gap: 10px;
+        z-index: 2;
+      }
+       
+       
+      /* Responsive if needed */
+      @media (max-width: 768px) {
+        .property-card {
+          width: 100%;
+        }
+      }
+       
+      /* for rent - sale */
+      .property-badges {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        z-index: 3;
+      }
+       
+      .badge {
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #fff;
+        width: fit-content;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      }
+      
+      .badge-status {
+        background-color: #000000; /* Black for Sale/Rent */
+        text-transform: uppercase;
+      }
+      
+      
+      
+       
+      </style>
+
+  row-template-1: 
+    template: |
+      <a href="f?p=&APP_ID.:56:&SESSION.::NO::P56_PROPERTY_ID:#PROPERTY_ID#" class="property-card-link">
+        <div class="property-card">
+       
+           <!-- Property Badges -->
+          <div class="property-badges">
+            <!-- <span class="badge badge-featured">Featured</span> -->
+            <!-- <span class="badge badge-status">#PROPERTY_PURPOSE#</span> For Sale / Rent -->
+            <span class="badge badge-status #PURPOSE_CLASS#">#PROPERTY_PURPOSE#</span>
+      
+          </div>
+       
+          <!-- Property Image -->
+          <div class="property-image">
+            <img src="#FIRST_IMAGE_URL#" alt="#PROPERTY_NAME#">
+          </div>
+       
+          <!-- Property Details -->
+          <div class="property-details">
+            <!-- <h2 class="property-title">#PROJECT_NAME# #PROPERTY_NAME#</h2> -->
+            <h2 class="property-title">#DISPLAY_PROPERTY_TITLE#</h2>
+            <p class="property-subtitle">#PROPERTY_UNITS_NAME# in #PROPERTY_CATEGORY_NAME#</p>
+            <p class="property-location"> <i class="fas fa-map-marker-alt"></i> #ADDRESS#</p>
+      
+            <p class="property-price">INR #PRICE#</p>
+            <p class="property-status">🏠 #PROPERTY_AVAILABILITY_STATUS#</p>
+            <p class="property-size">#AREA# sq.ft (#PROPERTY_UNITS_NAME#)</p>
+          </div>
+       
+        </div>
+      </a>
+    condition: 0
+
+  row-template-2: 
+    template: |
+      <a href="f?p=&APP_ID.:56:&SESSION.::NO::P56_PROPERTY_ID:#PROPERTY_ID#" class="property-card-link">
+        <div class="property-card">
+       
+           <!-- Property Badges -->
+          <div class="property-badges">
+            <!-- <span class="badge badge-featured">Featured</span> -->
+            <!-- <span class="badge badge-status">#PROPERTY_PURPOSE#</span> For Sale / Rent -->
+            <span class="badge badge-status #PURPOSE_CLASS#">#PROPERTY_PURPOSE#</span>
+      
+      
+          </div>
+       
+          <!-- Property Image -->
+          <div class="property-image">
+            <img src="#FIRST_IMAGE_URL#" alt="#PROPERTY_NAME#">
+          </div>
+       
+          <!-- Property Details -->
+          <div class="property-details">
+            <!-- <h2 class="property-title">#PROJECT_NAME# #PROPERTY_NAME#</h2> -->
+            <h2 class="property-title">#DISPLAY_PROPERTY_TITLE#</h2>
+            <p class="property-subtitle">#PROPERTY_UNITS_NAME# in #PROPERTY_CATEGORY_NAME#</p>
+            <p class="property-location"> <i class="fas fa-map-marker-alt"></i> #ADDRESS#</p>
+      
+            <p class="property-price">INR #PRICE#</p>
+            <p class="property-status">🏠 #PROPERTY_AVAILABILITY_STATUS#</p>
+            <p class="property-size">#AREA# sq.ft (#PROPERTY_UNITS_NAME#)</p>
+          </div>
+       
+        </div>
+      </a>
+    condition: 0
+
+  template-options: 
+  - # ====== Template Option: Color Fill =========================
+    id: 3737171576997198
+    identification: 
+      name: Color Fill
+      identifier: CARDS_COLOR_FILL
+      group: Animation
+      sequence: 10
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--animColorFill
+
+  - # ====== Template Option: Raise Card =========================
+    id: 3737848034997200
+    identification: 
+      name: Raise Card
+      identifier: CARD_RAISE_CARD
+      group: Animation
+      sequence: 20
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--animRaiseCard
+
+  - # ====== Template Option: Square =============================
+    id: 3738681507997202
+    identification: 
+      name: Square
+      identifier: ICONS_SQUARE
+      group: Icon Shape
+      sequence: 20
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--iconsSquare
+
+    help: 
+      help-text: The icons are displayed within a square shape.
+
+  - # ====== Template Option: Rounded Corners ====================
+    id: 3739346510997204
+    identification: 
+      name: Rounded Corners
+      identifier: ICONS_ROUNDED
+      group: Icon Shape
+      sequence: 10
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--iconsRounded
+
+    help: 
+      help-text: The icons are displayed within a square with rounded corners.
+
+  - # ====== Template Option: Block ==============================
+    id: 3740183582997206
+    identification: 
+      name: Block
+      identifier: BLOCK
+      group: Style
+      sequence: 40
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--featured
+      - t-Cards--block
+      - force-fa-lg
+
+  - # ====== Template Option: Display Subtitle ===================
+    id: 3740525811997207
+    identification: 
+      name: Display Subtitle
+      identifier: DISPLAY_SUBTITLE
+      sequence: 20
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--displaySubtitle
+
+  - # ====== Template Option: 2 Columns ==========================
+    id: 3741360096997208
+    identification: 
+      name: 2 Columns
+      identifier: 2_COLUMNS
+      group: Layout
+      sequence: 15
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--cols
+
+  - # ====== Template Option: 3 Columns ==========================
+    id: 3742107266997210
+    identification: 
+      name: 3 Columns
+      identifier: 3_COLUMNS
+      group: Layout
+      sequence: 20
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--3cols
+
+  - # ====== Template Option: 4 Columns ==========================
+    id: 3742808218997212
+    identification: 
+      name: 4 Columns
+      identifier: 4_COLUMNS
+      group: Layout
+      sequence: 30
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--4cols
+
+  - # ====== Template Option: 5 Columns ==========================
+    id: 3743414603997213
+    identification: 
+      name: 5 Columns
+      identifier: 5_COLUMNS
+      group: Layout
+      sequence: 50
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--5cols
+
+  - # ====== Template Option: Float ==============================
+    id: 3744121650997215
+    identification: 
+      name: Float
+      identifier: FLOAT
+      group: Layout
+      sequence: 60
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--float
+
+  - # ====== Template Option: Span Horizontally ==================
+    id: 3744887196997217
+    identification: 
+      name: Span Horizontally
+      identifier: SPAN_HORIZONTALLY
+      group: Layout
+      sequence: 70
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--spanHorizontally
+
+  - # ====== Template Option: 2 Lines ============================
+    id: 3745670453997219
+    identification: 
+      name: 2 Lines
+      identifier: 2_LINES
+      group: Body Text
+      sequence: 10
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--desc-2ln
+
+  - # ====== Template Option: 3 Lines ============================
+    id: 3746398224997220
+    identification: 
+      name: 3 Lines
+      identifier: 3_LINES
+      group: Body Text
+      sequence: 20
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--desc-3ln
+
+  - # ====== Template Option: 4 Lines ============================
+    id: 3747015407997222
+    identification: 
+      name: 4 Lines
+      identifier: 4_LINES
+      group: Body Text
+      sequence: 30
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--desc-4ln
+
+  - # ====== Template Option: Apply Theme Colors =================
+    id: 3747495664997223
+    identification: 
+      name: Apply Theme Colors
+      identifier: USE_THEME_COLORS
+      sequence: 10
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - u-colors
+
+  - # ====== Template Option: Display Icons ======================
+    id: 3748290188997224
+    identification: 
+      name: Display Icons
+      identifier: DISPLAY_ICONS
+      group: Icons
+      sequence: 10
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--displayIcons
+
+  - # ====== Template Option: Display Initials ===================
+    id: 3748945043997226
+    identification: 
+      name: Display Initials
+      identifier: DISPLAY_INITIALS
+      group: Icons
+      sequence: 20
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--displayInitials
+
+  - # ====== Template Option: Featured ===========================
+    id: 3749655773997228
+    identification: 
+      name: Featured
+      identifier: FEATURED
+      group: Style
+      sequence: 30
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--featured
+      - force-fa-lg
+
+  - # ====== Template Option: Basic ==============================
+    id: 3750340714997229
+    identification: 
+      name: Basic
+      identifier: BASIC
+      group: Style
+      sequence: 10
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--basic
+
+  - # ====== Template Option: Compact ============================
+    id: 3751071394997231
+    identification: 
+      name: Compact
+      identifier: COMPACT
+      group: Style
+      sequence: 20
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--compact
+
+    help: 
+      help-text: Use this option when you want to show smaller cards.
+
+  - # ====== Template Option: Hidden =============================
+    id: 3751783901997233
+    identification: 
+      name: Hidden
+      identifier: HIDDEN_BODY_TEXT
+      group: Body Text
+      sequence: 50
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--hideBody
+
+    help: 
+      help-text: This option hides the card body which contains description and subtext.
+
+- # ====== Classic Report Template: PMS CARDS 40 ===============
+  id: 978005417290397821
+  identification: 
+    name: PMS CARDS 40
+    identifier: PMS_CARDS_40
+    class: Custom 1
+
+  advanced: 
+    translatable: false
+
+  template-options: 
+    preset: 
+    - t-Cards--basic
+    - t-Cards--3cols
+    - t-Cards--animColorFill
+
+  attributes: 
+    type: Named Column (row template)
+
+  report-template: 
+    top: ' '
+    bottom: |
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+       <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> -->
+      
+      
+      
+      <style>
+      .property-card {
+        position: relative;
+        width: 470px;
+        height: 400px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin: 10px;
+        font-family: 'Segoe UI', sans-serif;
+        display: inline-block;
+        vertical-align: top;
+      }
+       
+      .property-card:hover {
+        transform: translateY(-6px) scale(1.015);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+      }
+       
+      /* Image Section */
+      .property-image img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+       
+      .property-card:hover .property-image img {
+        transform: scale(1.05);
+      }
+       
+      /* Details Section */
+      .property-details {
+        padding: 16px;
+      }
+       
+      .property-title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #000000;
+        margin-bottom: 6px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top: -15px;
+      }
+       
+      .property-subtitle,
+      .property-location,
+      /* .property-status, */
+      .property-size {
+        font-size: 0.92rem;
+        color: #555;
+        margin: 4px 0;
+      }
+       
+      .property-price {
+        color: #2e7d32;
+        font-weight: 600;
+        font-size: 1.05rem;
+        margin-top: 8px;
+      }
+       
+      /* Status Badge */
+      /*.property-status {
+        display: inline-block;
+        padding: 4px 10px;
+        /* background : #FFF0F5 */
+        /* background: linear-gradient(to right, #FFF0F5, #FFF0F5);
+        color: black;
+        font-size: 0.8rem;
+        font-weight: 500;
+        border-radius: 12px;
+        margin-bottom: 6px;
+      } */
+       
+      /* Card Buttons */
+      .card-actions {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        gap: 10px;
+        z-index: 2;
+      }
+       
+       
+      /* Responsive if needed */
+      @media (max-width: 768px) {
+        .property-card {
+          width: 100%;
+        }
+      }
+       
+      /* for rent - sale */
+      .property-badges {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        z-index: 3;
+      }
+       
+      .badge {
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #fff;
+        width: fit-content;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      }
+      
+      .badge-status {
+        background-color: #000000; /* Black for Sale/Rent */
+        text-transform: uppercase;
+      }
+      
+      .badge-availability {
+        background-color: #d9534f; /* Default (can be customized based on class) */
+      }
+       
+      </style>
+
+  row-template-1: 
+    template: |
+      <a href="f?p=&APP_ID.:40:&SESSION.::NO::P40_PROPERTY_ID:#PROPERTY_ID#" class="property-card-link">
+        <div class="property-card">
+       
+      <!-- Property Badges (RENT/SALE + AVAILABILITY) -->
+      <div class="property-badges">
+        <span class="badge badge-status #PURPOSE_CLASS#">#PROPERTY_PURPOSE#</span>
+        <span class="badge badge-availability #AVAILABILITY_CLASS#">#PROPERTY_AVAILABILITY_STATUS#</span>
+      </div>
+       
+          <!-- Property Image -->
+          <div class="property-image">
+            <img src="#FIRST_IMAGE_URL#" alt="#PROPERTY_NAME#">
+          </div>
+       
+          <!-- Property Details -->
+          <div class="property-details">
+            <!-- <h2 class="property-title">#PROJECT_NAME# #PROPERTY_NAME#</h2> -->
+            <h2 class="property-title">#DISPLAY_PROPERTY_TITLE#</h2>
+            <p class="property-subtitle">#PROPERTY_UNITS_NAME# in #PROPERTY_CATEGORY_NAME#</p>
+            <p class="property-location"> <i class="fas fa-map-marker-alt"></i> #ADDRESS#</p>
+      
+            <p class="property-price">INR #PRICE#</p>
+            <!-- <p class="property-status">🏠 #PROPERTY_AVAILABILITY_STATUS#</p> -->
+            <p class="property-size">#AREA# sq.ft (#PROPERTY_UNITS_NAME#)</p>
+          </div>
+       
+        </div>
+      </a>
+    condition: 0
+
+  row-template-2: 
+    template: |
+      <a href="f?p=&APP_ID.:40:&SESSION.::NO::P40_PROPERTY_ID:#PROPERTY_ID#" class="property-card-link">
+        <div class="property-card">
+       
+      <!-- Property Badges (RENT/SALE + AVAILABILITY) -->
+      <div class="property-badges">
+        <span class="badge badge-status #PURPOSE_CLASS#">#PROPERTY_PURPOSE#</span>
+        <span class="badge badge-availability #AVAILABILITY_CLASS#">#PROPERTY_AVAILABILITY_STATUS#</span>
+      </div>
+       
+          <!-- Property Image -->
+          <div class="property-image">
+            <img src="#FIRST_IMAGE_URL#" alt="#PROPERTY_NAME#">
+          </div>
+       
+          <!-- Property Details -->
+          <div class="property-details">
+            <!-- <h2 class="property-title">#PROJECT_NAME# #PROPERTY_NAME#</h2> -->
+            <h2 class="property-title">#DISPLAY_PROPERTY_TITLE#</h2>
+            <p class="property-subtitle">#PROPERTY_UNITS_NAME# in #PROPERTY_CATEGORY_NAME#</p>
+            <p class="property-location"> <i class="fas fa-map-marker-alt"></i> #ADDRESS#</p>
+      
+            <p class="property-price">INR #PRICE#</p>
+            <!-- <p class="property-status">🏠 #PROPERTY_AVAILABILITY_STATUS#</p> -->
+            <p class="property-size">#AREA# sq.ft (#PROPERTY_UNITS_NAME#)</p>
+          </div>
+       
+        </div>
+      </a>
+    condition: 0
+
+  template-options: 
+  - # ====== Template Option: Color Fill =========================
+    id: 978006022018397909
+    identification: 
+      name: Color Fill
+      identifier: CARDS_COLOR_FILL
+      group: Animation
+      sequence: 10
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--animColorFill
+
+  - # ====== Template Option: Raise Card =========================
+    id: 978006811059397911
+    identification: 
+      name: Raise Card
+      identifier: CARD_RAISE_CARD
+      group: Animation
+      sequence: 20
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--animRaiseCard
+
+  - # ====== Template Option: Square =============================
+    id: 978007500748397911
+    identification: 
+      name: Square
+      identifier: ICONS_SQUARE
+      group: Icon Shape
+      sequence: 20
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--iconsSquare
+
+    help: 
+      help-text: The icons are displayed within a square shape.
+
+  - # ====== Template Option: Rounded Corners ====================
+    id: 978008133184397912
+    identification: 
+      name: Rounded Corners
+      identifier: ICONS_ROUNDED
+      group: Icon Shape
+      sequence: 10
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--iconsRounded
+
+    help: 
+      help-text: The icons are displayed within a square with rounded corners.
+
+  - # ====== Template Option: Block ==============================
+    id: 978008912063397913
+    identification: 
+      name: Block
+      identifier: BLOCK
+      group: Style
+      sequence: 40
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--featured
+      - t-Cards--block
+      - force-fa-lg
+
+  - # ====== Template Option: Display Subtitle ===================
+    id: 978009246938397913
+    identification: 
+      name: Display Subtitle
+      identifier: DISPLAY_SUBTITLE
+      sequence: 20
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--displaySubtitle
+
+  - # ====== Template Option: 2 Columns ==========================
+    id: 978009941780397914
+    identification: 
+      name: 2 Columns
+      identifier: 2_COLUMNS
+      group: Layout
+      sequence: 15
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--cols
+
+  - # ====== Template Option: 3 Columns ==========================
+    id: 978010704678397914
+    identification: 
+      name: 3 Columns
+      identifier: 3_COLUMNS
+      group: Layout
+      sequence: 20
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--3cols
+
+  - # ====== Template Option: 4 Columns ==========================
+    id: 978011349425397915
+    identification: 
+      name: 4 Columns
+      identifier: 4_COLUMNS
+      group: Layout
+      sequence: 30
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--4cols
+
+  - # ====== Template Option: 5 Columns ==========================
+    id: 978012079907397915
+    identification: 
+      name: 5 Columns
+      identifier: 5_COLUMNS
+      group: Layout
+      sequence: 50
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--5cols
+
+  - # ====== Template Option: Float ==============================
+    id: 978012770637397916
+    identification: 
+      name: Float
+      identifier: FLOAT
+      group: Layout
+      sequence: 60
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--float
+
+  - # ====== Template Option: Span Horizontally ==================
+    id: 978013424007397917
+    identification: 
+      name: Span Horizontally
+      identifier: SPAN_HORIZONTALLY
+      group: Layout
+      sequence: 70
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--spanHorizontally
+
+  - # ====== Template Option: 2 Lines ============================
+    id: 978014171604397917
+    identification: 
+      name: 2 Lines
+      identifier: 2_LINES
+      group: Body Text
+      sequence: 10
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--desc-2ln
+
+  - # ====== Template Option: 3 Lines ============================
+    id: 978014885290397918
+    identification: 
+      name: 3 Lines
+      identifier: 3_LINES
+      group: Body Text
+      sequence: 20
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--desc-3ln
+
+  - # ====== Template Option: 4 Lines ============================
+    id: 978015580699397918
+    identification: 
+      name: 4 Lines
+      identifier: 4_LINES
+      group: Body Text
+      sequence: 30
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--desc-4ln
+
+  - # ====== Template Option: Apply Theme Colors =================
+    id: 978015933806397919
+    identification: 
+      name: Apply Theme Colors
+      identifier: USE_THEME_COLORS
+      sequence: 10
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - u-colors
+
+  - # ====== Template Option: Display Icons ======================
+    id: 978016651886397919
+    identification: 
+      name: Display Icons
+      identifier: DISPLAY_ICONS
+      group: Icons
+      sequence: 10
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--displayIcons
+
+  - # ====== Template Option: Display Initials ===================
+    id: 978017386249397920
+    identification: 
+      name: Display Initials
+      identifier: DISPLAY_INITIALS
+      group: Icons
+      sequence: 20
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--displayInitials
+
+  - # ====== Template Option: Featured ===========================
+    id: 978018076838397920
+    identification: 
+      name: Featured
+      identifier: FEATURED
+      group: Style
+      sequence: 30
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--featured
+      - force-fa-lg
+
+  - # ====== Template Option: Basic ==============================
+    id: 978018727109397921
+    identification: 
+      name: Basic
+      identifier: BASIC
+      group: Style
+      sequence: 10
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--basic
+
+  - # ====== Template Option: Compact ============================
+    id: 978019465030397921
+    identification: 
+      name: Compact
+      identifier: COMPACT
+      group: Style
+      sequence: 20
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--compact
+
+    help: 
+      help-text: Use this option when you want to show smaller cards.
+
+  - # ====== Template Option: Hidden =============================
+    id: 978020126093397922
+    identification: 
+      name: Hidden
+      identifier: HIDDEN_BODY_TEXT
+      group: Body Text
+      sequence: 50
+
+    settings: 
+      advanced: false
+
+    appearance: 
+      css-classes: 
+      - t-Cards--hideBody
+
+    help: 
+      help-text: This option hides the card body which contains description and subtext.
+

@@ -1,0 +1,21 @@
+---
+- # ====== Authorization: Reader Rights ========================
+  id: 32898975487649025083
+  identification: 
+    name: Reader Rights
+
+  subscription: 
+    version-number: 15619740411234
+
+  authorization-scheme: 
+    type: PL/SQL Function Returning Boolean
+
+  settings: 
+    pl/sql-function-body: RETURN TRUE;
+
+  server-cache: 
+    evaluation-point: Once per Session
+
+  error: 
+    error-message: You are not authorized to view this application, either because you have not been granted access, or your account has been locked. Please contact the application administrator.
+

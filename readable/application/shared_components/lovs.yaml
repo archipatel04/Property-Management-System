@@ -1,0 +1,524 @@
+---
+- # ====== List of Values: PMS_PROPERTY_CATEGORY.PROPERTY_CATEGO
+  id: 17673297193478
+  identification: 
+    name: PMS_PROPERTY_CATEGORY.PROPERTY_CATEGORY_NAME
+
+  subscription: 
+    version-number: 41145206366715
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_PROPERTY_CATEGORY
+
+  column-mapping: 
+    return: PROPERTY_CATEGORY_ID
+    display: PROPERTY_CATEGORY_NAME
+    default-sort: PROPERTY_CATEGORY_NAME
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS_PROPERTY_UNITS.PROPERTY_UNITS_NAM
+  id: 18354247193480
+  identification: 
+    name: PMS_PROPERTY_UNITS.PROPERTY_UNITS_NAME
+
+  subscription: 
+    version-number: 41145206366715
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_PROPERTY_UNITS
+
+  column-mapping: 
+    return: PROPERTY_UNITS_ID
+    display: PROPERTY_UNITS_NAME
+    default-sort: PROPERTY_UNITS_NAME
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS_PROPERTY_PURPOSE.PROPERTY_PURPOSE
+  id: 24649179193497
+  identification: 
+    name: PMS_PROPERTY_PURPOSE.PROPERTY_PURPOSE
+
+  subscription: 
+    version-number: 41145206366810
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_PROPERTY_PURPOSE
+
+  column-mapping: 
+    return: PROPERTY_PURPOSE_ID
+    display: PROPERTY_PURPOSE
+    default-sort: PROPERTY_PURPOSE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS_PROPERTY_FURNISHING.PROPERTY_FURN
+  id: 25777823193500
+  identification: 
+    name: PMS_PROPERTY_FURNISHING.PROPERTY_FURNISHING_STATUS
+
+  subscription: 
+    version-number: 41145206366812
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_PROPERTY_FURNISHING
+
+  column-mapping: 
+    return: PROPERTY_FURNISHING_ID
+    display: PROPERTY_FURNISHING_STATUS
+    default-sort: PROPERTY_FURNISHING_STATUS
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS_PROPERTY_FACING_DIRECTION.PROPERT
+  id: 26420929193502
+  identification: 
+    name: PMS_PROPERTY_FACING_DIRECTION.PROPERTY_FACING_DIRECTION
+
+  subscription: 
+    version-number: 41145206366812
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_PROPERTY_FACING_DIRECTION
+
+  column-mapping: 
+    return: PROPERTY_FACING_DIRECTION_ID
+    display: PROPERTY_FACING_DIRECTION
+    default-sort: PROPERTY_FACING_DIRECTION
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS_AMENITIES.ID ====================
+  id: 27548681193505
+  identification: 
+    name: PMS_AMENITIES.ID
+
+  subscription: 
+    version-number: 41145206432821
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_AMENITIES
+
+  column-mapping: 
+    return: AMENITIES_ID
+    display: AMENITIES_NAME
+    default-sort: AMENITIES_ID
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS_USERS.FIRST_NAME ================
+  id: 30219280193512
+  identification: 
+    name: PMS_USERS.FIRST_NAME
+
+  subscription: 
+    version-number: 41145253023729
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_USERS
+
+  column-mapping: 
+    return: USER_ID
+    display: LAST_NAME
+    default-sort: FIRST_NAME
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS_ROLES.ROLE_NAME =================
+  id: 277000715878498
+  identification: 
+    name: PMS_ROLES.ROLE_NAME
+
+  subscription: 
+    version-number: 41145252826720
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_ROLES
+
+  column-mapping: 
+    return: ROLE_ID
+    display: ROLE_NAME
+    default-sort: ROLE_NAME
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS_PAGE_MASTER.PAGE_NAME ===========
+  id: 331899407241538
+  identification: 
+    name: PMS_PAGE_MASTER.PAGE_NAME
+
+  subscription: 
+    version-number: 41145254774810
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_PAGE_MASTER
+
+  column-mapping: 
+    return: PAGE_ID
+    display: PAGE_NAME
+    default-sort: PAGE_NAME
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS_PROPERTY_MASTER.PROPERTY_NAME ===
+  id: 15119182787136359
+  identification: 
+    name: PMS_PROPERTY_MASTER.PROPERTY_NAME
+
+  subscription: 
+    version-number: 41145300103730
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_PROPERTY_MASTER
+
+  column-mapping: 
+    return: PROPERTY_ID
+    display: PROPERTY_NAME
+    default-sort: PROPERTY_NAME
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS_PROPERTY_TYPE ===================
+  id: 35371787859490505
+  identification: 
+    name: PMS_PROPERTY_TYPE
+
+  subscription: 
+    version-number: 15631608684325
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_PROPERTY_TYPE
+
+  column-mapping: 
+    return: PROPERTY_TYPE_ID
+    display: PROPERTY_TYPE
+    default-sort: PROPERTY_TYPE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS_PROPERTY_STATUS =================
+  id: 36553496702514967
+  identification: 
+    name: PMS_PROPERTY_STATUS
+
+  subscription: 
+    version-number: 15631609235060
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_PROPERTY_STATUS
+
+  column-mapping: 
+    return: PROPERTY_AVAILABILITY_STATUS_ID
+    display: PROPERTY_AVAILABILITY_STATUS
+    default-sort: PROPERTY_AVAILABILITY_STATUS
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS002_ROLES.ROW_KEY ================
+  id: 30597761843557985516
+  identification: 
+    name: PMS002_ROLES.ROW_KEY
+
+  subscription: 
+    version-number: 15618555016814
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS002_ROLES
+
+  column-mapping: 
+    return: ROLE_ID
+    display: ROLE_NAME
+    default-sort: ROW_KEY
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS002_PROPERTY_TYPES.PROPERTY_TYPE =
+  id: 30602592096921058679
+  identification: 
+    name: PMS002_PROPERTY_TYPES.PROPERTY_TYPE
+
+  subscription: 
+    version-number: 41145205559095
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_PROPERTY_TYPE
+
+  column-mapping: 
+    return: PROPERTY_TYPE_ID
+    display: PROPERTY_TYPE
+    default-sort: PROPERTY_TYPE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS002_PROPERTYSTATUSES.ROW_KEY =====
+  id: 30602592807853058680
+  identification: 
+    name: PMS002_PROPERTYSTATUSES.ROW_KEY
+
+  subscription: 
+    version-number: 41145205909022
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_PROPERTY_STATUS
+
+  column-mapping: 
+    return: PROPERTY_AVAILABILITY_STATUS_ID
+    display: PROPERTY_AVAILABILITY_STATUS
+    default-sort: Use Order By from Query
+
+- # ====== List of Values: PMS002_USERS.ROW_KEY ================
+  id: 30666132119758861350
+  identification: 
+    name: PMS002_USERS.ROW_KEY
+
+  subscription: 
+    version-number: 15618574926906
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS002_USERS
+
+  column-mapping: 
+    return: USERID
+    display: NAME
+    default-sort: ROW_KEY
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS002_USERS.OWNER ==================
+  id: 30999219013176889582
+  identification: 
+    name: PMS002_USERS.OWNER
+
+  subscription: 
+    version-number: 15618732174391
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS002_USERS
+    where-clause: ROLE_ID = 1
+
+  column-mapping: 
+    return: USERID
+    display: NAME
+    default-sort: NAME
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS002_USERS.BUILDER ================
+  id: 31000722221787909120
+  identification: 
+    name: PMS002_USERS.BUILDER
+
+  subscription: 
+    version-number: 15618732463452
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS002_USERS
+    where-clause: ROLE_ID = 21
+
+  column-mapping: 
+    return: USERID
+    display: NAME
+    default-sort: NAME
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS002_USERS.AGENT ==================
+  id: 31001259935097653417
+  identification: 
+    name: PMS002_USERS.AGENT
+
+  subscription: 
+    version-number: 15618732743785
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS002_USERS
+    where-clause: ROLE_ID = 3
+
+  column-mapping: 
+    return: USERID
+    display: NAME
+    default-sort: NAME
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS002_AMENITIES_TYPE.AMENITIES_TYPE_
+  id: 32857432606639082444
+  identification: 
+    name: PMS002_AMENITIES_TYPE.AMENITIES_TYPE_NAME
+
+  subscription: 
+    version-number: 15619545003103
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS002_AMENITIES_TYPE
+
+  column-mapping: 
+    return: AMENITIES_TYPE_ID
+    display: AMENITIES_TYPE_NAME
+    default-sort: AMENITIES_TYPE_NAME
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: ACCESS_ROLES ========================
+  id: 32898991518824025102
+  identification: 
+    name: ACCESS_ROLES
+
+  subscription: 
+    version-number: 15619561016664
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select role_name d, role_id r
+      from APEX_APPL_ACL_ROLES where application_id = :APP_ID 
+      order by 1
+
+  column-mapping: 
+    return: R
+    display: D
+    default-sort: Use Order By from Query
+
+- # ====== List of Values: EMAIL_USERNAME_FORMAT ===============
+  id: 32898999116461025110
+  identification: 
+    name: EMAIL_USERNAME_FORMAT
+
+  subscription: 
+    version-number: 15619561016747
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: Email Addresses ==============================
+    id: 32898999439211025110
+    entry: 
+      sequence: 1
+      display: Email Addresses
+      return: EMAIL
+
+- # ====== List of Values: PMS002_PAGE_MASTER.PAGE_NAME ========
+  id: 32913223481551941989
+  identification: 
+    name: PMS002_PAGE_MASTER.PAGE_NAME
+
+  subscription: 
+    version-number: 15619565416364
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS002_PAGE_MASTER
+
+  column-mapping: 
+    return: PAGE_ID
+    display: PAGE_NAME
+    default-sort: PAGE_NAME
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS002_PAGE_MASTER ==================
+  id: 32918444780125025046
+  identification: 
+    name: PMS002_PAGE_MASTER
+
+  subscription: 
+    version-number: 15619568035561
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select page_id , page_name from apex_application_pages where application_id = 71558 and PAGE_MODE = 'Normal';
+       
+
+  column-mapping: 
+    return: PAGE_ID
+    display: PAGE_NAME
+    default-sort: PAGE_NAME
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS002_PROPERTY_CATEGORY.PROPERTY_SUB
+  id: 43328142495255555957
+  identification: 
+    name: PMS002_PROPERTY_CATEGORY.PROPERTY_SUB_CATEGORY_NAME
+
+  subscription: 
+    version-number: 15624545884252
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS002_PROPERTY_CATEGORY
+
+  column-mapping: 
+    return: PROPERTY_SUB_CATEGORY_ID
+    display: PROPERTY_SUB_CATEGORY_NAME
+    default-sort: PROPERTY_SUB_CATEGORY_NAME
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: PMS002_PROPERTY_UNITS.PROPERTY_UNITS_
+  id: 43328143597568555960
+  identification: 
+    name: PMS002_PROPERTY_UNITS.PROPERTY_UNITS_NAME
+
+  subscription: 
+    version-number: 15624545884303
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS002_PROPERTY_UNITS
+
+  column-mapping: 
+    return: PROPERTY_UNITS_ID
+    display: PROPERTY_UNITS_NAME
+    default-sort: PROPERTY_UNITS_NAME
+    sort-direction: Ascending (Nulls Last)
+

@@ -1,0 +1,3848 @@
+---
+# ====== Page: Property Form =================================
+id: 59
+identification: 
+  name: Property Form
+  alias: PROPERTY-FORM1
+  title: Property Form
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+css: 
+  inline: |
+    /* purpose input */
+    
+    input#P59_PROPERTY_PURPOSE_0,#P59_PROPERTY_PURPOSE_1 {
+        width: fit-content;
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Property Details ============================
+  id: 14756985766813249
+  identification: 
+    name: Property Details
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: Property Form # 14765794502599069
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: |
+      <H3> Property Details </H3>
+      <HR>
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Property Location ===========================
+  id: 14757093215813250
+  identification: 
+    name: Property Location
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: Property Form # 14765794502599069
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: |
+      <h3> Where is your Property Located? </h3>
+      <hr>
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Property Profile ============================
+  id: 14757195017813251
+  identification: 
+    name: Property Profile
+    type: Static Content
+
+  layout: 
+    sequence: 40
+    parent-region: Property Form # 14765794502599069
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: |
+      <h3> Tell us about your Property...</h3>
+      <hr>
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Property Features & images ==================
+  id: 14757283269813252
+  identification: 
+    name: Property Features & images
+    type: Static Content
+
+  layout: 
+    sequence: 150
+    parent-region: Property Form # 14765794502599069
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: |
+      <h3> Property Features </h3>
+      <hr>
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Property Form ===============================
+  id: 14765794502599069
+  identification: 
+    name: Property Form
+    type: Form
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: PMS_PROPERTY_MASTER
+    include-rowid-column: false
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      - Update Row
+      - Delete Row
+      lost-update-type: Row Values
+
+- # ====== Region: New =========================================
+  id: 14947991927459160
+  identification: 
+    name: New
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    slot: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P59_ROLE_ID ==============================
+  id: 14593376857345100
+  identification: 
+    name: P59_ROLE_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':role_id'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_LISTING_FOR ==========================
+  id: 14753638986599029
+  identification: 
+    name: P59_LISTING_FOR
+    type: Select List
+
+  label: 
+    label: Listing For
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 20
+    region: Property Details # 14756985766813249
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: 3
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: SELECT U.LAST_NAME , U.USER_ID FROM PMS_USERS U, PMS_USER_ROLE_ACCESS_MASTER URAM WHERE U.USER_ID = URAM.USER_ID AND URAM.ROLE_ID IN (1,6)
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: '- select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: LISTING_FOR
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_UPDATED_BY ===========================
+  id: 14754013902599030
+  identification: 
+    name: P59_UPDATED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Property Form # 14765794502599069
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: UPDATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':user_name'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_UPDATED_AT ===========================
+  id: 14754401096599031
+  identification: 
+    name: P59_UPDATED_AT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Property Form # 14765794502599069
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: UPDATED_AT
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: trunc(sysdate)
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_CREATED_BY ===========================
+  id: 14754832828599032
+  identification: 
+    name: P59_CREATED_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Property Form # 14765794502599069
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: CREATED_BY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':user_name'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_CREATED_AT ===========================
+  id: 14755229043599033
+  identification: 
+    name: P59_CREATED_AT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Property Form # 14765794502599069
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: CREATED_AT
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: trunc(sysdate)
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_LISTING_BY ===========================
+  id: 14755567714599034
+  identification: 
+    name: P59_LISTING_BY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Property Form # 14765794502599069
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: LISTING_BY
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':user_id'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_AMENITIES_TYPE =======================
+  id: 14756040668599036
+  identification: 
+    name: P59_AMENITIES_TYPE
+    type: Select Many
+
+  label: 
+    label: Amenities Type
+    alignment: Left
+
+  settings: 
+    fetch-on-search: false
+    use-defaults: true
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: Delimited List
+    separator: ','
+
+  layout: 
+    sequence: 20
+    region: Property Features & images # 14757283269813252
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    - t-Form-fieldContainer--large
+    width: 60
+
+  validation: 
+    value-required: false
+    maximum-length: 1000
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select AMENITIES_NAME , AMENITIES_ID from PMS_AMENITIES
+      
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: AMENITIES_TYPE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_IMAGE_URL ============================
+  id: 14756429166599037
+  identification: 
+    name: P59_IMAGE_URL
+    type: Textarea
+
+  label: 
+    label: Image Url
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 30
+    region: Property Features & images # 14757283269813252
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    width: 60
+    height: 4
+
+  validation: 
+    value-required: false
+    maximum-length: 10000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: IMAGE_URL
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_PROPERTY_FACING_DIRECTION ============
+  id: 14756851678599038
+  identification: 
+    name: P59_PROPERTY_FACING_DIRECTION
+    type: Radio Group
+
+  label: 
+    label: Property Facing Direction
+    alignment: Left
+
+  settings: 
+    number-of-columns: 4
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 10
+    region: Property Features & images # 14757283269813252
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select PROPERTY_FACING_DIRECTION , PROPERTY_FACING_DIRECTION_ID from PMS_PROPERTY_FACING_DIRECTION
+      
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: PROPERTY_FACING_DIRECTION
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_PROPERTY_FURNISHING ==================
+  id: 14757170197599040
+  identification: 
+    name: P59_PROPERTY_FURNISHING
+    type: Radio Group
+
+  label: 
+    label: Property Furnishing
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 90
+    region: Property Profile # 14757195017813251
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT PROPERTY_FURNISHING_STATUS,  PROPERTY_FURNISHING_ID FROM  PMS_PROPERTY_FURNISHING
+      
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: PROPERTY_FURNISHING
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_PROPERTY_AVAILABILITY_STATUS =========
+  id: 14757599469599041
+  identification: 
+    name: P59_PROPERTY_AVAILABILITY_STATUS
+    type: Radio Group
+
+  label: 
+    label: Property Availability Status
+    alignment: Left
+
+  settings: 
+    number-of-columns: 2
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 100
+    region: Property Profile # 14757195017813251
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT PROPERTY_AVAILABILITY_STATUS , PROPERTY_AVAILABILITY_STATUS_ID FROM PMS_PROPERTY_STATUS
+      
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: PROPERTY_AVAILABILITY_STATUS
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_PROPERTY_PURPOSE =====================
+  id: 14757966516599042
+  identification: 
+    name: P59_PROPERTY_PURPOSE
+    type: Radio Group
+
+  label: 
+    label: Property Purpose
+    alignment: Left
+
+  settings: 
+    number-of-columns: 2
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 10
+    region: Property Details # 14756985766813249
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: select property_purpose as d, property_purpose_id as r from pms_property_purpose;
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: PROPERTY_PURPOSE
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_LAT_LONG =============================
+  id: 14758451948599043
+  identification: 
+    name: P59_LAT_LONG
+    type: Text Field
+
+  label: 
+    label: Lat Long
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 200
+    region: Property Location # 14757093215813250
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: LAT_LONG
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_CITY =================================
+  id: 14758843210599044
+  identification: 
+    name: P59_CITY
+    type: Text Field
+
+  label: 
+    label: City
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 190
+    region: Property Location # 14757093215813250
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: CITY
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_LANDMARK =============================
+  id: 14759185296599045
+  identification: 
+    name: P59_LANDMARK
+    type: Text Field
+
+  label: 
+    label: Landmark
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 180
+    region: Property Location # 14757093215813250
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: LANDMARK
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_ADDRESS ==============================
+  id: 14759573842599046
+  identification: 
+    name: P59_ADDRESS
+    type: Textarea
+
+  label: 
+    label: Address
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 170
+    region: Property Location # 14757093215813250
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+    height: 6
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: ADDRESS
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_HANDOVER_DATE ========================
+  id: 14760024092599047
+  identification: 
+    name: P59_HANDOVER_DATE
+    type: Date Picker
+
+  label: 
+    label: Handover Date
+    alignment: Left
+
+  settings: 
+    show-time: false
+    display-as: Popup
+    minimum-date: None
+    maximum-date: None
+    multiple-months: No
+    use-defaults: true
+
+  layout: 
+    sequence: 170
+    region: Property Profile # 14757195017813251
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: HANDOVER_DATE
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_LAUNCH_DATE ==========================
+  id: 14760446884599049
+  identification: 
+    name: P59_LAUNCH_DATE
+    type: Date Picker
+
+  label: 
+    label: Launch Date
+    alignment: Left
+
+  settings: 
+    show-time: false
+    display-as: Popup
+    minimum-date: None
+    maximum-date: None
+    multiple-months: No
+    use-defaults: true
+
+  layout: 
+    sequence: 160
+    region: Property Profile # 14757195017813251
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: LAUNCH_DATE
+    data-type: DATE
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_PROJECT_DESCRIPTION ==================
+  id: 14760833120599050
+  identification: 
+    name: P59_PROJECT_DESCRIPTION
+    type: Text Field
+
+  label: 
+    label: Project Description
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 150
+    region: Property Profile # 14757195017813251
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+
+  validation: 
+    value-required: false
+    maximum-length: 500
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: PROJECT_DESCRIPTION
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_PROJECT_NAME =========================
+  id: 14761080229599051
+  identification: 
+    name: P59_PROJECT_NAME
+    type: Text Field
+
+  label: 
+    label: Project Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 140
+    region: Property Profile # 14757195017813251
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 200
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: PROJECT_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_PROPERTY_AGE =========================
+  id: 14761515860599052
+  identification: 
+    name: P59_PROPERTY_AGE
+    type: Text Field
+
+  label: 
+    label: Property Age
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 130
+    region: Property Profile # 14757195017813251
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: PROPERTY_AGE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_PROPERTY_DESCRIPTION =================
+  id: 14761912494599053
+  identification: 
+    name: P59_PROPERTY_DESCRIPTION
+    type: Text Field
+
+  label: 
+    label: Property Description
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 120
+    region: Property Profile # 14757195017813251
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+
+  validation: 
+    value-required: false
+    maximum-length: 500
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: PROPERTY_DESCRIPTION
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_PROPERTY_NAME ========================
+  id: 14762283189599054
+  identification: 
+    name: P59_PROPERTY_NAME
+    type: Text Field
+
+  label: 
+    label: Property Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 110
+    region: Property Profile # 14757195017813251
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: PROPERTY_NAME
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_PRICE ================================
+  id: 14762716400599055
+  identification: 
+    name: P59_PRICE
+    type: Number Field
+
+  label: 
+    label: Price(INR)
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 60
+    region: Property Profile # 14757195017813251
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: PRICE
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_FLOOR_NUMBER =========================
+  id: 14763151810599056
+  identification: 
+    name: P59_FLOOR_NUMBER
+    type: Number Field
+
+  label: 
+    label: Floor Number
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 80
+    region: Property Profile # 14757195017813251
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: FLOOR_NUMBER
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_TOTAL_FLOORS =========================
+  id: 14763564092599057
+  identification: 
+    name: P59_TOTAL_FLOORS
+    type: Number Field
+
+  label: 
+    label: Total Floors
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 70
+    region: Property Profile # 14757195017813251
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: TOTAL_FLOORS
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_PROPERTY_UNITS =======================
+  id: 14763880771599058
+  identification: 
+    name: P59_PROPERTY_UNITS
+    type: Radio Group
+
+  label: 
+    label: Property Units
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 60
+    region: Property Details # 14756985766813249
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT PROPERTY_UNITS_NAME AS DISPLAY_VALUE,
+             PROPERTY_UNITS_ID AS RETURN_VALUE
+      FROM PMS_PROPERTY_UNITS
+      WHERE PROPERTY_UNITS_ID IN (
+          SELECT TO_NUMBER(REGEXP_SUBSTR(PROPERTY_UNIT_ID, '[^,]+', 1, LEVEL))
+          FROM PMS_PROPERTY_CATEGORY
+          WHERE PROPERTY_CATEGORY_ID = :P59_PROPERTY_CATEGORY
+          CONNECT BY REGEXP_SUBSTR(PROPERTY_UNIT_ID, '[^,]+', 1, LEVEL) IS NOT NULL
+      )
+      ORDER BY PROPERTY_UNITS_NAME;
+    display-extra-values: false
+    display-null-value: false
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P59_PROPERTY_CATEGORY
+    items-to-submit: 
+    - P59_PROPERTY_UNITS
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: PROPERTY_UNITS
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_PROPERTY_CATEGORY ====================
+  id: 14764297372599060
+  identification: 
+    name: P59_PROPERTY_CATEGORY
+    type: Radio Group
+
+  label: 
+    label: Property Category
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 50
+    region: Property Details # 14756985766813249
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: 'select PROPERTY_CATEGORY_NAME as d, PROPERTY_CATEGORY_ID as r from PMS_PROPERTY_CATEGORY where PROPERTY_TYPE_ID = :P59_PROPERTY_TYPE;'
+    display-extra-values: false
+    display-null-value: false
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P59_PROPERTY_TYPE
+    items-to-submit: 
+    - P59_PROPERTY_CATEGORY
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: PROPERTY_CATEGORY
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_PROPERTY_TYPE ========================
+  id: 14764727712599061
+  identification: 
+    name: P59_PROPERTY_TYPE
+    type: Radio Group
+
+  label: 
+    label: Property Type
+    alignment: Left
+
+  settings: 
+    number-of-columns: 3
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 40
+    region: Property Details # 14756985766813249
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: select property_type as d, property_type_id as r from pms_property_type;
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: PROPERTY_TYPE
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_AREA =================================
+  id: 14765137609599064
+  identification: 
+    name: P59_AREA
+    type: Number Field
+
+  label: 
+    label: Area (sq.ft)
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 50
+    region: Property Profile # 14757195017813251
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: PMS_Optional_Above
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: AREA
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_PROPERTY_ID ==========================
+  id: 14765474560599068
+  identification: 
+    name: P59_PROPERTY_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Property Form # 14765794502599069
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Property Form # 14765794502599069
+    column: PROPERTY_ID
+    data-type: NUMBER
+    query-only: true
+    primary-key: true
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CREATE ======================================
+  id: 14742553465598999
+  identification: 
+    button-name: CREATE
+    label: Create
+
+  layout: 
+    sequence: 30
+    region: New # 14947991927459160
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P59_PROPERTY_ID
+
+- # ====== Button: SAVE ========================================
+  id: 14742925018599000
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 80
+    region: New # 14947991927459160
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P59_PROPERTY_ID
+
+- # ====== Button: DELETE ======================================
+  id: 14743274123599001
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 60
+    region: New # 14947991927459160
+    slot: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  confirmation: 
+    message: '&APP_TEXT$DELETE_MSG!RAW.'
+    style: Danger
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P59_PROPERTY_ID
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+- # ====== Button: CANCEL ======================================
+  id: 14743904179599003
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: New # 14947991927459160
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: show listing for_1 ==================
+  id: 14593101815345097
+  identification: 
+    name: show listing for_1
+
+  execution: 
+    sequence: 90
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P59_ROLE_ID
+
+  client-side-condition: 
+    type: Item = Value
+    item: P59_ROLE_ID
+    value: 3
+
+  actions: 
+  - # ====== Action: Show ========================================
+    id: 14593009415345096
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_LISTING_FOR
+
+    execution: 
+      sequence: 10
+      event: show listing for_1 # 14593101815345097
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: show listing for ====================
+  id: 14593337956345099
+  identification: 
+    name: show listing for
+
+  execution: 
+    sequence: 80
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P59_ROLE_ID
+
+  client-side-condition: 
+    type: Item = Value
+    item: P59_ROLE_ID
+    value: 2
+
+  actions: 
+  - # ====== Action: Show ========================================
+    id: 14593182788345098
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_LISTING_FOR
+
+    execution: 
+      sequence: 10
+      event: show listing for # 14593337956345099
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: Hide On Page Load ===================
+  id: 14757405709813253
+  identification: 
+    name: Hide On Page Load
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+
+  when: 
+    event: Page Load
+
+  actions: 
+  - # ====== Action: Hide ========================================
+    id: 14757447214813254
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_PROPERTY_CATEGORY
+      - P59_PROPERTY_UNITS
+      - P59_PROPERTY_NAME
+      - P59_PROPERTY_DESCRIPTION
+      - P59_PROPERTY_AGE
+      - P59_PROJECT_NAME
+      - P59_PROJECT_DESCRIPTION
+      - P59_LAUNCH_DATE
+      - P59_HANDOVER_DATE
+      - P59_LISTING_FOR
+      - P59_TOTAL_FLOORS
+      - P59_FLOOR_NUMBER
+
+    execution: 
+      sequence: 10
+      event: Hide On Page Load # 14757405709813253
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: hide-show ===========================
+  id: 14757586703813255
+  identification: 
+    name: hide-show
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P59_PROPERTY_AVAILABILITY_STATUS
+
+  client-side-condition: 
+    type: Item = Value
+    item: P59_PROPERTY_AVAILABILITY_STATUS
+    value: 1
+
+  actions: 
+  - # ====== Action: Hide ========================================
+    id: 14757635018813256
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_PROPERTY_NAME
+      - P59_PROPERTY_DESCRIPTION
+      - P59_PROPERTY_AGE
+
+    execution: 
+      sequence: 10
+      event: hide-show # 14757586703813255
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: Show ========================================
+    id: 14757774987813257
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_PROJECT_NAME
+      - P59_PROJECT_DESCRIPTION
+      - P59_LAUNCH_DATE
+      - P59_HANDOVER_DATE
+
+    execution: 
+      sequence: 20
+      event: hide-show # 14757586703813255
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: Show ========================================
+    id: 14757819386813258
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_PROPERTY_NAME
+      - P59_PROPERTY_DESCRIPTION
+      - P59_PROPERTY_AGE
+
+    execution: 
+      sequence: 20
+      event: hide-show # 14757586703813255
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+
+  - # ====== Action: Hide ========================================
+    id: 14757915084813259
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_PROJECT_NAME
+      - P59_PROJECT_DESCRIPTION
+      - P59_LAUNCH_DATE
+      - P59_HANDOVER_DATE
+
+    execution: 
+      sequence: 10
+      event: hide-show # 14757586703813255
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: hide ================================
+  id: 14758090899813260
+  identification: 
+    name: hide
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P59_PROPERTY_AVAILABILITY_STATUS
+
+  client-side-condition: 
+    type: Item is null
+    item: P59_PROPERTY_AVAILABILITY_STATUS
+
+  actions: 
+  - # ====== Action: Hide ========================================
+    id: 14758121138813261
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_PROPERTY_NAME
+      - P59_PROPERTY_DESCRIPTION
+      - P59_PROPERTY_AGE
+      - P59_PROJECT_NAME
+      - P59_PROJECT_DESCRIPTION
+      - P59_LAUNCH_DATE
+      - P59_HANDOVER_DATE
+
+    execution: 
+      sequence: 10
+      event: hide # 14758090899813260
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: show category =======================
+  id: 14758267133813262
+  identification: 
+    name: show category
+
+  execution: 
+    sequence: 40
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P59_PROPERTY_TYPE
+
+  client-side-condition: 
+    type: Item is not null
+    item: P59_PROPERTY_TYPE
+
+  actions: 
+  - # ====== Action: Show ========================================
+    id: 14758348619813263
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_PROPERTY_CATEGORY
+
+    execution: 
+      sequence: 10
+      event: show category # 14758267133813262
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: Hide ========================================
+    id: 14758465611813264
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_PROPERTY_UNITS
+
+    execution: 
+      sequence: 20
+      event: show category # 14758267133813262
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: show unites =========================
+  id: 14758518684813265
+  identification: 
+    name: show unites
+
+  execution: 
+    sequence: 50
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P59_PROPERTY_CATEGORY
+
+  client-side-condition: 
+    type: Item is not null
+    item: P59_PROPERTY_CATEGORY
+
+  actions: 
+  - # ====== Action: Show ========================================
+    id: 14758645441813266
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_PROPERTY_UNITS
+
+    execution: 
+      sequence: 10
+      event: show unites # 14758518684813265
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: Hide category & unites ==============
+  id: 14758750467813267
+  identification: 
+    name: Hide category & unites
+
+  execution: 
+    sequence: 60
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P59_PROPERTY_TYPE
+
+  client-side-condition: 
+    type: Item is null
+    item: P59_PROPERTY_TYPE
+
+  actions: 
+  - # ====== Action: Hide ========================================
+    id: 14758876251813268
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_PROPERTY_CATEGORY
+      - P59_PROPERTY_UNITS
+
+    execution: 
+      sequence: 10
+      event: Hide category & unites # 14758750467813267
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: Hide unites =========================
+  id: 14758929789813269
+  identification: 
+    name: Hide unites
+
+  execution: 
+    sequence: 70
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P59_PROPERTY_CATEGORY
+
+  client-side-condition: 
+    type: Item is null
+    item: P59_PROPERTY_CATEGORY
+
+  actions: 
+  - # ====== Action: Hide ========================================
+    id: 14759054118813270
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_PROPERTY_UNITS
+
+    execution: 
+      sequence: 10
+      event: Hide unites # 14758929789813269
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: floor hide ==========================
+  id: 15007869857635132
+  identification: 
+    name: floor hide
+
+  execution: 
+    sequence: 100
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P59_PROPERTY_UNITS
+
+  actions: 
+  - # ====== Action: Show ========================================
+    id: 15008115287635134
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_TOTAL_FLOORS
+      - P59_FLOOR_NUMBER
+
+    execution: 
+      sequence: 20
+      event: floor hide # 15007869857635132
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    client-side-condition: 
+      type: Item is in list
+      item: P59_PROPERTY_UNITS
+      list: 
+      - 2
+      - 3
+      - 4
+      - 7
+      - 13
+      - 15
+      - 17
+      - 21
+      - 22
+
+  - # ====== Action: Hide ========================================
+    id: 15008177700635135
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_TOTAL_FLOORS
+      - P59_FLOOR_NUMBER
+
+    execution: 
+      sequence: 30
+      event: floor hide # 15007869857635132
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+    client-side-condition: 
+      type: Item is not in list
+      item: P59_PROPERTY_UNITS
+      list: 
+      - 2
+      - 3
+      - 4
+      - 7
+      - 13
+      - 15
+      - 17
+      - 21
+      - 22
+
+validations: 
+- # ====== Validation: purpose =================================
+  id: 14749652519377748
+  identification: 
+    name: purpose
+
+  execution: 
+    sequence: 10
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_PROPERTY_PURPOSE
+    always-execute: false
+
+  error: 
+    error-message: |
+      Purpose must have some value.
+      
+    display-location: Inline with Field
+    associated-item: P59_PROPERTY_PURPOSE # 14757966516599042
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+
+- # ====== Validation: listing for =============================
+  id: 14749797061377749
+  identification: 
+    name: listing for
+
+  execution: 
+    sequence: 20
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_LISTING_FOR
+    always-execute: false
+
+  error: 
+    error-message: listing for must have some value.
+    display-location: Inline with Field
+    associated-item: P59_LISTING_FOR # 14753638986599029
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+    type: Item is in colon delimited list
+    item: P59_ROLE_ID
+    list: 2,3
+
+- # ====== Validation: property type ===========================
+  id: 14749832866377750
+  identification: 
+    name: property type
+
+  execution: 
+    sequence: 30
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_PROPERTY_TYPE
+    always-execute: false
+
+  error: 
+    error-message: Property type must have some value.
+    display-location: Inline with Field
+    associated-item: P59_PROPERTY_TYPE # 14764727712599061
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+
+- # ====== Validation: Property Category =======================
+  id: 14749962476377751
+  identification: 
+    name: Property Category
+
+  execution: 
+    sequence: 40
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_PROPERTY_CATEGORY
+    always-execute: false
+
+  error: 
+    error-message: Property Category must have some value.
+    display-location: Inline with Field
+    associated-item: P59_PROPERTY_CATEGORY # 14764297372599060
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+    type: Item is NOT NULL
+    item: P59_PROPERTY_TYPE
+
+- # ====== Validation: Property Unit ===========================
+  id: 14750044635377752
+  identification: 
+    name: Property Unit
+
+  execution: 
+    sequence: 50
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_PROPERTY_UNITS
+    always-execute: false
+
+  error: 
+    error-message: Property Units must have some value.
+    display-location: Inline with Field
+    associated-item: P59_PROPERTY_UNITS # 14763880771599058
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+    type: Item is NOT NULL
+    item: P59_PROPERTY_CATEGORY
+
+- # ====== Validation: Address =================================
+  id: 14750132070377753
+  identification: 
+    name: Address
+
+  execution: 
+    sequence: 60
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_ADDRESS
+    always-execute: false
+
+  error: 
+    error-message: Address must have some value.
+    display-location: Inline with Field
+    associated-item: P59_ADDRESS # 14759573842599046
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+
+- # ====== Validation: Landmark ================================
+  id: 14750282447377754
+  identification: 
+    name: Landmark
+
+  execution: 
+    sequence: 70
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_LANDMARK
+    always-execute: false
+
+  error: 
+    error-message: Landmark must have some value.
+    display-location: Inline with Field
+    associated-item: P59_LANDMARK # 14759185296599045
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+
+- # ====== Validation: City ====================================
+  id: 14750324049377755
+  identification: 
+    name: City
+
+  execution: 
+    sequence: 80
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_CITY
+    always-execute: false
+
+  error: 
+    error-message: City must have some value.
+    display-location: Inline with Field
+    associated-item: P59_CITY # 14758843210599044
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+
+- # ====== Validation: Latitude Longitude ======================
+  id: 14750427148377756
+  identification: 
+    name: Latitude Longitude
+
+  execution: 
+    sequence: 90
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_LAT_LONG
+    always-execute: false
+
+  error: 
+    error-message: Latitude Longitude must have some value.
+    display-location: Inline with Field
+    associated-item: P59_LAT_LONG # 14758451948599043
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+
+- # ====== Validation: Area ====================================
+  id: 14750534238377757
+  identification: 
+    name: Area
+
+  execution: 
+    sequence: 100
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_AREA
+    always-execute: false
+
+  error: 
+    error-message: Area must have some value.
+    display-location: Inline with Field
+    associated-item: P59_AREA # 14765137609599064
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+
+- # ====== Validation: Price ===================================
+  id: 14750691144377758
+  identification: 
+    name: Price
+
+  execution: 
+    sequence: 110
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_PRICE
+    always-execute: false
+
+  error: 
+    error-message: Price must have some value.
+    display-location: Inline with Field
+    associated-item: P59_PRICE # 14762716400599055
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+
+- # ====== Validation: Total Floors ============================
+  id: 14750803178377759
+  identification: 
+    name: Total Floors
+
+  execution: 
+    sequence: 120
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_TOTAL_FLOORS
+    always-execute: false
+
+  error: 
+    error-message: Total Floors must have some value.
+    display-location: Inline with Field
+    associated-item: P59_TOTAL_FLOORS # 14763564092599057
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P59_PROPERTY_UNITS in (2,3,4,7,13)'
+
+- # ====== Validation: Floor Number ============================
+  id: 14750859940377760
+  identification: 
+    name: Floor Number
+
+  execution: 
+    sequence: 130
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_FLOOR_NUMBER
+    always-execute: false
+
+  error: 
+    error-message: Floor number must have some value.
+    display-location: Inline with Field
+    associated-item: P59_FLOOR_NUMBER # 14763151810599056
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P59_PROPERTY_UNITS in (2,3,4,7,13)'
+
+- # ====== Validation: Property Furnishing =====================
+  id: 14750990240377761
+  identification: 
+    name: Property Furnishing
+
+  execution: 
+    sequence: 140
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_PROPERTY_FURNISHING
+    always-execute: false
+
+  error: 
+    error-message: Furnishing must have some value.
+    display-location: Inline with Field
+    associated-item: P59_PROPERTY_FURNISHING # 14757170197599040
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+
+- # ====== Validation: Availability status =====================
+  id: 14751031600377762
+  identification: 
+    name: Availability status
+
+  execution: 
+    sequence: 150
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_PROPERTY_AVAILABILITY_STATUS
+    always-execute: false
+
+  error: 
+    error-message: Availability status must have some value.
+    display-location: Inline with Field
+    associated-item: P59_PROPERTY_AVAILABILITY_STATUS # 14757599469599041
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+
+- # ====== Validation: Property name ===========================
+  id: 14751205572377763
+  identification: 
+    name: Property name
+
+  execution: 
+    sequence: 160
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_PROPERTY_NAME
+    always-execute: false
+
+  error: 
+    error-message: Property name nmust have some value.
+    display-location: Inline with Field
+    associated-item: P59_PROPERTY_NAME # 14762283189599054
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+    type: Item = Value
+    item: P59_PROPERTY_AVAILABILITY_STATUS
+    value: 2
+
+- # ====== Validation: Image ===================================
+  id: 15037983346472806
+  identification: 
+    name: Image
+
+  execution: 
+    sequence: 250
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_IMAGE_URL
+    always-execute: false
+
+  error: 
+    error-message: |
+      Image url must have some value.
+      
+    display-location: Inline with Field
+    associated-item: P59_IMAGE_URL # 14756429166599037
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+
+- # ====== Validation: Amenities ===============================
+  id: 15038069568472807
+  identification: 
+    name: Amenities
+
+  execution: 
+    sequence: 240
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_AMENITIES_TYPE
+    always-execute: false
+
+  error: 
+    error-message: Amenities must have some value.
+    display-location: Inline with Field
+    associated-item: P59_AMENITIES_TYPE # 14756040668599036
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+
+- # ====== Validation: Facing Direction ========================
+  id: 15038203146472808
+  identification: 
+    name: Facing Direction
+
+  execution: 
+    sequence: 230
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_PROPERTY_FACING_DIRECTION
+    always-execute: false
+
+  error: 
+    error-message: Facing Direction must have some value.
+    display-location: Inline with Field
+    associated-item: P59_PROPERTY_FACING_DIRECTION # 14756851678599038
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+
+- # ====== Validation: Handover date ===========================
+  id: 15038353935472809
+  identification: 
+    name: Handover date
+
+  execution: 
+    sequence: 220
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_HANDOVER_DATE
+    always-execute: false
+
+  error: 
+    error-message: Handover Date must have some value.
+    display-location: Inline with Field
+    associated-item: P59_HANDOVER_DATE # 14760024092599047
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+    type: Item = Value
+    item: P59_PROPERTY_AVAILABILITY_STATUS
+    value: 1
+
+- # ====== Validation: Launch date =============================
+  id: 15038417589472810
+  identification: 
+    name: Launch date
+
+  execution: 
+    sequence: 210
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_LAUNCH_DATE
+    always-execute: false
+
+  error: 
+    error-message: Launch Date must have some value.
+    display-location: Inline with Field
+    associated-item: P59_LAUNCH_DATE # 14760446884599049
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+    type: Item = Value
+    item: P59_PROPERTY_AVAILABILITY_STATUS
+    value: 1
+
+- # ====== Validation: Project description =====================
+  id: 15038510631472811
+  identification: 
+    name: Project description
+
+  execution: 
+    sequence: 200
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_PROJECT_DESCRIPTION
+    always-execute: false
+
+  error: 
+    error-message: Project description must have some value.
+    display-location: Inline with Field
+    associated-item: P59_PROJECT_DESCRIPTION # 14760833120599050
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+    type: Item = Value
+    item: P59_PROJECT_NAME
+    value: 1
+
+- # ====== Validation: Project name ============================
+  id: 15038635745472812
+  identification: 
+    name: Project name
+
+  execution: 
+    sequence: 190
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_PROJECT_NAME
+    always-execute: false
+
+  error: 
+    error-message: Project name must have some value.
+    display-location: Inline with Field
+    associated-item: P59_PROJECT_NAME # 14761080229599051
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+    type: Item = Value
+    item: P59_PROJECT_NAME
+    value: 1
+
+- # ====== Validation: Property age ============================
+  id: 15038741924472813
+  identification: 
+    name: Property age
+
+  execution: 
+    sequence: 180
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_PROPERTY_AGE
+    always-execute: false
+
+  error: 
+    error-message: Property age must have some value.
+    display-location: Inline with Field
+    associated-item: P59_PROPERTY_AGE # 14761515860599052
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+    type: Item = Value
+    item: P59_PROPERTY_AVAILABILITY_STATUS
+    value: 2
+
+- # ====== Validation: Property description ====================
+  id: 15038831377472814
+  identification: 
+    name: Property description
+
+  execution: 
+    sequence: 170
+
+  validation: 
+    type: Item is NOT NULL
+    item: P59_PROPERTY_DESCRIPTION
+    always-execute: false
+
+  error: 
+    error-message: Property description nmust have some value.
+    display-location: Inline with Field
+    associated-item: P59_PROPERTY_DESCRIPTION # 14761912494599053
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+    type: Item = Value
+    item: P59_PROPERTY_AVAILABILITY_STATUS
+    value: 2
+
+processes: 
+- # ====== Process: update =====================================
+  id: 14687644750631498
+  identification: 
+    name: update
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      if :P59_PROPERTY_AVAILABILITY_STATUS = 2 and :P59_LISTING_FOR is null THEN
+          update PMS_PROPERTY_MASTER 
+          set  AREA = :P59_AREA,
+          PROPERTY_TYPE = :P59_PROPERTY_TYPE,
+          PROPERTY_CATEGORY = :P59_PROPERTY_CATEGORY,
+          PROPERTY_UNITS = :P59_PROPERTY_UNITS,
+          TOTAL_FLOORS = :P59_TOTAL_FLOORS,
+          FLOOR_NUMBER = :P59_FLOOR_NUMBER,
+          PRICE = :P59_PRICE,
+          PROPERTY_NAME = :P59_PROPERTY_NAME,
+          PROPERTY_DESCRIPTION = :P59_PROPERTY_DESCRIPTION,
+          PROPERTY_AGE = :P59_PROPERTY_AGE,
+          ADDRESS = :P59_ADDRESS,
+          LANDMARK = :P59_LANDMARK,
+          CITY = :P59_CITY,
+          LAT_LONG = :P59_LAT_LONG,
+          PROPERTY_PURPOSE = :P59_PROPERTY_PURPOSE,
+          PROPERTY_AVAILABILITY_STATUS = :P59_PROPERTY_AVAILABILITY_STATUS,
+          PROPERTY_FURNISHING = :P59_PROPERTY_FURNISHING,
+          PROPERTY_FACING_DIRECTION = :P59_PROPERTY_FACING_DIRECTION,
+          IMAGE_URL = :P59_IMAGE_URL,
+          AMENITIES_TYPE = :P59_AMENITIES_TYPE,
+          LISTING_BY = :user_id,
+          CREATED_AT = sysdate,
+          CREATED_BY = :APP_USER,
+          UPDATED_AT = sysdate,
+          UPDATED_BY = :APP_USER
+          WHERE PROPERTY_ID = :P59_PROPERTY_ID;
+      
+      elsif :P59_PROPERTY_AVAILABILITY_STATUS = 2 and :P59_LISTING_FOR is not null THEN
+          UPDATE PMS_PROPERTY_MASTER 
+          SET AREA = :P59_AREA,
+          PROPERTY_TYPE = :P59_PROPERTY_TYPE,
+          PROPERTY_CATEGORY = :P59_PROPERTY_CATEGORY,
+          PROPERTY_UNITS = :P59_PROPERTY_UNITS,
+          TOTAL_FLOORS = :P59_TOTAL_FLOORS,
+          FLOOR_NUMBER = :P59_FLOOR_NUMBER,
+          PRICE = :P59_PRICE,
+          PROPERTY_NAME = :P59_PROPERTY_NAME,
+          PROPERTY_DESCRIPTION = :P59_PROPERTY_DESCRIPTION,
+          PROPERTY_AGE = :P59_PROPERTY_AGE,
+          ADDRESS = :P59_ADDRESS,
+          LANDMARK = :P59_LANDMARK,
+          CITY = :P59_CITY,
+          LAT_LONG = :P59_LAT_LONG,
+          PROPERTY_PURPOSE = :P59_PROPERTY_PURPOSE,
+          PROPERTY_AVAILABILITY_STATUS = :P59_PROPERTY_AVAILABILITY_STATUS,
+          PROPERTY_FURNISHING = :P59_PROPERTY_FURNISHING,
+          PROPERTY_FACING_DIRECTION = :P59_PROPERTY_FACING_DIRECTION,
+          IMAGE_URL = :P59_IMAGE_URL,
+          AMENITIES_TYPE = :P59_AMENITIES_TYPE,
+          LISTING_BY = :USER_ID,
+          CREATED_AT = SYSDATE,
+          CREATED_BY = :APP_USER,
+          UPDATED_AT = SYSDATE,
+          UPDATED_BY = :APP_USER,
+          LISTING_FOR = :P59_LISTING_FOR
+          WHERE PROPERTY_ID = :P59_PROPERTY_ID;
+      
+      ELSIF :P59_PROPERTY_AVAILABILITY_STATUS = 1 and :P59_LISTING_FOR is null THEN
+      UPDATE PMS_PROPERTY_MASTER 
+      SET AREA = :P59_AREA,
+          PROPERTY_TYPE = :P59_PROPERTY_TYPE,
+          PROPERTY_CATEGORY = :P59_PROPERTY_CATEGORY,
+          PROPERTY_UNITS = :P59_PROPERTY_UNITS,
+          TOTAL_FLOORS = :P59_TOTAL_FLOORS,
+          FLOOR_NUMBER = :P59_FLOOR_NUMBER,
+          PRICE = :P59_PRICE,
+          PROJECT_NAME = :P59_PROJECT_NAME,
+          PROJECT_DESCRIPTION = :P59_PROJECT_DESCRIPTION,
+          LAUNCH_DATE = :P59_LAUNCH_DATE,
+          HANDOVER_DATE = :P59_HANDOVER_DATE,
+          ADDRESS = :P59_ADDRESS,
+          LANDMARK = :P59_LANDMARK,
+          CITY = :P59_CITY,
+          LAT_LONG = :P59_LAT_LONG,
+          PROPERTY_PURPOSE = :P59_PROPERTY_PURPOSE,
+          PROPERTY_AVAILABILITY_STATUS = :P59_PROPERTY_AVAILABILITY_STATUS,
+          PROPERTY_FURNISHING = :P59_PROPERTY_FURNISHING,
+          PROPERTY_FACING_DIRECTION = :P59_PROPERTY_FACING_DIRECTION,
+          IMAGE_URL = :P59_IMAGE_URL,
+          AMENITIES_TYPE = :P59_AMENITIES_TYPE,
+          LISTING_BY = :USER_ID,
+          CREATED_AT = SYSDATE,
+          CREATED_BY = :APP_USER,
+          UPDATED_AT = SYSDATE,
+          UPDATED_BY = :APP_USER
+          WHERE PROPERTY_ID = :P59_PROPERTY_ID;
+      
+      elsif :P59_PROPERTY_AVAILABILITY_STATUS = 1 and :P59_LISTING_FOR is not null THEN
+      UPDATE PMS_PROPERTY_MASTER 
+      SET AREA = :P59_AREA,
+          PROPERTY_TYPE = :P59_PROPERTY_TYPE,
+          PROPERTY_CATEGORY = :P59_PROPERTY_CATEGORY,
+          PROPERTY_UNITS = :P59_PROPERTY_UNITS,
+          TOTAL_FLOORS = :P59_TOTAL_FLOORS,
+          FLOOR_NUMBER = :P59_FLOOR_NUMBER,
+          PRICE = :P59_PRICE,
+          PROJECT_NAME = :P59_PROJECT_NAME,
+          PROJECT_DESCRIPTION = :P59_PROJECT_DESCRIPTION,
+          LAUNCH_DATE = :P59_LAUNCH_DATE,
+          HANDOVER_DATE = :P59_HANDOVER_DATE,
+          ADDRESS = :P59_ADDRESS,
+          LANDMARK = :P59_LANDMARK,
+          CITY = :P59_CITY,
+          LAT_LONG = :P59_LAT_LONG,
+          PROPERTY_PURPOSE = :P59_PROPERTY_PURPOSE,
+          PROPERTY_AVAILABILITY_STATUS = :P59_PROPERTY_AVAILABILITY_STATUS,
+          PROPERTY_FURNISHING = :P59_PROPERTY_FURNISHING,
+          PROPERTY_FACING_DIRECTION = :P59_PROPERTY_FACING_DIRECTION,
+          IMAGE_URL = :P59_IMAGE_URL,
+          AMENITIES_TYPE = :P59_AMENITIES_TYPE,
+          LISTING_BY = :USER_ID,
+          listing_for = :P59_LISTING_FOR,
+          CREATED_AT = SYSDATE,
+          CREATED_BY = :APP_USER,
+          UPDATED_AT = SYSDATE,
+          UPDATED_BY = :APP_USER
+          WHERE PROPERTY_ID = :P59_PROPERTY_ID;
+      
+      end if;
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Update successfully
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 14742925018599000
+
+- # ====== Process: insert =====================================
+  id: 14687859009631500
+  identification: 
+    name: insert
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      if :P59_PROPERTY_AVAILABILITY_STATUS = 2 and :P59_LISTING_FOR is null THEN
+          INSERT INTO PMS_PROPERTY_MASTER (
+          AREA,
+          PROPERTY_TYPE,
+          PROPERTY_CATEGORY,
+          PROPERTY_UNITS,
+          TOTAL_FLOORS,
+          FLOOR_NUMBER,
+          PRICE,
+          PROPERTY_NAME,
+          PROPERTY_DESCRIPTION,
+          PROPERTY_AGE,
+          ADDRESS,
+          LANDMARK,
+          CITY,
+          LAT_LONG,
+          PROPERTY_PURPOSE,
+          PROPERTY_AVAILABILITY_STATUS,
+          PROPERTY_FURNISHING,
+          PROPERTY_FACING_DIRECTION,
+          IMAGE_URL,
+          AMENITIES_TYPE,
+          LISTING_BY,
+          CREATED_AT,
+          CREATED_BY,
+          UPDATED_AT,
+          UPDATED_BY
+      )
+      
+      VALUES (
+          :P59_AREA,
+          :P59_PROPERTY_TYPE,
+          :P59_PROPERTY_CATEGORY,
+          :P59_PROPERTY_UNITS,
+          :P59_TOTAL_FLOORS,
+          :P59_FLOOR_NUMBER,
+          :P59_PRICE,
+          :P59_PROPERTY_NAME,
+          :P59_PROPERTY_DESCRIPTION,
+          :P59_PROPERTY_AGE,
+          :P59_ADDRESS,
+          :P59_LANDMARK,
+          :P59_CITY,
+          :P59_LAT_LONG,
+          :P59_PROPERTY_PURPOSE,
+          :P59_PROPERTY_AVAILABILITY_STATUS,
+          :P59_PROPERTY_FURNISHING,
+          :P59_PROPERTY_FACING_DIRECTION,
+          :P59_IMAGE_URL,
+          :P59_AMENITIES_TYPE,
+          :USER_ID,
+          SYSDATE,
+          :APP_USER,
+          SYSDATE,
+          :APP_USER
+      );
+      
+      elsif :P59_PROPERTY_AVAILABILITY_STATUS = 2 and :P59_LISTING_FOR is not null THEN
+          INSERT INTO PMS_PROPERTY_MASTER (
+          AREA,
+          PROPERTY_TYPE,
+          PROPERTY_CATEGORY,
+          PROPERTY_UNITS,
+          TOTAL_FLOORS,
+          FLOOR_NUMBER,
+          PRICE,
+          PROPERTY_NAME,
+          PROPERTY_DESCRIPTION,
+          PROPERTY_AGE,
+          ADDRESS,
+          LANDMARK,
+          CITY,
+          LAT_LONG,
+          PROPERTY_PURPOSE,
+          PROPERTY_AVAILABILITY_STATUS,
+          PROPERTY_FURNISHING,
+          PROPERTY_FACING_DIRECTION,
+          IMAGE_URL,
+          AMENITIES_TYPE,
+          LISTING_BY,
+          CREATED_AT,
+          CREATED_BY,
+          UPDATED_AT,
+          UPDATED_BY,
+          LISTING_FOR
+      )
+      
+      VALUES (
+          :P59_AREA,
+          :P59_PROPERTY_TYPE,
+          :P59_PROPERTY_CATEGORY,
+          :P59_PROPERTY_UNITS,
+          :P59_TOTAL_FLOORS,
+          :P59_FLOOR_NUMBER,
+          :P59_PRICE,
+          :P59_PROPERTY_NAME,
+          :P59_PROPERTY_DESCRIPTION,
+          :P59_PROPERTY_AGE,
+          :P59_ADDRESS,
+          :P59_LANDMARK,
+          :P59_CITY,
+          :P59_LAT_LONG,
+          :P59_PROPERTY_PURPOSE,
+          :P59_PROPERTY_AVAILABILITY_STATUS,
+          :P59_PROPERTY_FURNISHING,
+          :P59_PROPERTY_FACING_DIRECTION,
+          :P59_IMAGE_URL,
+          :P59_AMENITIES_TYPE,
+          :USER_ID,
+          SYSDATE,
+          :APP_USER,
+          SYSDATE,
+          :APP_USER,
+          :P59_LISTING_FOR
+      );
+      ELSIF :P59_PROPERTY_AVAILABILITY_STATUS = 1 and :P59_LISTING_FOR is null THEN
+      INSERT INTO PMS_PROPERTY_MASTER (
+          AREA,
+          PROPERTY_TYPE,
+          PROPERTY_CATEGORY,
+          PROPERTY_UNITS,
+          TOTAL_FLOORS,
+          FLOOR_NUMBER,
+          PRICE,
+          PROJECT_NAME,
+          PROJECT_DESCRIPTION,
+          LAUNCH_DATE,
+          HANDOVER_DATE,
+          ADDRESS,
+          LANDMARK,
+          CITY,
+          LAT_LONG,
+          PROPERTY_PURPOSE,
+          PROPERTY_AVAILABILITY_STATUS,
+          PROPERTY_FURNISHING,
+          PROPERTY_FACING_DIRECTION,
+          IMAGE_URL,
+          AMENITIES_TYPE,
+          LISTING_BY,
+          CREATED_AT,
+          CREATED_BY,
+          UPDATED_AT,
+          UPDATED_BY
+      )
+      
+      VALUES (
+          :P59_AREA,
+          :P59_PROPERTY_TYPE,
+          :P59_PROPERTY_CATEGORY,
+          :P59_PROPERTY_UNITS,
+          :P59_TOTAL_FLOORS,
+          :P59_FLOOR_NUMBER,
+          :P59_PRICE,
+          :P59_PROJECT_NAME,
+          :P59_PROJECT_DESCRIPTION,
+          :P59_LAUNCH_DATE,
+          :P59_HANDOVER_DATE,
+          :P59_ADDRESS,
+          :P59_LANDMARK,
+          :P59_CITY,
+          :P59_LAT_LONG,
+          :P59_PROPERTY_PURPOSE,
+          :P59_PROPERTY_AVAILABILITY_STATUS,
+          :P59_PROPERTY_FURNISHING,
+          :P59_PROPERTY_FACING_DIRECTION,
+          :P59_IMAGE_URL,
+          :P59_AMENITIES_TYPE,
+          :USER_ID,
+          SYSDATE,
+          :APP_USER,
+          SYSDATE,
+          :APP_USER
+      );
+      elsif :P59_PROPERTY_AVAILABILITY_STATUS = 1 and :P59_LISTING_FOR is not null THEN
+      INSERT INTO PMS_PROPERTY_MASTER (
+          AREA,
+          PROPERTY_TYPE,
+          PROPERTY_CATEGORY,
+          PROPERTY_UNITS,
+          TOTAL_FLOORS,
+          FLOOR_NUMBER,
+          PRICE,
+          PROJECT_NAME,
+          PROJECT_DESCRIPTION,
+          LAUNCH_DATE,
+          HANDOVER_DATE,
+          ADDRESS,
+          LANDMARK,
+          CITY,
+          LAT_LONG,
+          PROPERTY_PURPOSE,
+          PROPERTY_AVAILABILITY_STATUS,
+          PROPERTY_FURNISHING,
+          PROPERTY_FACING_DIRECTION,
+          IMAGE_URL,
+          AMENITIES_TYPE,
+          LISTING_BY,
+          CREATED_AT,
+          CREATED_BY,
+          UPDATED_AT,
+          UPDATED_BY,
+          listing_for
+      )
+      
+      VALUES (
+          :P59_AREA,
+          :P59_PROPERTY_TYPE,
+          :P59_PROPERTY_CATEGORY,
+          :P59_PROPERTY_UNITS,
+          :P59_TOTAL_FLOORS,
+          :P59_FLOOR_NUMBER,
+          :P59_PRICE,
+          :P59_PROJECT_NAME,
+          :P59_PROJECT_DESCRIPTION,
+          :P59_LAUNCH_DATE,
+          :P59_HANDOVER_DATE,
+          :P59_ADDRESS,
+          :P59_LANDMARK,
+          :P59_CITY,
+          :P59_LAT_LONG,
+          :P59_PROPERTY_PURPOSE,
+          :P59_PROPERTY_AVAILABILITY_STATUS,
+          :P59_PROPERTY_FURNISHING,
+          :P59_PROPERTY_FACING_DIRECTION,
+          :P59_IMAGE_URL,
+          :P59_AMENITIES_TYPE,
+          :USER_ID,
+          SYSDATE,
+          :APP_USER,
+          SYSDATE,
+          :APP_USER,
+          :P59_LISTING_FOR
+      );
+      
+      end if;
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Property Inserted.
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 14742553465598999
+
+- # ====== Process: Process form Property Form =================
+  id: 14741291577598996
+  identification: 
+    name: Process form Property Form
+    type: Form - Automatic Row Processing (DML)
+    execution-chain: None
+    form-region: Property Form # 14765794502599069
+
+  settings: 
+    target-type: Region Source
+    prevent-lost-updates: true
+    lock-row: Yes
+    return-primary-key(s)-after-insert: true
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+- # ====== Process: Initialize form Property Form ==============
+  id: 14741688744598997
+  identification: 
+    name: Initialize form Property Form
+    type: Form - Initialization
+    execution-chain: None
+    form-region: Property Form # 14765794502599069
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Close Dialog ===============================
+  id: 14948516878459165
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+    execution-chain: None
+
+  settings: 
+    show-success-messages: true
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: DELETE # 14743274123599001
+
+branches: 
+- # ====== Branch: Go To Page 72 ===============================
+  id: 14742263934598999
+  identification: 
+    name: Go To Page 72
+
+  execution: 
+    sequence: 1
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:72:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 72 # Builder Listing Proeprty
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 14742925018599000
+    type: Item is NOT NULL
+    item: P59_PROPERTY_ID
+
+- # ====== Branch: Go To Page 72  ==============================
+  id: 14948962858459169
+  identification: 
+    name: 'Go To Page 72 '
+
+  execution: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:72:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 72 # Builder Listing Proeprty
+
+  server-side-condition: 
+    when-button-pressed: CANCEL # 14743904179599003
+    type: Item is NOT NULL
+    item: P59_PROPERTY_ID
+
+- # ====== Branch: Go To Page 45  ==============================
+  id: 14949050909459170
+  identification: 
+    name: 'Go To Page 45 '
+
+  execution: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:45:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 45 # Builder Property Report
+
+  server-side-condition: 
+    when-button-pressed: CANCEL # 14743904179599003
+    type: Item is NULL
+    item: P59_PROPERTY_ID
+

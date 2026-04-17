@@ -1,0 +1,650 @@
+---
+# ====== Page: Accept Appointment ============================
+id: 6
+identification: 
+  name: Accept Appointment
+  alias: ACCEPT-APPOINTMENT
+  title: Accept Appointment
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: New =========================================
+  id: 35148802401554005540
+  identification: 
+    name: New
+    type: Static Content
+
+  source: 
+    html-code: |
+      <P> Appointment is Accepted for scheduled Location/Property. </P>
+      <P> Date : &P6_APPOINTMENT_DATE. </P>
+      <P> Time : &P6_APPOINTMENT_TIME. </P>
+      <P> Location : &P6_LOCATION. </P>
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P6_USER_NAME =============================
+  id: 14593627243345102
+  identification: 
+    name: P6_USER_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 110
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: SQL Query (return single value)
+    sql-query-(return-single-value): 'select LAST_NAME from pms_users where user_id = :user_id'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P6_APPOINTMENT_ID ========================
+  id: 35148799047613005506
+  identification: 
+    name: P6_APPOINTMENT_ID
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 40
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P6_FROM_USER_ID ==========================
+  id: 35148799163707005507
+  identification: 
+    name: P6_FROM_USER_ID
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 50
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P6_APPOINTMENT_DATE ======================
+  id: 35148799260232005508
+  identification: 
+    name: P6_APPOINTMENT_DATE
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 60
+    region: No Parent
+    slot: BODY
+
+  appearance: 
+    format-mask: MM-DD-YYYY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P6_APPOINTMENT_TIME ======================
+  id: 35148799304854005509
+  identification: 
+    name: P6_APPOINTMENT_TIME
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 70
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P6_LOCATION ==============================
+  id: 35148799443183005510
+  identification: 
+    name: P6_LOCATION
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 80
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P6_FROM_NAME =============================
+  id: 35148801178173005527
+  identification: 
+    name: P6_FROM_NAME
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 90
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P6_FROM_EMAIL ============================
+  id: 35148801298121005528
+  identification: 
+    name: P6_FROM_EMAIL
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 100
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: SQL Query (return single value)
+    sql-query-(return-single-value): 'select upper(email) from pms_users where user_id = :P6_FROM_USER_ID'
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P6_NEW ===================================
+  id: 35148802879181005544
+  identification: 
+    name: P6_NEW
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 120
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: Cancel ======================================
+  id: 35148798866824005504
+  identification: 
+    button-name: Cancel
+    label: Cancel
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--stretch
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.:::'
+      page: 32 # Accept & Reject
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: Accept ======================================
+  id: 35148798917869005505
+  identification: 
+    button-name: Accept
+    label: Accept
+
+  layout: 
+    sequence: 30
+    region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--stretch
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: New =================================
+  id: 35148801320472005529
+  identification: 
+    name: New
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P6_FROM_USER_ID
+
+  configuration: 
+    build-option: Commented Out # 30584983782671713301
+
+  actions: 
+  - # ====== Action: Set Value ===================================
+    id: 35148801403156005530
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: SQL Statement
+      sql-statement: 'select upper(email) from pms_users where user_id = :P6_USER_ID;'
+      items-to-submit: 
+      - P6_FROM_USER_ID
+      escape-special-characters: true
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P6_FROM_EMAIL
+
+    execution: 
+      sequence: 10
+      event: New # 35148801320472005529
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+processes: 
+- # ====== Process: New ========================================
+  id: 35148799570744005511
+  identification: 
+    name: New
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: "update pms_appointment set status = 'Accept' where appointment_id = :P6_APPOINTMENT_ID;"
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: Accept # 35148798917869005505
+
+- # ====== Process: email sending ==============================
+  id: 35148801571040005531
+  identification: 
+    name: email sending
+    type: Send E-Mail
+    execution-chain: None
+
+  settings: 
+    from: '&P6_FROM.'
+    to: archipatel2632004@gmail.com
+    subject: Appointment Acceptance
+    body-plain-text: |
+      Dear &P6_TO.,
+      
+      We are pleased to confirm your appointment for the property viewing.
+      
+      Details of the Appointment:
+      
+      Property Address: &P6_LOCATION.
+      
+      Date: &P6_APPOINTMENT_DATE.
+      
+      Time: &P6_APPOINTMENT_TIME.
+      
+      Please ensure you arrive on time. If you need to reschedule or have any questions before the appointment, feel free to contact us.
+      
+      We look forward to meeting you!
+      
+      Best regards,
+      &P6_FROM.
+    send-immediately: false
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Appointment Accepted
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: Accept # 35148798917869005505
+    type: Never
+
+- # ====== Process: push notification ==========================
+  id: 35148801847322005534
+  identification: 
+    name: push notification
+    type: Send Push Notification
+    execution-chain: None
+
+  settings: 
+    to: '&P6_FROM_EMAIL.'
+    title: Appointment Accepted
+    body: |
+      Appointment is Accepted for scheduled Location/Property.
+      Date : &P6_APPOINTMENT_DATE.
+      Time : &P6_APPOINTMENT_TIME.
+      Location : &P6_LOCATION.
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: notification sent
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: Accept # 35148798917869005505
+
+- # ====== Process: FAST NOTIFICATION ==========================
+  id: 35148801942826005535
+  identification: 
+    name: FAST NOTIFICATION
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: apex_pwa.push_queue;
+
+  execution: 
+    sequence: 50
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: Accept # 35148798917869005505
+
+- # ====== Process: Format Appointment Date ====================
+  id: 36142580457037390119
+  identification: 
+    name: Format Appointment Date
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      BEGIN
+        IF :P6_APPOINTMENT_DATE IS NOT NULL THEN
+          -- Assume it is stored as date or string in YYYY-MM-DD
+          :P6_APPOINTMENT_DATE := TO_CHAR(TO_DATE(:P6_APPOINTMENT_DATE, 'MM-DD-YYYY'), 'DD-MON-YYYY');
+        END IF;
+      END;
+      
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+  server-side-condition: 
+    when-button-pressed: Accept # 35148798917869005505
+
+branches: 
+- # ====== Branch: Go To Page 32 ===============================
+  id: 35148799628552005512
+  identification: 
+    name: Go To Page 32
+
+  execution: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 32 # Accept & Reject
+
